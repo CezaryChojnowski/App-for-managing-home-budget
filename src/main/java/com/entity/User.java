@@ -1,19 +1,20 @@
 package com.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+
+import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
-@Entity
-@Table
 @Getter
 @Setter
+@Entity
 @ToString
 @AllArgsConstructor
-public class usufructuary {
+@NoArgsConstructor
+@Table(name = "usufructuary")
+@EntityListeners(AuditingEntityListener.class)
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
