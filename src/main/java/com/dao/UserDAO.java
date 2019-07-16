@@ -1,11 +1,14 @@
 package com.dao;
 
 import com.entity.User;
+import com.entity.Wallet;
 import com.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,11 +36,9 @@ public class UserDAO {
         return findUserByEmail(email) == null;
     }
 
-    public User createUser(String login, String password, String email){
-        User user = new User();
-        user.setLogin(login);
-        user.setPassword(bCryptPasswordEncoder.encode(password));
-        user.setEmail(email);
+    public User createUser(User user){
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setWallets(new ArrayList<>());
         return userRepository.save(user);
     }
 }

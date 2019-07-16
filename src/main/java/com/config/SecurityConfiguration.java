@@ -17,6 +17,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity security) throws Exception
     {
-        security.httpBasic().disable();
+
+        security.httpBasic().disable().csrf().disable();
     }
 }
