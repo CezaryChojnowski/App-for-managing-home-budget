@@ -25,9 +25,13 @@ public class User {
     @Column(name = "id")
     private int id;
 
-    @Column(name = "login")
-    @NotEmpty(message = "{user.login.notEmpty}")
-    private String login;
+    @Column(name = "first_name")
+    @NotEmpty(message = "{user.first_name.notEmpty}")
+    private String first_name;
+
+    @Column(name = "last_name")
+    @NotEmpty(message = "{user.last_name.notEmpty}")
+    private String last_name;
 
     @Column(name = "pass")
     @NotEmpty(message = "{user.password.notEmpty}")
@@ -45,7 +49,8 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", login='" + login + '\'' +
+                ", first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", wallets=" + wallets +
