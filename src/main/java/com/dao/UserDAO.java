@@ -20,4 +20,12 @@ public class UserDAO {
     public List<User> findAllUsers(){
         return userRepository.findAll();
     }
+
+    private User findUserByEmail(String email){
+        return userRepository.findUserByEmail(email);
+    }
+
+    public boolean checkTheUniqueEmail(String email){
+        return findUserByEmail(email) == null;
+    }
 }
