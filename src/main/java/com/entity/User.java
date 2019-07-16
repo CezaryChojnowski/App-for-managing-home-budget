@@ -1,8 +1,5 @@
 package com.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +7,8 @@ import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @NoArgsConstructor
@@ -27,12 +26,16 @@ public class User {
     private int id;
 
     @Column(name = "login")
+    @NotEmpty(message = "{user.login.notEmpty}")
     private String login;
 
     @Column(name = "pass")
+    @NotEmpty(message = "{user.password.notEmpty}")
     private String password;
 
     @Column(name = "email")
+    @NotEmpty(message = "{user.email.notEmpty}")
+    @Email(message = "{user.email.Email}")
     private String email;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
