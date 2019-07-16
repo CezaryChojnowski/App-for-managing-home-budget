@@ -1,7 +1,6 @@
 package com.dao;
 
 import com.entity.User;
-import com.entity.Wallet;
 import com.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 

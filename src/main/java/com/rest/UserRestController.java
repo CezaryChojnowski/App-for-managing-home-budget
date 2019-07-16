@@ -5,9 +5,8 @@ import com.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -23,5 +22,10 @@ public class UserRestController {
     @GetMapping("/getAllUsers")
     public List<User> getAllUsers(){
         return userDAO.findAllUsers();
+    }
+
+    @PostMapping(value="/register")
+    public ResponseEntity registerUserAccount(@RequestBody User user){
+        return ResponseEntity.ok(userDAO.createUser(user));
     }
 }
