@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Setter
@@ -22,9 +24,11 @@ public class Wallet {
     @Column(name = "id")
     private int id;
 
+    @NotEmpty(message = "{wallet.name_wallet.notEmpty}")
     @Column(name="name_wallet")
     private String name_wallet;
 
+    @Min(value = 0, message = "{wallet.balance.min}")
     @Column(name="balance")
     private float balance;
 
