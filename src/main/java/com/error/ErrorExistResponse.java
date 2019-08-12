@@ -10,6 +10,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ErrorExistResponse {
-    private int status;
     private String message;
+    private String details;
+    private int status;
+
 }
