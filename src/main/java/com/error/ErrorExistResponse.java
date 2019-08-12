@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ErrorResponse {
+public class ErrorExistResponse {
     private int status;
     private String message;
-    private long timeStamp;
 }
