@@ -35,4 +35,9 @@ public class WalletDAO {
         wallet.setUser(userRepository.findUserByID(userID));
         return walletRepository.save(wallet);
     }
+
+    public boolean checkIfUserHasWalletWithTheGivenName(List<Wallet> useraWallets, Wallet wallet){
+        return useraWallets.contains(wallet);
+    }
+
 }
