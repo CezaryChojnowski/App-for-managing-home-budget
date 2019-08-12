@@ -3,9 +3,7 @@ package com.rest;
 import com.dao.WalletDAO;
 import com.entity.Wallet;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +21,10 @@ public class WalletRestController {
     @GetMapping("/getAllWallets")
     public List<Wallet> getAllWallets(){
         return walletDAO.findAllWallet();
+    }
+
+    @GetMapping("/myWallets")
+    public List<Wallet> getMyWallets(@RequestParam Integer userID){
+        return walletDAO.findUserWallets(userID);
     }
 }
