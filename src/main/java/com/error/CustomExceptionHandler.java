@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -24,5 +25,12 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         }
         ErrorValidatingResponse error = new ErrorValidatingResponse("Validation Failed", details, HttpStatus.INSUFFICIENT_STORAGE.value());
         return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleExistException(Exception ex) {
+        ErrorExistResponse error = new ErrorExistResponse(HttpStatus.INSUFFICIENT_STORAGE.value(), ex.getMessage());
+        return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
