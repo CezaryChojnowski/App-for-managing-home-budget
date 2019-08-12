@@ -5,6 +5,9 @@ import com.entity.User;
 import com.error.Exception;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
+
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,13 +15,17 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/user")
+@PropertySource("classpath:messages.properties")
 public class UserRestController {
 
     private UserDAO userDAO;
 
+    private Environment env;
+
     @Autowired
-    public UserRestController(UserDAO theUserDAO){
+    public UserRestController(UserDAO theUserDAO, Environment theEnv){
         userDAO = theUserDAO;
+        env = theEnv;
     }
 
     @GetMapping("/getAllUsers")
@@ -29,7 +36,7 @@ public class UserRestController {
     @PostMapping(value="/register")
     public ResponseEntity registerUserAccount(@Valid @RequestBody User user){
         if(!userDAO.checkTheUniqueEmail(user.getEmail())){
-            throw new Exception("User with the given email address exists " + user.getEmail());
+            throw new Exception(env.getProperty("userExist") + " " + user.getEmail());
         }
         else{
             return ResponseEntity.ok(userDAO.createUser(user));
