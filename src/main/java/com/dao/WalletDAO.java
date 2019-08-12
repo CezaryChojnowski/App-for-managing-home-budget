@@ -29,4 +29,10 @@ public class WalletDAO {
         return walletRepository.findUserWallets(id);
     }
 
+    public Wallet createNewWallet(Wallet wallet, Integer userID){
+        wallet.setName_wallet(wallet.getName_wallet());
+        wallet.setBalance(wallet.getBalance());
+        wallet.setUser(userRepository.findUserByID(userID));
+        return walletRepository.save(wallet);
+    }
 }
