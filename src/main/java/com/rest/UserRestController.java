@@ -2,12 +2,9 @@ package com.rest;
 
 import com.dao.UserDAO;
 import com.entity.User;
-import com.error.ErrorResponse;
 import com.error.Exception;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
-
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,14 +34,5 @@ public class UserRestController {
         else{
             return ResponseEntity.ok(userDAO.createUser(user));
         }
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleException(Exception existEx){
-        ErrorResponse error = new ErrorResponse();
-        error.setStatus(HttpStatus.INSUFFICIENT_STORAGE.value());
-        error.setMessage(existEx.getMessage());
-        error.setTimeStamp(System.currentTimeMillis());
-        return new ResponseEntity<>(error, HttpStatus.INSUFFICIENT_STORAGE);
     }
 }
