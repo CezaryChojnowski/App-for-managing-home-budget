@@ -36,8 +36,8 @@ public class WalletDAO {
         return walletRepository.save(wallet);
     }
 
-    public boolean checkIfUserHasWalletWithTheGivenName(List<Wallet> useraWallets, Wallet wallet){
-        return useraWallets.contains(wallet);
+    public boolean checkIfUserHasWalletWithTheGivenName(List<Wallet> userWallets, String newWalletName){
+        return userWallets.stream().anyMatch(o -> o.getName_wallet().equals(newWalletName));
     }
 
 }
