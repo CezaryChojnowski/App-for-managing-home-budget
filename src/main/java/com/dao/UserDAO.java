@@ -40,4 +40,9 @@ public class UserDAO {
         user.setWallets(new ArrayList<>());
         return userRepository.save(user);
     }
+
+    private User findUserByID(Integer userID){
+        return userRepository.findUserByID(userID);
+    }
+
 }
