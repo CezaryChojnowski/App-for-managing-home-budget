@@ -2,8 +2,8 @@ package com.rest;
 
 import com.dao.UserDAO;
 import com.entity.User;
-import com.error.UserErrorResponse;
-import com.error.UserExistsException;
+import com.error.ErrorResponse;
+import com.error.Exception;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
@@ -32,20 +32,19 @@ public class UserRestController {
     @PostMapping(value="/register")
     public ResponseEntity registerUserAccount(@Valid @RequestBody User user){
         if(!userDAO.checkTheUniqueEmail(user.getEmail())){
-            throw new UserExistsException("User with the given email address exists" + user.getEmail());
+            throw new Exception("User with the given email address exists " + user.getEmail());
         }
-        return ResponseEntity.ok(userDAO.createUser(user));
+        else{
+            return ResponseEntity.ok(userDAO.createUser(user));
+        }
     }
 
     @ExceptionHandler
-    public ResponseEntity<UserErrorResponse> handleException(UserExistsException existEx){
-
-        UserErrorResponse error = new UserErrorResponse();
-
+    public ResponseEntity<ErrorResponse> handleException(Exception existEx){
+        ErrorResponse error = new ErrorResponse();
         error.setStatus(HttpStatus.INSUFFICIENT_STORAGE.value());
         error.setMessage(existEx.getMessage());
         error.setTimeStamp(System.currentTimeMillis());
-
         return new ResponseEntity<>(error, HttpStatus.INSUFFICIENT_STORAGE);
     }
 }
