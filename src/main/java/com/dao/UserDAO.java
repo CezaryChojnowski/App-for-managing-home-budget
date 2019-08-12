@@ -27,7 +27,7 @@ public class UserDAO {
         return userRepository.findAll();
     }
 
-    private User findUserByEmail(String email){
+    public User findUserByEmail(String email){
         return userRepository.findUserByEmail(email);
     }
 
@@ -41,7 +41,7 @@ public class UserDAO {
         return userRepository.save(user);
     }
 
-    private User findUserByID(Integer userID){
+    public User findUserByID(Integer userID){
         return userRepository.findUserByID(userID);
     }
 
