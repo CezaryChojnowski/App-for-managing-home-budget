@@ -41,7 +41,7 @@ public class WalletRestController {
         return walletDAO.findUserWallets(userID);
     }
 
-    @PostMapping("/createNewWallet")
+    @PostMapping("/createWallet")
     public ResponseEntity createNewWallet(@RequestParam Integer userID,
                                   @Valid @RequestBody Wallet wallet){
         User user = userDAO.findUserByID(userID);
