@@ -5,6 +5,7 @@ import com.dao.WalletDAO;
 import com.entity.User;
 import com.entity.Wallet;
 import com.error.Exception;
+import com.error.RecordNotFoundException;
 import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -46,7 +47,7 @@ public class WalletRestController {
                                   @Valid @RequestBody Wallet wallet){
         User user = userDAO.findUserByID(userID);
         if(walletDAO.checkIfUserHasWalletWithTheGivenName(user.getWallets(), wallet.getName_wallet())){
-            throw new Exception(env.getProperty("walletExist") + " " + wallet.getName_wallet());
+            throw new Exception(env.getProperty("recordExist") + " " + wallet.getName_wallet());
         }
         else{
             return ResponseEntity.ok(walletDAO.createNewWallet(wallet, userID));
@@ -56,7 +57,14 @@ public class WalletRestController {
     @DeleteMapping("/removeWallet")
     public void removeWallet(@RequestParam Integer userID,
                                       @RequestParam Integer walletID){
-        walletDAO.removeWallet(userID, walletID);
+        User user = userDAO.findUserByID(userID);
+        Wallet wallet = walletDAO.findWalletByID(walletID);
+        if(user == null|| wallet == null){
+            throw new RecordNotFoundException(env.getProperty("notFoundRecord"));
+        }
+        else{
+            walletDAO.removeWallet(userID, walletID);
+        }
     }
 
 
