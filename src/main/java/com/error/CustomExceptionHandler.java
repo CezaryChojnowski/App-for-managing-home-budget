@@ -23,11 +23,11 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @Value("${validationFailed}")
     private String validationFailed;
 
-    @Value("${creatingFailed}")
-    private String creatingFailed;
+    @Value("adaptationFailed")
+    private String adaptationFailed;
 
-    @Value("${deletingFailed}")
-    private String deletingFailed;
+    @Value("${foundRecordFailed}")
+    private String foundRecordFailed;
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -35,7 +35,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         for (ObjectError error : exception.getBindingResult().getAllErrors()) {
             details.add(error.getDefaultMessage());
         }
-        ErrorValidatingResponse error = new ErrorValidatingResponse(validationFailed , details, HttpStatus.INSUFFICIENT_STORAGE.value());
+        ErrorValidatingResponse error = new ErrorValidatingResponse(validationFailed , details, HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
     }
 
@@ -43,13 +43,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleRecordNotFoundException(RecordNotFoundException exception) {
         List<String> details = new ArrayList<>();
         details.add(exception.getLocalizedMessage());
-        ErrorRecordNotFoundResponse error = new ErrorRecordNotFoundResponse(deletingFailed, details, HttpStatus.NOT_FOUND.value());
+        ErrorRecordNotFoundResponse error = new ErrorRecordNotFoundResponse(foundRecordFailed, details, HttpStatus.NOT_FOUND.value());
         return new ResponseEntity(error, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleExistException(Exception exception) {
-        ErrorExistResponse error = new ErrorExistResponse(creatingFailed, exception.getMessage(), HttpStatus.INSUFFICIENT_STORAGE.value());
+        ErrorExistResponse error = new ErrorExistResponse(adaptationFailed, exception.getMessage(), HttpStatus.CONFLICT.value());
         return new ResponseEntity(error, HttpStatus.CONFLICT);
     }
 }

@@ -67,5 +67,24 @@ public class WalletRestController {
         }
     }
 
+    @PutMapping("/editWallet")
+    public Wallet editWallet(@RequestParam Integer userID,
+                           @RequestParam Integer walletID,
+                           @Valid @RequestBody Wallet wallet){
+        User user = userDAO.findUserByID(userID);
+        Wallet tempWallet = walletDAO.findWalletByID(walletID);
+        if(user == null|| tempWallet == null){
+            throw new RecordNotFoundException(env.getProperty("notFoundRecord"));
+        }
+        else{
+            if(walletDAO.checkIfUserHasWalletWithTheGivenName(user.getWallets(), wallet.getName_wallet())){
+                throw new Exception(env.getProperty("recordExist") + " " + wallet.getName_wallet());
+            }
+            else{
+                return walletDAO.updateWallet(userID, walletID, wallet);
+            }
+        }
+    }
+
 
 }

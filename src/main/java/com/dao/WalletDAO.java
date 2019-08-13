@@ -52,4 +52,11 @@ public class WalletDAO {
         walletRepository.delete(findUsersWalletByID(userID, walletID));
     }
 
+    public Wallet updateWallet(Integer userID, Integer walletID, Wallet editWallet){
+        Wallet wallet = walletRepository.findUsersWalletByID(userID, walletID);
+        wallet.setBalance(editWallet.getBalance());
+        wallet.setName_wallet(editWallet.getName_wallet());
+        return walletRepository.save(wallet);
+    }
+
 }
