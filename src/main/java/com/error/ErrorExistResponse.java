@@ -13,5 +13,4 @@ public class ErrorExistResponse {
     private String message;
     private String details;
     private int status;
-
 }

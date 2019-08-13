@@ -26,6 +26,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @Value("${creatingFailed}")
     private String creatingFailed;
 
+    @Value("${deletingFailed}")
+    private String deletingFailed;
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
         List<String> details = new ArrayList<>();
@@ -36,6 +39,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(RecordNotFoundException.class)
+    public ResponseEntity<Object> handleRecordNotFoundException(RecordNotFoundException exception) {
+        List<String> details = new ArrayList<>();
+        details.add(exception.getLocalizedMessage());
+        ErrorRecordNotFoundResponse error = new ErrorRecordNotFoundResponse(deletingFailed, details, HttpStatus.NOT_FOUND.value());
+        return new ResponseEntity(error, HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleExistException(Exception exception) {
