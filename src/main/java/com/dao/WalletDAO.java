@@ -43,4 +43,9 @@ public class WalletDAO {
     public Wallet findUsersWalletByID(Integer userID, Integer walletID){
         return walletRepository.findUsersWalletByID(userID, walletID);
     }
+
+    public void removeWallet(Integer userID, Integer walletID){
+        walletRepository.delete(findUsersWalletByID(userID, walletID));
+    }
+
 }
