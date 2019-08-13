@@ -50,6 +50,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleExistException(Exception exception) {
         ErrorExistResponse error = new ErrorExistResponse(creatingFailed, exception.getMessage(), HttpStatus.INSUFFICIENT_STORAGE.value());
-        return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity(error, HttpStatus.CONFLICT);
     }
 }
