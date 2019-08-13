@@ -40,4 +40,7 @@ public class WalletDAO {
         return userWallets.stream().anyMatch(o -> o.getName_wallet().equals(newWalletName));
     }
 
+    public Wallet findUsersWalletByID(Integer userID, Integer walletID){
+        return walletRepository.findUsersWalletByID(userID, walletID);
+    }
 }
