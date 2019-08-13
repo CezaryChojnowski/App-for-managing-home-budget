@@ -53,5 +53,11 @@ public class WalletRestController {
         }
     }
 
+    @DeleteMapping("/removeWallet")
+    public void removeWallet(@RequestParam Integer userID,
+                                      @RequestParam Integer walletID){
+        walletDAO.removeWallet(userID, walletID);
+    }
+
 
 }
