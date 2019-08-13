@@ -36,7 +36,7 @@ public class UserRestController {
     @PostMapping(value="/register")
     public ResponseEntity registerUserAccount(@Valid @RequestBody User user){
         if(!userDAO.checkTheUniqueEmail(user.getEmail())){
-            throw new Exception(env.getProperty("userExist") + " " + user.getEmail());
+            throw new Exception(env.getProperty("recordExist") + " " + user.getEmail());
         }
         else{
             return ResponseEntity.ok(userDAO.createUser(user));

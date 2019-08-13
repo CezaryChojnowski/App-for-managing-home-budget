@@ -29,6 +29,10 @@ public class WalletDAO {
         return walletRepository.findUserWallets(id);
     }
 
+    public Wallet findWalletByID(Integer walletID){
+        return walletRepository.findWalletByID(walletID);
+    }
+
     public Wallet createNewWallet(Wallet wallet, Integer userID){
         wallet.setName_wallet(wallet.getName_wallet());
         wallet.setBalance(wallet.getBalance());
@@ -38,6 +42,14 @@ public class WalletDAO {
 
     public boolean checkIfUserHasWalletWithTheGivenName(List<Wallet> userWallets, String newWalletName){
         return userWallets.stream().anyMatch(o -> o.getName_wallet().equals(newWalletName));
+    }
+
+    public Wallet findUsersWalletByID(Integer userID, Integer walletID){
+        return walletRepository.findUsersWalletByID(userID, walletID);
+    }
+
+    public void removeWallet(Integer userID, Integer walletID){
+        walletRepository.delete(findUsersWalletByID(userID, walletID));
     }
 
 }
