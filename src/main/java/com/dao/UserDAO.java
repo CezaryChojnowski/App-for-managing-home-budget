@@ -2,8 +2,7 @@ package com.dao;
 
 import com.entity.User;
 import com.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,38 +10,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class UserDAO {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
-    public UserDAO(UserRepository theUserRepository, BCryptPasswordEncoder ThebCryptPasswordEncoder){
-        userRepository = theUserRepository;
-        bCryptPasswordEncoder = ThebCryptPasswordEncoder;
-    }
-
-    public List<User> findAllUsers(){
+    public List<User> findAllUsers() {
         return userRepository.findAll();
     }
 
-    public User findUserByEmail(String email){
-        return userRepository.findUserByEmail(email);
+    public boolean isEmailExists(String email) {
+        return userRepository.findUserByEmail(email).isPresent();
     }
 
-    public boolean checkTheUniqueEmail(String email){
-        return findUserByEmail(email) == null;
-    }
-
-    public User createUser(User user){
+    //get all required fields as arguments or some form class
+    public User createUser(User user) {
+        //create user here by constructor, do not use setter
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setWallets(new ArrayList<>());
         return userRepository.save(user);
     }
 
-    public User findUserByID(Integer userID){
-        return userRepository.findUserByID(userID);
+    public User findUserByID(Integer userID) {
+        //create some specific Exception
+        return userRepository.findUserById(userID).orElseThrow(() -> new RuntimeException("User not found"));
     }
-
 }

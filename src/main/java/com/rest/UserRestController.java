@@ -3,42 +3,47 @@ package com.rest;
 import com.dao.UserDAO;
 import com.entity.User;
 import com.error.Exception;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.util.List;
-
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
+
+
+// pro tip - use ctr+alt+l and use ctr+alt+o
+
+
 
 @RestController
-@RequestMapping("/user")
+@RequiredArgsConstructor
+@RequestMapping("/users")
 @PropertySource("classpath:messages.properties")
 public class UserRestController {
 
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
+    private final Environment env;
 
-    private Environment env;
-
-    @Autowired
-    public UserRestController(UserDAO theUserDAO, Environment theEnv){
-        userDAO = theUserDAO;
-        env = theEnv;
-    }
-
-    @GetMapping("/getAllUsers")
-    public List<User> getAllUsers(){
+    @GetMapping
+    //Are you sure that you want to return user with his password in response?
+    //create UserDto - it is not good idea to return whole entity object
+    public List<User> getAllUsers() {
         return userDAO.findAllUsers();
     }
 
-    @PostMapping(value="/register")
-    public ResponseEntity registerUserAccount(@Valid @RequestBody User user){
-        if(!userDAO.checkTheUniqueEmail(user.getEmail())){
+    @PostMapping
+    //create UserForm class
+    public ResponseEntity registerUserAccount(@Valid @RequestBody User user) {
+        if (userDAO.isEmailExists(user.getEmail())) {
             throw new Exception(env.getProperty("recordExist") + " " + user.getEmail());
-        }
-        else{
+        } else {
+            //return DTO
             return ResponseEntity.ok(userDAO.createUser(user));
         }
     }

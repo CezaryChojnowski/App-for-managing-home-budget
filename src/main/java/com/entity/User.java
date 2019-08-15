@@ -14,8 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+//remove setter from here and add it only to fields that REALLY need it
 @Setter
 @Entity
+//it is not readable table name - why just not "users"?
 @Table(name = "usufructuary")
 @EntityListeners(AuditingEntityListener.class)
 public class User {
@@ -42,6 +44,8 @@ public class User {
     @Email(message = "{user.email.Email}")
     private String email;
 
+    //consider remove that list and store only id`s of user in each Wallet entity
+    //Wallet loks like mainly entity and that kind 2 sides relation makes model more complicated
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<Wallet> wallets;
 

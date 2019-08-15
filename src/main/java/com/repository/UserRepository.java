@@ -5,13 +5,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 
+//it is a good practise to return optional if resource could not exists
+
+//do not use @Query - read about how HQL works
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-    @Query("SELECT u FROM User u WHERE u.email = ?1")
-    User findUserByEmail(String email);
+    Optional<User> findUserByEmail(String email);
 
-    @Query("SELECT u FROM User u WHERE u.id = ?1")
-    User findUserByID(Integer id);
+    Optional<User> findUserById(Integer id);
 }

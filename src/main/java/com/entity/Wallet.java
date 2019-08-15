@@ -26,6 +26,8 @@ public class Wallet {
 
     @NotEmpty(message = "{wallet.name_wallet.notEmpty}")
     @Column(name="name_wallet")
+    //rename name_wallet -> nameWallet, do it in all cases
+    //after that you can remove (name="name_wallet") because by default if variable name will be nameWallet it will be mapped on name_wallet in db
     private String name_wallet;
 
     @Min(value = 0, message = "{wallet.balance.min}")
@@ -39,6 +41,7 @@ public class Wallet {
 
     @Override
     public String toString() {
+        //Use string builder
         return "Wallet{" +
                 "id=" + id +
                 ", name_wallet='" + name_wallet + '\'' +

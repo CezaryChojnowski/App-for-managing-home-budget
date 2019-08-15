@@ -3,24 +3,21 @@ package com.dao;
 import com.entity.Wallet;
 import com.repository.UserRepository;
 import com.repository.WalletRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class WalletDAO {
 
-    private WalletRepository walletRepository;
+    private final WalletRepository walletRepository;
+    private final UserRepository userRepository;
 
-    private UserRepository userRepository;
 
-    @Autowired
-    public WalletDAO(WalletRepository theWalletRepository, UserRepository theUserRepository){
-        walletRepository = theWalletRepository;
-        userRepository = theUserRepository;
-    }
-
+    //rethink if all this public method really should be public
     public List<Wallet> findAllWallet(){
         return walletRepository.findAll();
     }
@@ -33,10 +30,11 @@ public class WalletDAO {
         return walletRepository.findWalletByID(walletID);
     }
 
+    //create wallet should not have wallet as an argument
     public Wallet createNewWallet(Wallet wallet, Integer userID){
         wallet.setName_wallet(wallet.getName_wallet());
         wallet.setBalance(wallet.getBalance());
-        wallet.setUser(userRepository.findUserByID(userID));
+        wallet.setUser(userRepository.findUserById(userID));
         return walletRepository.save(wallet);
     }
 
@@ -44,12 +42,8 @@ public class WalletDAO {
         return userWallets.stream().anyMatch(o -> o.getName_wallet().equals(newWalletName));
     }
 
-    public Wallet findUsersWalletByID(Integer userID, Integer walletID){
-        return walletRepository.findUsersWalletByID(userID, walletID);
-    }
-
-    public void removeWallet(Integer userID, Integer walletID){
-        walletRepository.delete(findUsersWalletByID(userID, walletID));
+    public void removeWallet(Integer walletId){
+        walletRepository.deleteById(walletId);
     }
 
     public Wallet updateWallet(Integer userID, Integer walletID, Wallet editWallet){
@@ -58,5 +52,4 @@ public class WalletDAO {
         wallet.setName_wallet(editWallet.getName_wallet());
         return walletRepository.save(wallet);
     }
-
 }

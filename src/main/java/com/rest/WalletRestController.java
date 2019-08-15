@@ -6,6 +6,7 @@ import com.entity.User;
 import com.entity.Wallet;
 import com.error.Exception;
 import com.error.RecordNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -15,64 +16,57 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/wallet")
+//read about REST naming conventions - it is always should be like /collection/idOfSingleObject...
+@RequestMapping("/wallets")
+@RequiredArgsConstructor
 @PropertySource("classpath:messages.properties")
 public class WalletRestController {
 
-    private WalletDAO walletDAO;
+    private final WalletDAO walletDAO;
+    private final UserDAO userDAO;
+    private final Environment env;
 
-    private UserDAO userDAO;
 
-    private Environment env;
-
-    @Autowired
-    public WalletRestController(WalletDAO theWalletDAO, UserDAO theUserDAO, Environment theEnv){
-        walletDAO = theWalletDAO;
-        userDAO = theUserDAO;
-        env = theEnv;
-    }
-
-    @GetMapping("/getAllWallets")
+    @GetMapping
     public List<Wallet> getAllWallets(){
         return walletDAO.findAllWallet();
     }
 
-    @GetMapping("/myWallets")
-    public List<Wallet> getMyWallets(@RequestParam Integer userID){
+    @GetMapping
+    public List<Wallet> getWalletByUserId(@RequestParam Integer userID){
         return walletDAO.findUserWallets(userID);
     }
 
-    @PostMapping("/createWallet")
+    //create WalletForm
+    //consider retrieving logged user id from sesion or from request security token to not have to got userId in http request
+    @PostMapping
     public ResponseEntity createNewWallet(@RequestParam Integer userID,
-                                  @Valid @RequestBody Wallet wallet){
+                                  @Valid @RequestBody Wallet walletForm){
+        //it would be better to move that logic to some factory
         User user = userDAO.findUserByID(userID);
-        if(walletDAO.checkIfUserHasWalletWithTheGivenName(user.getWallets(), wallet.getName_wallet())){
-            throw new Exception(env.getProperty("recordExist") + " " + wallet.getName_wallet());
+        if(walletDAO.checkIfUserHasWalletWithTheGivenName(user.getWallets(), walletForm.getName_wallet())){
+            throw new Exception(env.getProperty("recordExist") + " " + walletForm.getName_wallet());
         }
         else{
-            return ResponseEntity.ok(walletDAO.createNewWallet(wallet, userID));
+            return ResponseEntity.ok(walletDAO.createNewWallet(walletForm, userID));
         }
     }
 
-    @DeleteMapping("/removeWallet")
-    public void removeWallet(@RequestParam Integer userID,
-                                      @RequestParam Integer walletID){
-        User user = userDAO.findUserByID(userID);
-        Wallet wallet = walletDAO.findWalletByID(walletID);
-        if(user == null|| wallet == null){
-            throw new RecordNotFoundException(env.getProperty("notFoundRecord"));
-        }
-        else{
-            walletDAO.removeWallet(userID, walletID);
-        }
+    @DeleteMapping("/{walletId}")
+    public void removeWallet(@PathVariable("walletId") Integer walletId){
+        //walletId should be enough to remove wallet
+        //you should not thrown an exception when there is no resource you want to delete
+        //read about what means that method is idempotent - when you sent the same delete request it should give you the same result
+            walletDAO.removeWallet(walletId);
     }
 
-    @PutMapping("/editWallet")
-    public Wallet editWallet(@RequestParam Integer userID,
-                           @RequestParam Integer walletID,
+    //Use PATCH method to edit resource,
+    //PUT is for replacing whole resource - has to be idempotent
+    @PatchMapping("/{userId}:{walletId}")
+    public Wallet editWallet(@PathVariable("userId") Integer userID, @PathVariable("walletId") Integer walletId,
                            @Valid @RequestBody Wallet wallet){
         User user = userDAO.findUserByID(userID);
-        Wallet tempWallet = walletDAO.findWalletByID(walletID);
+        Wallet tempWallet = walletDAO.findWalletByID(walletId);
         if(user == null|| tempWallet == null){
             throw new RecordNotFoundException(env.getProperty("notFoundRecord"));
         }
@@ -81,10 +75,8 @@ public class WalletRestController {
                 throw new Exception(env.getProperty("recordExist") + " " + wallet.getName_wallet());
             }
             else{
-                return walletDAO.updateWallet(userID, walletID, wallet);
+                return walletDAO.updateWallet(userID, walletId, wallet);
             }
         }
     }
-
-
 }
