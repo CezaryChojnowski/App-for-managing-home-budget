@@ -2,44 +2,28 @@ package com.rest;
 
 import com.dao.UserDAO;
 import com.entity.User;
-import com.error.Exception;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.util.List;
-
-import org.springframework.context.annotation.PropertySource;
+import com.error.RecordExistsException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+
 @RestController
-@RequestMapping("/user")
-@PropertySource("classpath:messages.properties")
+@RequiredArgsConstructor
+@RequestMapping("/users")
 public class UserRestController {
 
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
+    private final Environment env;
 
-    private Environment env;
-
-    @Autowired
-    public UserRestController(UserDAO theUserDAO, Environment theEnv){
-        userDAO = theUserDAO;
-        env = theEnv;
-    }
-
-    @GetMapping("/getAllUsers")
-    public List<User> getAllUsers(){
-        return userDAO.findAllUsers();
-    }
-
-    @PostMapping(value="/register")
-    public ResponseEntity registerUserAccount(@Valid @RequestBody User user){
-        if(!userDAO.checkTheUniqueEmail(user.getEmail())){
-            throw new Exception(env.getProperty("recordExist") + " " + user.getEmail());
+    @PostMapping
+    public void registerUserAccount(@Valid @RequestBody User user){
+        userDAO.beginTransaction();
+        if(userDAO.checkIfUserWithGivenEmailExists(user.getEmail())){
+            throw new RecordExistsException(env.getProperty("recordExists") + " " + user.getEmail());
         }
-        else{
-            return ResponseEntity.ok(userDAO.createUser(user));
-        }
+            userDAO.saveUser(user.getFirstName(),user.getLastName(), user.getPassword(), user.getEmail());
     }
 }

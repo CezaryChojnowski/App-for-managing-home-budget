@@ -2,89 +2,25 @@ package com.rest;
 
 import com.dao.UserDAO;
 import com.dao.WalletDAO;
-import com.entity.User;
 import com.entity.Wallet;
-import com.error.Exception;
-import com.error.RecordNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
-@RequestMapping("/wallet")
-@PropertySource("classpath:messages.properties")
+@RequiredArgsConstructor
+@RequestMapping("/wallets")
 public class WalletRestController {
+    private final UserDAO userDAO;
+    private final Environment env;
+    private final WalletDAO walletDAO;
 
-    private WalletDAO walletDAO;
-
-    private UserDAO userDAO;
-
-    private Environment env;
-
-    @Autowired
-    public WalletRestController(WalletDAO theWalletDAO, UserDAO theUserDAO, Environment theEnv){
-        walletDAO = theWalletDAO;
-        userDAO = theUserDAO;
-        env = theEnv;
+    @PostMapping
+    public void createNewWallet(@Valid @RequestBody Wallet wallet){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        walletDAO.saveWallet(wallet.getNameWallet(), wallet.getBalance(), email);
     }
-
-    @GetMapping("/getAllWallets")
-    public List<Wallet> getAllWallets(){
-        return walletDAO.findAllWallet();
-    }
-
-    @GetMapping("/myWallets")
-    public List<Wallet> getMyWallets(@RequestParam Integer userID){
-        return walletDAO.findUserWallets(userID);
-    }
-
-    @PostMapping("/createWallet")
-    public ResponseEntity createNewWallet(@RequestParam Integer userID,
-                                  @Valid @RequestBody Wallet wallet){
-        User user = userDAO.findUserByID(userID);
-        if(walletDAO.checkIfUserHasWalletWithTheGivenName(user.getWallets(), wallet.getName_wallet())){
-            throw new Exception(env.getProperty("recordExist") + " " + wallet.getName_wallet());
-        }
-        else{
-            return ResponseEntity.ok(walletDAO.createNewWallet(wallet, userID));
-        }
-    }
-
-    @DeleteMapping("/removeWallet")
-    public void removeWallet(@RequestParam Integer userID,
-                                      @RequestParam Integer walletID){
-        User user = userDAO.findUserByID(userID);
-        Wallet wallet = walletDAO.findWalletByID(walletID);
-        if(user == null|| wallet == null){
-            throw new RecordNotFoundException(env.getProperty("notFoundRecord"));
-        }
-        else{
-            walletDAO.removeWallet(userID, walletID);
-        }
-    }
-
-    @PutMapping("/editWallet")
-    public Wallet editWallet(@RequestParam Integer userID,
-                           @RequestParam Integer walletID,
-                           @Valid @RequestBody Wallet wallet){
-        User user = userDAO.findUserByID(userID);
-        Wallet tempWallet = walletDAO.findWalletByID(walletID);
-        if(user == null|| tempWallet == null){
-            throw new RecordNotFoundException(env.getProperty("notFoundRecord"));
-        }
-        else{
-            if(walletDAO.checkIfUserHasWalletWithTheGivenName(user.getWallets(), wallet.getName_wallet())){
-                throw new Exception(env.getProperty("recordExist") + " " + wallet.getName_wallet());
-            }
-            else{
-                return walletDAO.updateWallet(userID, walletID, wallet);
-            }
-        }
-    }
-
-
 }

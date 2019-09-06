@@ -1,17 +1,17 @@
 package com.repository;
 
 import com.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 
-@Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository{
 
-    @Query("SELECT u FROM User u WHERE u.email = ?1")
-    User findUserByEmail(String email);
+    void saveUser(String firstName, String lastName, String password, String email);
 
-    @Query("SELECT u FROM User u WHERE u.id = ?1")
-    User findUserByID(Integer id);
+    void deleteUser(String email);
+
+    Optional<User> findUserByEmail(String email);
+
+    void updateUser(User employee);
+
 }

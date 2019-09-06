@@ -1,15 +1,12 @@
 package com;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
 
 @SpringBootApplication
-@EnableJpaAuditing
 public class AppForManagingHomeBudgetApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AppForManagingHomeBudgetApplication.class, args);
     }
-
 }
