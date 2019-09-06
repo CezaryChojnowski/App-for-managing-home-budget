@@ -1,19 +1,17 @@
 package com.repository;
 
 import com.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-//it is a good practise to return optional if resource could not exists
+public interface UserRepository{
 
-//do not use @Query - read about how HQL works
-@Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+    void saveUser(String firstName, String lastName, String password, String email);
+
+    void deleteUser(String email);
 
     Optional<User> findUserByEmail(String email);
 
-    Optional<User> findUserById(Integer id);
+    void updateUser(User employee);
+
 }

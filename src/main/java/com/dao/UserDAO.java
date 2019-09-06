@@ -1,39 +1,70 @@
 package com.dao;
 
 import com.entity.User;
+import com.entity.Wallet;
+import com.repository.AbstractDao;
 import com.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import org.hibernate.Query;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class UserDAO {
+@Repository
+@AllArgsConstructor
+@Transactional
+public class UserDAO extends AbstractDao implements UserRepository{
 
-    private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public List<User> findAllUsers() {
-        return userRepository.findAll();
+    public void saveUser(String firstName, String lastName, String password, String email) {
+        try{
+            User user = new User.Builder()
+                .firstName(firstName)
+                .lastName(lastName)
+                .password(bCryptPasswordEncoder.encode(password))
+                .email(email)
+                .wallets(new ArrayList<Wallet>())
+                .build();
+        persist(user);
+        commit();
+    }catch (Exception sqlException){
+            rollBack();
+        }finally {
+            getSession().close();
+        }
     }
 
-    public boolean isEmailExists(String email) {
-        return userRepository.findUserByEmail(email).isPresent();
+    @Override
+    public void deleteUser(String email) {
+
     }
 
-    //get all required fields as arguments or some form class
-    public User createUser(User user) {
-        //create user here by constructor, do not use setter
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setWallets(new ArrayList<>());
-        return userRepository.save(user);
+    @Override
+    public Optional<User> findUserByEmail(String email) {
+        Query query = getSession().createQuery("from User where email = :email");
+        query.setParameter("email", email);
+        List<User> resultList = query.list();
+        return resultList.stream().findFirst();
     }
 
-    public User findUserByID(Integer userID) {
-        //create some specific Exception
-        return userRepository.findUserById(userID).orElseThrow(() -> new RuntimeException("User not found"));
+    public List<User> findAllUsers(){
+        Query query = getSession().createQuery("from User");
+        List<User> resultList = query.list();
+        return resultList;
     }
+
+    public boolean checkIfUserWithGivenEmailExists(String email){
+        return findUserByEmail(email).isPresent();
+    }
+
+
+    public void updateUser(User employee) {
+
+    }
+
 }
