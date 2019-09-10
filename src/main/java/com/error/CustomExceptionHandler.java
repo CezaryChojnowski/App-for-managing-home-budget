@@ -23,7 +23,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @Value("${validationFailed}")
     private String validationFailed;
 
-    @Value("adaptationFailed")
+    @Value("${adaptationFailed}")
     private String adaptationFailed;
 
     @Value("${foundRecordFailed}")
@@ -47,9 +47,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(error, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleExistException(Exception exception) {
-        ErrorExistResponse error = new ErrorExistResponse(adaptationFailed, exception.getMessage(), HttpStatus.CONFLICT.value());
+    @ExceptionHandler(RecordExistsException.class)
+    public ResponseEntity<Object> handleExistException(RecordExistsException exception) {
+        ErrorExistsResponse error = new ErrorExistsResponse(adaptationFailed, exception.getMessage(), HttpStatus.CONFLICT.value());
         return new ResponseEntity(error, HttpStatus.CONFLICT);
     }
 }
