@@ -52,4 +52,5 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorExistsResponse error = new ErrorExistsResponse(adaptationFailed, exception.getMessage(), HttpStatus.CONFLICT.value());
         return new ResponseEntity(error, HttpStatus.CONFLICT);
     }
+
 }

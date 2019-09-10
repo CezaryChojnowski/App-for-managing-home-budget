@@ -22,7 +22,6 @@ public class UserDetailsService implements org.springframework.security.core.use
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
-
         User user = userDAO.findUserByEmail(email);
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(), user.isEnabled(), accountNonExpired, credentialsNonExpired, accountNonLocked,
@@ -33,6 +32,4 @@ public class UserDetailsService implements org.springframework.security.core.use
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         return authorities;
     }
-
-
 }
