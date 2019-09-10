@@ -23,7 +23,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @Value("${validationFailed}")
     private String validationFailed;
 
-    @Value("adaptationFailed")
+    @Value("${adaptationFailed}")
     private String adaptationFailed;
 
     @Value("${foundRecordFailed}")

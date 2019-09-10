@@ -1,6 +1,7 @@
-package com.entity;
+package com.Wallet;
 
 
+import com.User.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +14,6 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "wallet")
@@ -21,19 +21,19 @@ public class Wallet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_wallet")
     private int idWallet;
 
+    @Setter
     @NotEmpty(message = "{wallet.name_wallet.notEmpty}")
-    @Column(name = "name_wallet")
     private String nameWallet;
 
+    @Setter
     @Min(value = 0, message = "{wallet.balance.min}")
-    @Column(name = "balance")
     private float balance;
 
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_user")
+    @JoinColumn(name="id_user")
     @JsonIgnore
     private User user;
 
@@ -74,13 +74,13 @@ public class Wallet {
             return this;
         }
 
-            public Wallet build() {
-                Wallet goal = new Wallet();
-                goal.idWallet = this.idWallet;
-                goal.nameWallet = this.nameWallet;
-                goal.balance = this.balance;
-                goal.user = this.user;
-                return goal;
-            }
+        public Wallet build() {
+            Wallet goal = new Wallet();
+            goal.idWallet = this.idWallet;
+            goal.nameWallet = this.nameWallet;
+            goal.balance = this.balance;
+            goal.user = this.user;
+            return goal;
         }
     }
+}

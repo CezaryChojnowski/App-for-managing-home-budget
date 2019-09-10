@@ -1,5 +1,6 @@
-package com.entity;
+package com.User;
 
+import com.Wallet.Wallet;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,30 +18,29 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter
 @Entity
 @Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_user")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int idUser;
 
-    @Column(name = "first_name")
+    @Setter
     @NotEmpty(message = "{user.first_name.notEmpty}")
     private String firstName;
 
-    @Column(name = "last_name")
+    @Setter
     @NotEmpty(message = "{user.last_name.notEmpty}")
     private String lastName;
 
+    @Setter
     @Column(name = "pass")
     @NotEmpty(message = "{user.password.notEmpty}")
     private String password;
 
-    @Column(name = "email")
+    @Setter
     @NotEmpty(message = "{user.email.notEmpty}")
     @Email(message = "{user.email.Email}")
     private String email;

@@ -1,7 +1,7 @@
 package com.service;
 
-import com.dao.UserDAO;
-import com.entity.User;
+import com.User.User;
+import com.User.UserDAO;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,9 +22,7 @@ public class UserDetailsService implements org.springframework.security.core.use
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
-
-        userDAO.beginTransaction();
-        User user = userDAO.findUserByEmail(email).get();
+        User user = userDAO.findUserByEmail(email);
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(), user.isEnabled(), accountNonExpired, credentialsNonExpired, accountNonLocked,
                 getAuthorities(user));
@@ -34,6 +32,4 @@ public class UserDetailsService implements org.springframework.security.core.use
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         return authorities;
     }
-
-
 }
