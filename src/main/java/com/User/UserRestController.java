@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,5 +27,11 @@ public class UserRestController {
             userDAO.createUser(user.getFirstName(), user.getLastName(), user.getPassword(), user.getEmail());
             return ResponseEntity.ok(userDAO.convertToDto(user));
         }
+    }
+
+    @GetMapping
+    public ResponseEntity getUser(){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return ResponseEntity.ok(userDAO.findUserByEmail(email));
     }
 }

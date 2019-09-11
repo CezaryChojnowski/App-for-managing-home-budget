@@ -1,6 +1,7 @@
 package com.Wallet;
 
 
+import com.Category.Category;
 import com.User.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,13 +39,17 @@ public class Wallet {
     @JsonIgnore
     private User user;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "wallet")
+    private List<Category> categories;
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("Wallet{" +
                 "id=" + idWallet +
                 ", name_wallet='" + nameWallet + '\'' +
-                ", balance=" + balance +
+                ", balance=" + balance + '\'' +
+                ", categories="+ categories +
                 '}');
         return result.toString();
     }
@@ -53,6 +59,7 @@ public class Wallet {
         private String nameWallet;
         private float balance;
         private User user;
+        private List<Category> categories;
 
         public Builder idWallet(int idWallet) {
             this.idWallet = idWallet;
@@ -74,12 +81,18 @@ public class Wallet {
             return this;
         }
 
+        public Builder categories(List<Category> categories) {
+            this.categories = categories;
+            return this;
+        }
+
         public Wallet build() {
             Wallet goal = new Wallet();
             goal.idWallet = this.idWallet;
             goal.nameWallet = this.nameWallet;
             goal.balance = this.balance;
             goal.user = this.user;
+            goal.categories = this.categories;
             return goal;
         }
     }
