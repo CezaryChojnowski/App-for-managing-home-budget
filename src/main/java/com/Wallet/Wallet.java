@@ -35,6 +35,9 @@ public class Wallet {
     private float balance;
 
     @Setter
+    private float goal;
+
+    @Setter
     private boolean savings;
 
     @Setter
@@ -61,6 +64,7 @@ public class Wallet {
         private String nameWallet;
         private String comment;
         private float balance;
+        private float goal;
         private boolean savings;
         private User user;
 
@@ -78,6 +82,10 @@ public class Wallet {
             this.balance = balance;
             return this;
         }
+        public Builder goal(float goal) {
+            this.goal = goal;
+            return this;
+        }
         public Builder comment(String comment) {
             this.comment = comment;
             return this;
@@ -92,14 +100,15 @@ public class Wallet {
         }
 
         public Wallet build() {
-            Wallet goal = new Wallet();
-            goal.idWallet = this.idWallet;
-            goal.nameWallet = this.nameWallet;
-            goal.balance = this.balance;
-            goal.user = this.user;
-            goal.comment=this.comment;
-            goal.savings=this.savings;
-            return goal;
+            Wallet wallet = new Wallet();
+            wallet.idWallet = this.idWallet;
+            wallet.nameWallet = this.nameWallet;
+            wallet.balance = this.balance;
+            wallet.user = this.user;
+            wallet.comment=this.comment;
+            wallet.savings=this.savings;
+            wallet.goal=this.goal;
+            return wallet;
         }
     }
 }
