@@ -27,7 +27,6 @@ public class UserDAO {
                 .lastName(lastName)
                 .password(bCryptPasswordEncoder.encode(password))
                 .email(email)
-                .wallets(new ArrayList<Wallet>())
                 .build();
         return userRepository.save(user);
     }
