@@ -27,7 +27,6 @@ public class WalletRestController {
     public List<Wallet> getWalletsByUserEmail(){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userDAO.findUserByEmail(email);
-        System.out.println(walletDAO.findWalletsByUser(user).get(0));
         return walletDAO.findWalletsByUser(user);
     }
 
@@ -40,7 +39,7 @@ public class WalletRestController {
             throw new RecordExistsException(env.getProperty("recordExists") + " " + wallet.getNameWallet());
         }
         else{
-            return ResponseEntity.ok(walletDAO.createNewWallet(wallet.getNameWallet(), wallet.getBalance(), wallet.getGoal(), wallet.getComment(), wallet.isSavings(), email));
+            return ResponseEntity.ok(walletDAO.createNewWallet(wallet.getNameWallet(), wallet.getBalance(), wallet.getFinancialGoal(), wallet.getComment(), wallet.isSavings(), email));
         }
     }
 }
