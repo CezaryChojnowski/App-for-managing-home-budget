@@ -14,8 +14,13 @@ public class WalletDAO {
     private final WalletRepository walletRepository;
     private final UserRepository userRepository;
 
-    public List<Wallet> findWalletsByUser(User user){
-        return walletRepository.findWalletsByUser(user);
+    public List<Wallet> findAllUserWallets(User user){
+        return walletRepository.findWalletByUser(user);
+    }
+
+    public List<Wallet> findAllUserSavingsWallets(User user){
+        boolean savings = true;
+        return walletRepository.findWalletByUserAndSavings(user, savings);
     }
 
     public Wallet createNewWallet(String nameWallet, float balance, float financialGoal, String comment, boolean savings, String emailUser){
