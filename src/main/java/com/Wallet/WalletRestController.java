@@ -30,15 +30,17 @@ public class WalletRestController {
         System.out.println(walletDAO.findWalletsByUser(user).get(0));
         return walletDAO.findWalletsByUser(user);
     }
+
     @PostMapping
     public ResponseEntity createNewWallet(@Valid @RequestBody Wallet wallet){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userDAO.findUserByEmail(email);
-//        if(walletDAO.checkIfUserHasWalletWithTheGivenName(user.getWallets(), wallet.getNameWallet())){
-//            throw new RecordExistsException(env.getProperty("recordExist") + " " + wallet.getNameWallet());
-//        }
-//        else{
-            return ResponseEntity.ok(walletDAO.createNewWallet(wallet.getNameWallet(), wallet.getBalance(), email));
-//        }
+        List<Wallet> walletsList = walletDAO.findWalletsByUser(user);
+        if(walletDAO.checkIfUserHasWalletWithTheGivenName(walletsList, wallet.getNameWallet())){
+            throw new RecordExistsException(env.getProperty("recordExist") + " " + wallet.getNameWallet());
+        }
+        else{
+            return ResponseEntity.ok(walletDAO.createNewWallet(wallet.getNameWallet(), wallet.getBalance(), wallet.getGoal(), wallet.getComment(), wallet.isSavings(), email));
+        }
     }
 }
