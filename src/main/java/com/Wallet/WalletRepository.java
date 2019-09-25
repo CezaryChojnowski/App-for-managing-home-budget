@@ -8,8 +8,9 @@ import java.util.List;
 @Repository
 public interface WalletRepository extends JpaRepository<Wallet, Integer> {
 
-    List<Wallet> findWalletsByUser(User user);
+    List<Wallet> findWalletByUser(User user);
 
     Wallet findWalletByIdWallet(int idWallet);
 
+    List<Wallet> findWalletByUserAndSavings(User user, boolean savings);
 }
