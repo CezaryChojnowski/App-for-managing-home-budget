@@ -37,7 +37,7 @@ public class WalletRestController {
         User user = userDAO.findUserByEmail(email);
         List<Wallet> walletsList = walletDAO.findWalletsByUser(user);
         if(walletDAO.checkIfUserHasWalletWithTheGivenName(walletsList, wallet.getNameWallet())){
-            throw new RecordExistsException(env.getProperty("recordExist") + " " + wallet.getNameWallet());
+            throw new RecordExistsException(env.getProperty("recordExists") + " " + wallet.getNameWallet());
         }
         else{
             return ResponseEntity.ok(walletDAO.createNewWallet(wallet.getNameWallet(), wallet.getBalance(), wallet.getGoal(), wallet.getComment(), wallet.isSavings(), email));
