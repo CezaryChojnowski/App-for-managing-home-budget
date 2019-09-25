@@ -22,7 +22,7 @@ public class UserRestController {
     @PostMapping
     public ResponseEntity registerUserAccount(@Valid @RequestBody User user) {
         if (userDAO.isEmailExists(user.getEmail())) {
-            throw new RecordExistsException(env.getProperty("recordExist") + " " + user.getEmail());
+            throw new RecordExistsException(env.getProperty("recordExists") + " " + user.getEmail());
         } else {
             userDAO.createUser(user.getFirstName(), user.getLastName(), user.getPassword(), user.getEmail());
             return ResponseEntity.ok(userDAO.convertToDto(user));
