@@ -1,6 +1,5 @@
 package com.User;
 
-import com.Wallet.Wallet;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,12 +12,11 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
-import java.util.List;
 
+@Entity
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Entity
 @Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails {
@@ -45,9 +43,6 @@ public class User implements UserDetails {
     @Email(message = "{user.email.Email}")
     private String email;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Wallet> wallets;
-
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -57,7 +52,6 @@ public class User implements UserDetails {
                 ", last_name='" + lastName + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", wallets=" + wallets +
                 '}');
         return result.toString();
     }
@@ -98,7 +92,6 @@ public class User implements UserDetails {
         private String lastName;
         private String password;
         private String email;
-        private List<Wallet> wallets;
 
         public Builder idUser(int idUser) {
             this.idUser = idUser;
@@ -125,10 +118,6 @@ public class User implements UserDetails {
             return this;
         }
 
-        public Builder wallets(List<Wallet> wallets) {
-            this.wallets = wallets;
-            return this;
-        }
 
         public User build() {
             User goal = new User();
@@ -137,7 +126,6 @@ public class User implements UserDetails {
             goal.lastName = this.lastName;
             goal.password = this.password;
             goal.email = this.email;
-            goal.wallets = this.wallets;
             return goal;
         }
     }
