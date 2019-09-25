@@ -18,10 +18,13 @@ public class WalletDAO {
         return walletRepository.findWalletsByUser(user);
     }
 
-    public Wallet createNewWallet(String nameWallet, float balance, String emailUser){
+    public Wallet createNewWallet(String nameWallet, float balance, float goal, String comment, boolean savings, String emailUser){
         Wallet wallet = new Wallet.Builder()
                 .nameWallet(nameWallet)
                 .balance(balance)
+                .goal(goal)
+                .comment(comment)
+                .savings(savings)
                 .user(userRepository.findUserByEmail(emailUser).get())
                 .build();
         return walletRepository.save(wallet);
