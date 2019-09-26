@@ -6,6 +6,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +36,10 @@ public class UserDAO {
     }
 
     public UserDTO convertToDto(User user){
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+        return userDTO;
+    }
+    public UserDTO convertToDto(List<User> user){
         UserDTO userDTO = modelMapper.map(user, UserDTO.class);
         return userDTO;
     }

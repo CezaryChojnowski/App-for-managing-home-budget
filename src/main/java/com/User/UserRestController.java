@@ -32,7 +32,8 @@ public class UserRestController {
     @GetMapping
     public ResponseEntity getUser(){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return ResponseEntity.ok(userDAO.findUserByEmail(email));
+        User user = userDAO.findUserByEmail(email);
+        return ResponseEntity.ok(userDAO.convertToDto(user));
     }
 
     @PatchMapping
