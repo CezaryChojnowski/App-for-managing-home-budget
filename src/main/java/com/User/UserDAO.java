@@ -1,13 +1,11 @@
 package com.User;
 
-import com.Wallet.Wallet;
 import com.error.RecordNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -38,5 +36,12 @@ public class UserDAO {
     public UserDTO convertToDto(User user){
         UserDTO userDTO = modelMapper.map(user, UserDTO.class);
         return userDTO;
+    }
+
+    public User changingUserData(UserDTO userDTO, String email){
+        User user = userRepository.findUserByEmail(email).get();
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        return userRepository.save(user);
     }
 }
