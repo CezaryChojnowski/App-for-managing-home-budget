@@ -41,4 +41,14 @@ public class WalletDAO {
     public Wallet findWalletByIdWallet(int idWallet){
         return walletRepository.findWalletByIdWallet(idWallet);
     }
+
+    public Wallet findWalletByUserAndIdWallet(User user, int idWallet){
+        return walletRepository.findWalletByUserAndIdWallet(user, idWallet);
+    }
+
+    public Wallet updateBalance(User user, int idWallet, float balance){
+        Wallet wallet = findWalletByUserAndIdWallet(user, idWallet);
+        wallet.setBalance(balance);
+        return walletRepository.save(wallet);
+    }
 }
