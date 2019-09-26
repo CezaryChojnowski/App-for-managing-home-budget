@@ -34,4 +34,11 @@ public class UserRestController {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok(userDAO.findUserByEmail(email));
     }
+
+    @PatchMapping
+    public ResponseEntity changingUserData(@Valid @RequestBody UserDTO userDTO){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        userDAO.changingUserData(userDTO, email);
+        return ResponseEntity.ok(userDTO);
+    }
 }
