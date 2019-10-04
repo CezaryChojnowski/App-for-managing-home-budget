@@ -39,4 +39,38 @@ public class Category {
                 '}');
         return result.toString();
     }
+
+    public static final class Builder {
+        private int idCategory;
+        private String nameCategory;
+        private boolean typeCategory;
+        private User user;
+
+        public Builder idCategory(int idCategory) {
+            this.idCategory = idCategory;
+            return this;
+        }
+
+        public Builder nameCategory(String nameCategory) {
+            this.nameCategory = nameCategory;
+            return this;
+        }
+        public Builder typeCategory(boolean typeCategory) {
+            this.typeCategory = typeCategory;
+            return this;
+        }
+        public Builder user(User user) {
+            this.user = user;
+            return this;
+        }
+
+        public Category build() {
+            Category category = new Category();
+            category.idCategory = this.idCategory;
+            category.nameCategory = this.nameCategory;
+            category.typeCategory = this.typeCategory;
+            category.user=this.user;
+            return category;
+        }
+    }
 }
