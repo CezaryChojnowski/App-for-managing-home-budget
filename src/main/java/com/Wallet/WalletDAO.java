@@ -18,8 +18,7 @@ public class WalletDAO {
         return walletRepository.findWalletByUser(user);
     }
 
-    public List<Wallet> findAllUserSavingsWallets(User user){
-        boolean savings = true;
+    public List<Wallet> findAllUserWalletsBySavings(User user, boolean savings){
         return walletRepository.findWalletByUserAndSavings(user, savings);
     }
 

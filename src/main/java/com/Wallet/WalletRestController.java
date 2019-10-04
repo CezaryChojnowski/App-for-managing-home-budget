@@ -23,12 +23,6 @@ public class WalletRestController {
     private final UserDAO userDAO;
     private final Environment env;
 
-    @GetMapping
-    public List<Wallet> getAllWalletsByUserEmail(){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userDAO.findUserByEmail(email);
-        return walletDAO.findAllUserWallets(user);
-    }
 
     @PostMapping
     public ResponseEntity createNewWallet(@Valid @RequestBody Wallet wallet){
@@ -43,11 +37,11 @@ public class WalletRestController {
         }
     }
 
-    @GetMapping(value = "/savings")
-    public ResponseEntity getAllSavingsWalletsByUser(){
+    @GetMapping
+    public ResponseEntity getAllUserWalletsBySavings(@RequestParam(value = "savings") boolean savings){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userDAO.findUserByEmail(email);
-        return ResponseEntity.ok(walletDAO.findAllUserSavingsWallets(user));
+        return ResponseEntity.ok(walletDAO.findAllUserWalletsBySavings(user, savings));
     }
 
     @PatchMapping
