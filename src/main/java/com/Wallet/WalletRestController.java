@@ -44,8 +44,8 @@ public class WalletRestController {
         return ResponseEntity.ok(walletDAO.findAllUserWalletsBySavings(user, savings));
     }
 
-    @PatchMapping
-    public ResponseEntity changeBalance(@RequestParam("idWallet") Integer idWallet,
+    @PatchMapping(value = "/{idWallet}")
+    public ResponseEntity changeBalance(@PathVariable("idWallet") Integer idWallet,
                                         @RequestParam("balance") float balance){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userDAO.findUserByEmail(email);
