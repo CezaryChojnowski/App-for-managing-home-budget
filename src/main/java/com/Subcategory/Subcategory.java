@@ -14,14 +14,14 @@ import javax.persistence.*;
 public class Subcategory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int idSubcategory;
 
     @Setter
     private String nameSubcategory;
 
     @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="id_category")
     @JsonIgnore
     private Category category;
