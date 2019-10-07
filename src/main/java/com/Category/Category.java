@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int idCategory;
 
     @Setter
@@ -24,7 +24,7 @@ public class Category {
     private boolean typeCategory;
 
     @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade=CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name="id_user")
     @JsonIgnore
     private User user;

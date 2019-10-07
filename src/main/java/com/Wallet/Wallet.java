@@ -41,7 +41,7 @@ public class Wallet {
     private boolean savings;
 
     @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name="id_user")
     @JsonIgnore
     private User user;
