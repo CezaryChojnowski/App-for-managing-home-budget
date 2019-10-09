@@ -29,6 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users").permitAll()
                 .anyRequest().authenticated()
                 .and().httpBasic();
+        http.headers().frameOptions().disable();
     }
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder builder) throws Exception {
