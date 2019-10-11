@@ -1,10 +1,6 @@
-package com.homebudget;
+package com.User;
 
 import com.AppForManagingHomeBudgetApplication;
-import com.User.User;
-import com.User.UserDAO;
-import com.User.UserRepository;
-import com.User.UserRestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;

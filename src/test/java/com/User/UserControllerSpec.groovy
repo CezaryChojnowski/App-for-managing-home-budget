@@ -1,10 +1,6 @@
-package com.homebudget
+package com.User
 
 import com.AppForManagingHomeBudgetApplication
-import com.User.User
-import com.User.UserDAO
-import com.User.UserRepository
-import com.User.UserRestController
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.core.env.Environment
@@ -19,14 +15,16 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import spock.lang.Specification
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
+//packages in tests should be the same as in production code
+//if you test UserController class from package com.User
+// you should create UserControllerSpec class also in package com.User
 @ContextConfiguration(classes = AppForManagingHomeBudgetApplication.class)
 @ComponentScan("com.User")
 class UserControllerSpec extends Specification {
 
-    UserRestController userRestController
-    UserDAO userDAO
-    UserRepository userRepository
-    Environment environment
+    def userDAO = Mock(UserDAO)
+    def userRepository = Mock(UserRepository)
+    def environment = Mock(environment)
     MockMvc mockMvc
     ObjectMapper objectMapper = new ObjectMapper()
 
@@ -34,16 +32,9 @@ class UserControllerSpec extends Specification {
     String userJsonString
 
 
-    def setup(){
-        userRepository = Mock(UserRepository)
-        userDAO = Mock(UserDAO)
-        userRestController = new UserRestController(userDAO,environment)
-        mockMvc = MockMvcBuilders
-                .standaloneSetup(userRestController)
-                .alwaysDo(MockMvcResultHandlers
-                        .print())
-                .build()
-    }
+    //if you want to mock some stuff you dont need setup
+    // you can just change everything as i did with def userRepository = Mock(UserRepository)
+
     @Sql(scripts = "/data-test.sql", executionPhase = BEFORE_TEST_METHOD)
     void 'Test'(){
         given:

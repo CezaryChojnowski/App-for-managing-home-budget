@@ -14,18 +14,22 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    //rename to id
     private int idEvent;
 
     @Setter
+    //rename to name
     private String nameEvent;
 
     @Setter
+    //read about local date time or zone date time or timestamp
     private Date startDate;
 
     @Setter
     private Date finishDate;
 
     @Setter
+    //remove event form name
     private boolean eventOver;
 
     @Override

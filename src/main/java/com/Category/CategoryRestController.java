@@ -18,6 +18,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/categories")
 @RequiredArgsConstructor
+//do not store controllers in domain packages
+//create packages:
+//com.configuration - only for configuration stuff
+//com.domain - for domain logic
+//com.interaces.rest - for RestControllers
+//change all package names to start with small letter example: User -> user
 public class CategoryRestController {
 
     private final CategoryDAO categoryDAO;
