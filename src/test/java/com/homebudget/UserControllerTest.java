@@ -1,10 +1,10 @@
 package com.homebudget;
 
 import com.AppForManagingHomeBudgetApplication;
-import com.User.User;
-import com.User.UserDAO;
-import com.User.UserRepository;
-import com.User.UserRestController;
+import com.homeBudget.domain.User.User;
+import com.homeBudget.domain.User.UserDAO;
+import com.homeBudget.domain.User.UserRepository;
+import com.homeBudget.rest.UserRestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = AppForManagingHomeBudgetApplication.class)
-@ComponentScan("com.User")
+@ComponentScan("com.homeBudget.domain.User")
 public class UserControllerTest {
 
     private MockMvc mockMvc;

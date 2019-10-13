@@ -1,11 +1,11 @@
 package com.homebudget
 
 import com.AppForManagingHomeBudgetApplication
-import com.User.User
-import com.User.UserDAO
-import com.User.UserRepository
-import com.User.UserRestController
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.homeBudget.domain.User.User
+import com.homeBudget.domain.User.UserDAO
+import com.homeBudget.domain.User.UserRepository
+import com.homeBudget.rest.UserRestController
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.core.env.Environment
 import org.springframework.http.MediaType
@@ -20,7 +20,7 @@ import spock.lang.Specification
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 
 @ContextConfiguration(classes = AppForManagingHomeBudgetApplication.class)
-@ComponentScan("com.User")
+@ComponentScan("com.homeBudget.domain.User")
 class UserControllerSpec extends Specification {
 
     UserRestController userRestController
