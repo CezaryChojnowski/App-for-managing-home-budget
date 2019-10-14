@@ -2,6 +2,8 @@ package com.homeBudget.rest;
 
 import com.homeBudget.domain.Category.Category;
 import com.homeBudget.domain.Category.CategoryDAO;
+import com.homeBudget.domain.Subcategory.Subcategory;
+import com.homeBudget.domain.Subcategory.SubcategoryDAO;
 import com.homeBudget.domain.User.User;
 import com.homeBudget.domain.User.UserDAO;
 import com.homeBudget.configuration.error.RecordExistsException;
