@@ -8,10 +8,7 @@ import com.homeBudget.configuration.error.RecordExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.core.env.Environment;
 
 import javax.validation.Valid;
@@ -23,6 +20,7 @@ import java.util.List;
 public class CategoryRestController {
 
     private final CategoryDAO categoryDAO;
+    private final SubcategoryDAO subcategoryDAO;
     private final UserDAO userDAO;
     private final Environment env;
 
@@ -36,6 +34,21 @@ public class CategoryRestController {
         }
         else{
             return ResponseEntity.ok(categoryDAO.createNewCategory(category.getNameCategory(), category.isTypeCategory(), email));
+        }
+    }
+
+    @RequestMapping("{idCategory}/subcategories")
+    @PostMapping
+    public ResponseEntity createNewSubcategory(@PathVariable("idCategory") int idCategory,
+                                               @Valid @RequestBody Subcategory subcategory){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userDAO.findUserByEmail(email);
+        List<Subcategory> subcategoriesList = subcategoryDAO.getAllSubcategoryByUser(user);
+        if(subcategoryDAO.checkIfUserHasSubcategoryWithTheGivenName(subcategoriesList, subcategory.getNameSubcategory())){
+            throw new RecordExistsException(env.getProperty("recordExists") + " " + subcategory.getNameSubcategory());
+        }
+        else{
+            return ResponseEntity.ok(subcategoryDAO.createNewSubcategory(subcategory.getNameSubcategory(), idCategory));
         }
     }
 }
