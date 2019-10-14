@@ -1,9 +1,9 @@
-package com.homeBudget.domain.Transaction;
+package com.homeBudget.domain.transaction;
 
-import com.homeBudget.domain.Event.Event;
-import com.homeBudget.domain.Person.Person;
-import com.homeBudget.domain.Subcategory.Subcategory;
-import com.homeBudget.domain.Wallet.Wallet;
+import com.homeBudget.domain.event.Event;
+import com.homeBudget.domain.person.Person;
+import com.homeBudget.domain.subcategory.Subcategory;
+import com.homeBudget.domain.wallet.Wallet;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -58,7 +58,7 @@ public class Transaction {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("Transaction{" +
+        result.append("transaction{" +
                 "idTransaction=" + idTransaction +
                 ", comment='" + comment + '\'' +
                 ", amount='" + amount + '\'' +

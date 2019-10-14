@@ -1,6 +1,6 @@
-package com.homeBudget.domain.Wallet;
+package com.homeBudget.domain.wallet;
 
-import com.homeBudget.domain.User.User;
+import com.homeBudget.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

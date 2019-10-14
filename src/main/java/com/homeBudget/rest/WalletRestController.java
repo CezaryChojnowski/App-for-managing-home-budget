@@ -1,10 +1,10 @@
 package com.homeBudget.rest;
 
-import com.homeBudget.domain.User.User;
-import com.homeBudget.domain.User.UserDAO;
+import com.homeBudget.domain.user.User;
+import com.homeBudget.domain.user.UserDAO;
 import com.homeBudget.configuration.error.RecordExistsException;
-import com.homeBudget.domain.Wallet.Wallet;
-import com.homeBudget.domain.Wallet.WalletDAO;
+import com.homeBudget.domain.wallet.Wallet;
+import com.homeBudget.domain.wallet.WalletDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.context.annotation.PropertySource;

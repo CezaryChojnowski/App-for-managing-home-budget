@@ -1,6 +1,6 @@
-package com.homeBudget.domain.Category;
+package com.homeBudget.domain.category;
 
-import com.homeBudget.domain.User.User;
+import com.homeBudget.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -32,7 +32,7 @@ public class Category {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("Category{" +
+        result.append("category{" +
                 "idCategory=" + idCategory +
                 ", nameCategory='" + nameCategory + '\'' +
                 ", typeCategory=" + typeCategory +

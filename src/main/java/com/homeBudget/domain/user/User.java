@@ -1,4 +1,4 @@
-package com.homeBudget.domain.User;
+package com.homeBudget.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -46,7 +46,7 @@ public class User implements UserDetails {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("User{" +
+        result.append("user{" +
                 "id=" + idUser +
                 ", first_name='" + firstName + '\'' +
                 ", last_name='" + lastName + '\'' +

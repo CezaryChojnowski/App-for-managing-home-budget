@@ -1,4 +1,4 @@
-package com.homeBudget.domain.Person;
+package com.homeBudget.domain.person;
 
 import lombok.*;
 
@@ -30,7 +30,7 @@ public class Person {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("Person{" +
+        result.append("person{" +
                 "idPerson=" + idPerson +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

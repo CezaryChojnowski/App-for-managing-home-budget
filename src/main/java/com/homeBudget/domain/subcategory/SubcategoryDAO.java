@@ -1,8 +1,8 @@
-package com.homeBudget.domain.Subcategory;
+package com.homeBudget.domain.subcategory;
 
-import com.homeBudget.domain.Category.Category;
-import com.homeBudget.domain.Category.CategoryRepository;
-import com.homeBudget.domain.User.User;
+import com.homeBudget.domain.category.Category;
+import com.homeBudget.domain.category.CategoryRepository;
+import com.homeBudget.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

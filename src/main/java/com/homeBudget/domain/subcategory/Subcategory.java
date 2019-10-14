@@ -1,6 +1,6 @@
-package com.homeBudget.domain.Subcategory;
+package com.homeBudget.domain.subcategory;
 
-import com.homeBudget.domain.Category.Category;
+import com.homeBudget.domain.category.Category;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -29,7 +29,7 @@ public class Subcategory {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("Subcategory{" +
+        result.append("subcategory{" +
                 "idSubcategory=" + idSubcategory +
                 ", nameSubcategory='" + nameSubcategory + '\'' +
                 '}');

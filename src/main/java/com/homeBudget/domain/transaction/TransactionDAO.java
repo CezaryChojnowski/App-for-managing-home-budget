@@ -1,9 +1,9 @@
-package com.homeBudget.domain.Transaction;
+package com.homeBudget.domain.transaction;
 
-import com.homeBudget.domain.Subcategory.Subcategory;
-import com.homeBudget.domain.Subcategory.SubcategoryDAO;
-import com.homeBudget.domain.Subcategory.SubcategoryRepository;
-import com.homeBudget.domain.User.User;
+import com.homeBudget.domain.subcategory.Subcategory;
+import com.homeBudget.domain.subcategory.SubcategoryDAO;
+import com.homeBudget.domain.subcategory.SubcategoryRepository;
+import com.homeBudget.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

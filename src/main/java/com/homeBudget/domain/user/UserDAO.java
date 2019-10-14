@@ -1,4 +1,4 @@
-package com.homeBudget.domain.User;
+package com.homeBudget.domain.user;
 
 import com.homeBudget.configuration.error.RecordNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class UserDAO {
     }
 
     public User findUserByEmail(String email) {
-        return userRepository.findUserByEmail(email).orElseThrow(() -> new RecordNotFoundException("User not found"));
+        return userRepository.findUserByEmail(email).orElseThrow(() -> new RecordNotFoundException("user not found"));
     }
 
     public UserDTO convertToDto(User user){

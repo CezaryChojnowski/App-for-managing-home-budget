@@ -1,10 +1,9 @@
-package com.homeBudget.domain.Transaction;
+package com.homeBudget.domain.transaction;
 
-import com.homeBudget.domain.Subcategory.Subcategory;
+import com.homeBudget.domain.subcategory.Subcategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 
 

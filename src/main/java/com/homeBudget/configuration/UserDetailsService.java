@@ -1,7 +1,7 @@
 package com.homeBudget.configuration;
 
-import com.homeBudget.domain.User.User;
-import com.homeBudget.domain.User.UserDAO;
+import com.homeBudget.domain.user.User;
+import com.homeBudget.domain.user.UserDAO;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

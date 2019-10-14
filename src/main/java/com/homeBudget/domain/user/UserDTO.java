@@ -1,4 +1,4 @@
-package com.homeBudget.domain.User;
+package com.homeBudget.domain.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

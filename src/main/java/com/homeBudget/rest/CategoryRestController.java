@@ -1,11 +1,11 @@
 package com.homeBudget.rest;
 
-import com.homeBudget.domain.Category.Category;
-import com.homeBudget.domain.Category.CategoryDAO;
-import com.homeBudget.domain.Subcategory.Subcategory;
-import com.homeBudget.domain.Subcategory.SubcategoryDAO;
-import com.homeBudget.domain.User.User;
-import com.homeBudget.domain.User.UserDAO;
+import com.homeBudget.domain.category.Category;
+import com.homeBudget.domain.category.CategoryDAO;
+import com.homeBudget.domain.subcategory.Subcategory;
+import com.homeBudget.domain.subcategory.SubcategoryDAO;
+import com.homeBudget.domain.user.User;
+import com.homeBudget.domain.user.UserDAO;
 import com.homeBudget.configuration.error.RecordExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

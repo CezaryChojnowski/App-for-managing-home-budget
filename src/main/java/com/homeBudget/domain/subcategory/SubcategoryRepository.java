@@ -1,6 +1,6 @@
-package com.homeBudget.domain.Subcategory;
+package com.homeBudget.domain.subcategory;
 
-import com.homeBudget.domain.Category.Category;
+import com.homeBudget.domain.category.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

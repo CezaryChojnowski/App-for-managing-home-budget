@@ -1,4 +1,4 @@
-package com.homeBudget.domain.Event;
+package com.homeBudget.domain.event;
 
 import lombok.*;
 
@@ -14,10 +14,10 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int idEvent;
+    private int id;
 
     @Setter
-    private String nameEvent;
+    private String name;
 
     @Setter
     private Date startDate;
@@ -31,9 +31,9 @@ public class Event {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("Event{" +
-                "idEvent=" + idEvent +
-                ", nameEvent='" + nameEvent + '\'' +
+        result.append("event{" +
+                "idEvent=" + id +
+                ", nameEvent='" + name + '\'' +
                 ", startDate='" + startDate + '\'' +
                 ", finishDate='" + finishDate + '\'' +
                 ", eventOver='" + eventOver + '\'' +

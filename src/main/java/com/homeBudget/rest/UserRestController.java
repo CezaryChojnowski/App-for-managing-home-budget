@@ -1,9 +1,9 @@
 package com.homeBudget.rest;
 
 import com.homeBudget.configuration.error.RecordExistsException;
-import com.homeBudget.domain.User.User;
-import com.homeBudget.domain.User.UserDAO;
-import com.homeBudget.domain.User.UserDTO;
+import com.homeBudget.domain.user.User;
+import com.homeBudget.domain.user.UserDAO;
+import com.homeBudget.domain.user.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;

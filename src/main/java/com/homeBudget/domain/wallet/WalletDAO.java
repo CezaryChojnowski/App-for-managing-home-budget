@@ -1,7 +1,7 @@
-package com.homeBudget.domain.Wallet;
+package com.homeBudget.domain.wallet;
 
-import com.homeBudget.domain.User.User;
-import com.homeBudget.domain.User.UserRepository;
+import com.homeBudget.domain.user.User;
+import com.homeBudget.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

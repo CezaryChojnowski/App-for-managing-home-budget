@@ -1,8 +1,8 @@
 package com.homeBudget.rest;
 
-import com.homeBudget.domain.Transaction.TransactionDAO;
-import com.homeBudget.domain.User.User;
-import com.homeBudget.domain.User.UserDAO;
+import com.homeBudget.domain.transaction.TransactionDAO;
+import com.homeBudget.domain.user.User;
+import com.homeBudget.domain.user.UserDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;

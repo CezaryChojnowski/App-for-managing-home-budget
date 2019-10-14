@@ -1,7 +1,7 @@
-package com.homeBudget.domain.Wallet;
+package com.homeBudget.domain.wallet;
 
 
-import com.homeBudget.domain.User.User;
+import com.homeBudget.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,7 +49,7 @@ public class Wallet {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("Wallet{" +
+        result.append("wallet{" +
                 "id=" + idWallet +
                 ", name_wallet='" + nameWallet + '\'' +
                 ", comment='" + comment + '\'' +
