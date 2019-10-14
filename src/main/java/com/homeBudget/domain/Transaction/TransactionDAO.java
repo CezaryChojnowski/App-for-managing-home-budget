@@ -1,7 +1,14 @@
 package com.homeBudget.domain.Transaction;
 
+import com.homeBudget.domain.Subcategory.Subcategory;
+import com.homeBudget.domain.Subcategory.SubcategoryDAO;
+import com.homeBudget.domain.Subcategory.SubcategoryRepository;
+import com.homeBudget.domain.User.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
