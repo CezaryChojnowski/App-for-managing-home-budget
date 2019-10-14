@@ -46,8 +46,12 @@ public class UserDAO {
 
     public User changingUserData(UserDTO userDTO, String email){
         User user = userRepository.findUserByEmail(email).get();
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
+        if(userDTO.getFirstName() == null){
+            user.setLastName(userDTO.getLastName());
+        }
+        if(userDTO.getLastName() == null){
+            user.setFirstName(userDTO.getFirstName());
+        }
         return userRepository.save(user);
     }
 }
