@@ -13,7 +13,7 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idPerson;
+    private Long id;
 
     @Setter
     private String firstName;
@@ -31,7 +31,7 @@ public class Person {
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("person{" +
-                "idPerson=" + idPerson +
+                "idPerson=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
