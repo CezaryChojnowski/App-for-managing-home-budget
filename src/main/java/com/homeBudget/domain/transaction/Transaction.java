@@ -66,4 +66,63 @@ public class Transaction {
                 '}');
         return result.toString();
     }
+
+    public static final class Builder {
+        private int idSubcategory;
+        private String comment;
+        private float amount;
+        private LocalDate dateTransaction;
+        private Subcategory subcategory;
+        private Wallet wallet;
+        private Event event;
+        private Person person;
+
+        public Builder idSubcategory(int idSubcategory) {
+            this.idSubcategory = idSubcategory;
+            return this;
+        }
+        public Builder comment(String comment) {
+            this.comment = comment;
+            return this;
+        }
+        public Builder amount(float amout) {
+            this.amount = amout;
+            return this;
+        }
+        public Builder dateTransaction(LocalDate dateTransaction) {
+            this.dateTransaction=dateTransaction;
+            return this;
+        }
+        public Builder subcategory(Subcategory subcategory) {
+            this.subcategory = subcategory;
+            return this;
+        }
+        public Builder event(Event event) {
+            this.event = event;
+            return this;
+        }
+        public Builder person(Person person) {
+            this.person = person;
+            return this;
+        }
+        public Builder wallet(Wallet wallet) {
+            this.wallet = wallet;
+            return this;
+        }
+
+
+        public Transaction build() {
+            Transaction transaction = new Transaction();
+            transaction.idTransaction=this.idSubcategory;
+            transaction.amount=this.amount;
+            transaction.comment=this.comment;
+            transaction.dateTransaction=this.dateTransaction;
+            transaction.subcategory=this.subcategory;
+            transaction.wallet=this.wallet;
+            transaction.event=this.event;
+            transaction.person=this.person;
+            return transaction;
+        }
+    }
+
 }
