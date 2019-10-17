@@ -6,6 +6,7 @@ import com.homeBudget.domain.subcategory.Subcategory;
 import com.homeBudget.domain.subcategory.SubcategoryDAO;
 import com.homeBudget.domain.subcategory.SubcategoryRepository;
 import com.homeBudget.domain.user.User;
+import com.homeBudget.domain.user.UserRepository;
 import com.homeBudget.domain.wallet.WalletRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class TransactionDAO {
     public final EventRepository eventRepository;
     public final PersonRepository personRepository;
     public final SubcategoryDAO subcategoryDAO;
+    public final UserRepository userRepository;
 
     public List<Transaction> findAllTransactionByUser(User user){
         List<Subcategory> subcategories = subcategoryDAO.getAllSubcategoryByUser(user);
@@ -45,6 +47,17 @@ public class TransactionDAO {
                 .person(personRepository.findPersonById(id_person))
                 .build();
         return transactionRepository.save(transaction);
+    }
+
+    public List<Transaction> findAllTransactionsByDate(LocalDate startDate, LocalDate finishDate, User user){
+        List<Transaction> transactions = findAllTransactionByUser(user);
+        List<Transaction> transactionsByDate = transactionRepository.findTransactionsByDateTransactionBetween(startDate, finishDate);
+        transactions.retainAll(transactionsByDate);
+        return transactions;
+    }
+
+    public boolean checkIfDateIsNull(LocalDate startDate, LocalDate finishDate){
+        return (startDate == null && finishDate == null);
     }
 
 }
