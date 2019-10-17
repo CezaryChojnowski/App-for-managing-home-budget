@@ -31,5 +31,4 @@ public class CategoryDAO {
     public boolean checkIfUserHasCategoryWithTheGivenName(List<Category> userCategories, String newCategoryName){
         return userCategories.stream().anyMatch(o -> o.getNameCategory().equals(newCategoryName));
     }
-
 }
