@@ -1,11 +1,11 @@
-package com.homeBudget.rest;
+package com.homeBudget.rest.controller;
 
 import com.homeBudget.domain.category.Category;
-import com.homeBudget.domain.category.CategoryDAO;
+import com.homeBudget.domain.category.CategoryService;
 import com.homeBudget.domain.subcategory.Subcategory;
-import com.homeBudget.domain.subcategory.SubcategoryDAO;
+import com.homeBudget.domain.subcategory.SubcategoryService;
 import com.homeBudget.domain.user.User;
-import com.homeBudget.domain.user.UserDAO;
+import com.homeBudget.domain.user.UserService;
 import com.homeBudget.configuration.error.RecordExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,21 +21,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryRestController {
 
-    private final CategoryDAO categoryDAO;
-    private final SubcategoryDAO subcategoryDAO;
-    private final UserDAO userDAO;
+    private final CategoryService categoryService;
+    private final SubcategoryService subcategoryService;
+    private final UserService userService;
     private final Environment env;
 
     @PostMapping
     public ResponseEntity createNewCategory(@Valid @RequestBody Category category){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userDAO.findUserByEmail(email);
-        List<Category> categoriesList = categoryDAO.getAllCategoriesByUser(user);
-        if(categoryDAO.checkIfUserHasCategoryWithTheGivenName(categoriesList, category.getNameCategory())){
+        User user = userService.findUserByEmail(email);
+        List<Category> categoriesList = categoryService.getAllCategoriesByUser(user);
+        if(categoryService.checkIfUserHasCategoryWithTheGivenName(categoriesList, category.getNameCategory())){
             throw new RecordExistsException(env.getProperty("recordExists") + " " + category.getNameCategory());
         }
         else{
-            return ResponseEntity.ok(categoryDAO.createNewCategory(category.getNameCategory(), category.isTypeCategory(), email));
+            return ResponseEntity.ok(categoryService.createNewCategory(category.getNameCategory(), category.isTypeCategory(), email));
         }
     }
 
@@ -44,13 +44,13 @@ public class CategoryRestController {
     public ResponseEntity createNewSubcategory(@PathVariable("idCategory") int idCategory,
                                                @Valid @RequestBody Subcategory subcategory){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userDAO.findUserByEmail(email);
-        List<Subcategory> subcategoriesList = subcategoryDAO.getAllSubcategoryByUser(user);
-        if(subcategoryDAO.checkIfUserHasSubcategoryWithTheGivenName(subcategoriesList, subcategory.getNameSubcategory())){
+        User user = userService.findUserByEmail(email);
+        List<Subcategory> subcategoriesList = subcategoryService.getAllSubcategoryByUser(user);
+        if(subcategoryService.checkIfUserHasSubcategoryWithTheGivenName(subcategoriesList, subcategory.getNameSubcategory())){
             throw new RecordExistsException(env.getProperty("recordExists") + " " + subcategory.getNameSubcategory());
         }
         else{
-            return ResponseEntity.ok(subcategoryDAO.createNewSubcategory(subcategory.getNameSubcategory(), idCategory));
+            return ResponseEntity.ok(subcategoryService.createNewSubcategory(subcategory.getNameSubcategory(), idCategory));
         }
     }
 }

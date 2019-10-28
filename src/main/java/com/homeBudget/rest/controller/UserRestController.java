@@ -1,9 +1,9 @@
-package com.homeBudget.rest;
+package com.homeBudget.rest.controller;
 
 import com.homeBudget.configuration.error.RecordExistsException;
 import com.homeBudget.domain.user.User;
-import com.homeBudget.domain.user.UserDAO;
-import com.homeBudget.domain.user.UserDTO;
+import com.homeBudget.domain.user.UserService;
+import com.homeBudget.rest.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -19,30 +19,30 @@ import javax.validation.Valid;
 @PropertySource("classpath:messages.properties")
 public class UserRestController {
 
-    private final UserDAO userDAO;
+    private final UserService userService;
     private final Environment env;
 
     @PostMapping
     public ResponseEntity registerUserAccount(@Valid @RequestBody User user) {
-        if (userDAO.isEmailExists(user.getEmail())) {
+        if (userService.isEmailExists(user.getEmail())) {
             throw new RecordExistsException(env.getProperty("recordExists") + " " + user.getEmail());
         } else {
-            userDAO.createUser(user.getFirstName(), user.getLastName(), user.getPassword(), user.getEmail());
-            return ResponseEntity.ok(userDAO.convertToDto(user));
+            userService.createUser(user.getFirstName(), user.getLastName(), user.getPassword(), user.getEmail());
+            return ResponseEntity.ok(userService.convertToDto(user));
         }
     }
 
     @GetMapping
     public ResponseEntity getUser(){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userDAO.findUserByEmail(email);
-        return ResponseEntity.ok(userDAO.convertToDto(user));
+        User user = userService.findUserByEmail(email);
+        return ResponseEntity.ok(userService.convertToDto(user));
     }
 
     @PatchMapping
     public ResponseEntity changingUserData(@Valid @RequestBody UserDTO userDTO){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        userDAO.changingUserData(userDTO, email);
+        userService.changingUserData(userDTO, email);
         return ResponseEntity.ok(userDTO);
     }
 }
