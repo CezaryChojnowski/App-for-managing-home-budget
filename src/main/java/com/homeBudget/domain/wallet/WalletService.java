@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class WalletDAO {
+public class WalletService {
 
     private final WalletRepository walletRepository;
     private final UserRepository userRepository;

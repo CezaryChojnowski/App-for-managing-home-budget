@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryDAO {
+public class CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;

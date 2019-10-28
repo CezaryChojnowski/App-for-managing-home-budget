@@ -1,14 +1,16 @@
 package com.homeBudget.domain.event;
 
+import com.homeBudget.domain.user.User;
 import com.homeBudget.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class EventDAO {
+public class EventService {
 
     public final EventRepository eventRepository;
     private final UserRepository userRepository;

@@ -1,7 +1,7 @@
 package com.homeBudget.configuration;
 
 import com.homeBudget.domain.user.User;
-import com.homeBudget.domain.user.UserDAO;
+import com.homeBudget.domain.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +14,7 @@ import java.util.*;
 @AllArgsConstructor
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
 
-    private final UserDAO userDAO;
+    private final UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -22,7 +22,7 @@ public class UserDetailsService implements org.springframework.security.core.use
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
-        User user = userDAO.findUserByEmail(email);
+        User user = userService.findUserByEmail(email);
         return new org.springframework.security.core.userdetails.User(user.getEmail(),
                 user.getPassword(), user.isEnabled(), accountNonExpired, credentialsNonExpired, accountNonLocked,
                 getAuthorities(user));

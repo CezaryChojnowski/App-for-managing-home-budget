@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class SubcategoryDAO {
+public class SubcategoryService {
 
     public final SubcategoryRepository subcategoryRepository;
     public final CategoryRepository categoryRepository;
