@@ -3,6 +3,7 @@ package com.homeBudget.domain.wallet;
 import com.homeBudget.configuration.error.RecordExistsException;
 import com.homeBudget.domain.user.User;
 import com.homeBudget.domain.user.UserRepository;
+import com.homeBudget.rest.dto.WalletDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -55,12 +56,14 @@ public class WalletService {
         return walletRepository.save(wallet);
     }
 
-    public Wallet addWallet(List<Wallet> walletsList, Wallet wallet, String email){
+    public WalletDTO addWallet(List<Wallet> walletsList, Wallet wallet, String email){
         if(checkIfUserHasWalletWithTheGivenName(walletsList, wallet.getName())){
             throw new RecordExistsException(env.getProperty("recordExists") + " " + wallet.getName());
         }
         else{
-            return createNewWallet(wallet.getName(), wallet.getBalance(), wallet.getFinancialGoal(), wallet.getComment(), wallet.isSavings(), email);
+            WalletDTO walletDTO = new WalletDTO(wallet);
+            createNewWallet(wallet.getName(), wallet.getBalance(), wallet.getFinancialGoal(), wallet.getComment(), wallet.isSavings(), email);
+            return walletDTO;
         }
     }
 }

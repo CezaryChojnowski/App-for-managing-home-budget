@@ -23,7 +23,7 @@ public class WalletRestController {
 
     private final WalletService walletService;
     private final UserService userService;
-    
+
     @PostMapping
     public ResponseEntity addWallet(@Valid @RequestBody Wallet wallet){
         User user = userService.getUserByAuthentication();
