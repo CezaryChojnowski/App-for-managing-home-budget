@@ -1,9 +1,6 @@
 package com.homeBudget.domain.user;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,11 +16,12 @@ import java.util.Collection;
 @AllArgsConstructor
 @Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
+@Builder
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idUser;
+    private int id;
 
     @Setter
     @NotEmpty(message = "{user.first_name.notEmpty}")
@@ -47,7 +45,7 @@ public class User implements UserDetails {
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("user{" +
-                "id=" + idUser +
+                "id=" + id +
                 ", first_name='" + firstName + '\'' +
                 ", last_name='" + lastName + '\'' +
                 ", password='" + password + '\'' +
@@ -86,47 +84,4 @@ public class User implements UserDetails {
         return true;
     }
 
-    public static final class Builder {
-        private int idUser;
-        private String firstName;
-        private String lastName;
-        private String password;
-        private String email;
-
-        public Builder idUser(int idUser) {
-            this.idUser = idUser;
-            return this;
-        }
-
-        public Builder firstName(String firstName) {
-            this.firstName = firstName;
-            return this;
-        }
-
-        public Builder lastName(String lastName) {
-            this.lastName = lastName;
-            return this;
-        }
-
-        public Builder password(String password) {
-            this.password = password;
-            return this;
-        }
-
-        public Builder email(String email) {
-            this.email = email;
-            return this;
-        }
-
-
-        public User build() {
-            User goal = new User();
-            goal.idUser = this.idUser;
-            goal.firstName = this.firstName;
-            goal.lastName = this.lastName;
-            goal.password = this.password;
-            goal.email = this.email;
-            return goal;
-        }
-    }
 }

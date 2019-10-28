@@ -23,7 +23,7 @@ public class UserService {
     }
 
     public User createUser(String firstName, String lastName, String password, String email) {
-        User user = new User.Builder()
+        User user = new User.UserBuilder()
                 .firstName(firstName)
                 .lastName(lastName)
                 .password(bCryptPasswordEncoder.encode(password))

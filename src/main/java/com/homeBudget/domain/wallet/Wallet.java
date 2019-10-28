@@ -3,10 +3,7 @@ package com.homeBudget.domain.wallet;
 
 import com.homeBudget.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -17,6 +14,7 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "wallet")
+@Builder
 public class Wallet {
 
     @Id
@@ -57,58 +55,5 @@ public class Wallet {
                 ", savings='" + savings + '\'' +
                 '}');
         return result.toString();
-    }
-
-    public static final class Builder {
-        private int idWallet;
-        private String nameWallet;
-        private String comment;
-        private float balance;
-        private float financialGoal;
-        private boolean savings;
-        private User user;
-
-        public Builder idWallet(int idWallet) {
-            this.idWallet = idWallet;
-            return this;
-        }
-
-        public Builder nameWallet(String nameWallet) {
-            this.nameWallet = nameWallet;
-            return this;
-        }
-
-        public Builder balance(float balance) {
-            this.balance = balance;
-            return this;
-        }
-        public Builder financialGoal(float financialGoal) {
-            this.financialGoal = financialGoal;
-            return this;
-        }
-        public Builder comment(String comment) {
-            this.comment = comment;
-            return this;
-        }
-        public Builder savings(boolean savings) {
-            this.savings = savings;
-            return this;
-        }
-        public Builder user(User user) {
-            this.user = user;
-            return this;
-        }
-
-        public Wallet build() {
-            Wallet wallet = new Wallet();
-            wallet.idWallet = this.idWallet;
-            wallet.nameWallet = this.nameWallet;
-            wallet.balance = this.balance;
-            wallet.user = this.user;
-            wallet.comment=this.comment;
-            wallet.savings=this.savings;
-            wallet.financialGoal=this.financialGoal;
-            return wallet;
-        }
     }
 }

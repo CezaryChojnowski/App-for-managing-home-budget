@@ -16,7 +16,7 @@ public class CategoryService {
     private final UserRepository userRepository;
 
     public Category createNewCategory(String nameCategory, boolean typeCategory, String emailUser){
-        Category category = new Category.Builder()
+        Category category = new Category.CategoryBuilder()
                 .nameCategory(nameCategory)
                 .typeCategory(typeCategory)
                 .user(userRepository.findUserByEmail(emailUser).get())

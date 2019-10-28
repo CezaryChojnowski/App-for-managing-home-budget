@@ -23,7 +23,7 @@ public class WalletService {
     }
 
     public Wallet createNewWallet(String nameWallet, float balance, float financialGoal, String comment, boolean savings, String emailUser){
-        Wallet wallet = new Wallet.Builder()
+        Wallet wallet = new Wallet.WalletBuilder()
                 .nameWallet(nameWallet)
                 .balance(balance)
                 .financialGoal(financialGoal)

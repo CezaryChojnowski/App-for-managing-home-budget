@@ -17,7 +17,7 @@ public class SubcategoryService {
     public final CategoryRepository categoryRepository;
 
     public Subcategory createNewSubcategory(String nameCategory, int idCategory){
-        Subcategory subcategory = new Subcategory.Builder()
+        Subcategory subcategory = new Subcategory.SubcategoryBuilder()
                 .nameSubcategory(nameCategory)
                 .category(categoryRepository.findCategoryByIdCategory(idCategory))
                 .build();

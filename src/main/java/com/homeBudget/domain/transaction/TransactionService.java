@@ -37,7 +37,7 @@ public class TransactionService {
     }
 
     public Transaction createNewTransaction(float amount, String comment, LocalDate dateTransaction, int id_subcategory, int id_wallet, int id_event, Long id_person){
-        Transaction transaction = new Transaction.Builder()
+        Transaction transaction = new Transaction.TransactionBuilder()
                 .amount(amount)
                 .comment(comment)
                 .dateTransaction(dateTransaction)
