@@ -1,9 +1,11 @@
 package com.homeBudget.domain.user;
 
+import com.homeBudget.configuration.error.RecordExistsException;
 import com.homeBudget.configuration.error.RecordNotFoundException;
 import com.homeBudget.rest.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
+import org.springframework.core.env.Environment;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ModelMapper modelMapper;
+    private final Environment env;
 
     public boolean isEmailExists(String email) {
         return userRepository.findUserByEmail(email).isPresent();
@@ -36,16 +38,7 @@ public class UserService {
         return userRepository.findUserByEmail(email).orElseThrow(() -> new RecordNotFoundException("user not found"));
     }
 
-    public UserDTO convertToDto(User user){
-        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-        return userDTO;
-    }
-    public UserDTO convertToDto(List<User> user){
-        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-        return userDTO;
-    }
-
-    public User changingUserData(UserDTO userDTO, String email){
+    public UserDTO changingUserData(UserDTO userDTO, String email){
         User user = userRepository.findUserByEmail(email).get();
         if(userDTO.getFirstName() == null){
             user.setLastName(userDTO.getLastName());
@@ -53,6 +46,30 @@ public class UserService {
         if(userDTO.getLastName() == null){
             user.setFirstName(userDTO.getFirstName());
         }
-        return userRepository.save(user);
+        else{
+            user.setFirstName(userDTO.getLastName());
+            user.setLastName(userDTO.getLastName());
+        }
+        userRepository.save(user);
+        return userDTO;
+    }
+
+    public UserDTO registerUserAccount(User user){
+        if (isEmailExists(user.getEmail())) {
+            throw new RecordExistsException(env.getProperty("recordExists") + " " + user.getEmail());
+        } else {
+            UserDTO userDTO = new UserDTO(user);
+            createUser(user.getFirstName(), user.getLastName(), user.getPassword(), user.getEmail());
+            return userDTO;
+        }
+    }
+
+    public User getUserByAuthentication(){
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return findUserByEmail(email);
+    }
+
+    public String getEmailByAuthentication(){
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }
