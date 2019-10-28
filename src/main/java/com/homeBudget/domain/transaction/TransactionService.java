@@ -42,7 +42,7 @@ public class TransactionService {
                 .comment(comment)
                 .dateTransaction(dateTransaction)
                 .subcategory(subcategoryRepository.findSubcategoryByIdSubcategory(id_subcategory))
-                .wallet(walletRepository.findWalletByIdWallet(id_wallet))
+                .wallet(walletRepository.findWalletById(id_wallet))
                 .event(eventRepository.findEventByIdEvent(id_event))
                 .person(personRepository.findPersonById(id_person))
                 .build();

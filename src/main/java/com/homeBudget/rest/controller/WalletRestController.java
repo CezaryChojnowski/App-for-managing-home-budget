@@ -23,20 +23,12 @@ public class WalletRestController {
 
     private final WalletService walletService;
     private final UserService userService;
-    private final Environment env;
-
-
+    
     @PostMapping
-    public ResponseEntity createNewWallet(@Valid @RequestBody Wallet wallet){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.findUserByEmail(email);
+    public ResponseEntity addWallet(@Valid @RequestBody Wallet wallet){
+        User user = userService.getUserByAuthentication();
         List<Wallet> walletsList = walletService.findAllUserWallets(user);
-        if(walletService.checkIfUserHasWalletWithTheGivenName(walletsList, wallet.getNameWallet())){
-            throw new RecordExistsException(env.getProperty("recordExists") + " " + wallet.getNameWallet());
-        }
-        else{
-            return ResponseEntity.ok(walletService.createNewWallet(wallet.getNameWallet(), wallet.getBalance(), wallet.getFinancialGoal(), wallet.getComment(), wallet.isSavings(), email));
-        }
+        return ResponseEntity.ok(walletService.addWallet(walletsList, wallet, user.getEmail()));
     }
 
     @GetMapping
@@ -49,8 +41,7 @@ public class WalletRestController {
     @PatchMapping(value = "/{idWallet}")
     public ResponseEntity changeBalance(@PathVariable("idWallet") Integer idWallet,
                                         @RequestParam("balance") float balance){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.findUserByEmail(email);
+        User user = userService.getUserByAuthentication();
         return ResponseEntity.ok(walletService.updateBalance(user, idWallet, balance));
     }
 }

@@ -19,11 +19,11 @@ public class Wallet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idWallet;
+    private int id;
 
     @Setter
     @NotEmpty(message = "{wallet.name_wallet.notEmpty}")
-    private String nameWallet;
+    private String name;
 
     @Setter
     private String comment;
@@ -48,8 +48,8 @@ public class Wallet {
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("wallet{" +
-                "id=" + idWallet +
-                ", name_wallet='" + nameWallet + '\'' +
+                "id=" + id +
+                ", name_wallet='" + name + '\'' +
                 ", comment='" + comment + '\'' +
                 ", balance=" + balance + '\'' +
                 ", savings='" + savings + '\'' +
