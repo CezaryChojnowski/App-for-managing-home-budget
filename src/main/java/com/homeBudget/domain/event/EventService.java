@@ -16,7 +16,7 @@ public class EventService {
     private final UserRepository userRepository;
 
     public Event createNewEvent(String name, LocalDate startDate, LocalDate finishDate, String emailUser){
-        Event event = new Event.Builder()
+        Event event = new Event.EventBuilder()
                 .name(name)
                 .startDate(startDate)
                 .finishDate(finishDate)
@@ -24,5 +24,9 @@ public class EventService {
                 .user(userRepository.findUserByEmail(emailUser).get())
                 .build();
         return eventRepository.save(event);
+    }
+
+    public List<Event> getAllEventsByUser(User user){
+        return eventRepository.findEventsByUser(user);
     }
 }
