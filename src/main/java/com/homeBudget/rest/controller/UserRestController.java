@@ -1,6 +1,5 @@
 package com.homeBudget.rest.controller;
 
-import com.homeBudget.configuration.error.RecordExistsException;
 import com.homeBudget.domain.user.User;
 import com.homeBudget.domain.user.UserService;
 import com.homeBudget.rest.dto.UserDTO;

@@ -2,14 +2,11 @@ package com.homeBudget.rest.controller;
 
 import com.homeBudget.domain.user.User;
 import com.homeBudget.domain.user.UserService;
-import com.homeBudget.configuration.error.RecordExistsException;
 import com.homeBudget.domain.wallet.Wallet;
 import com.homeBudget.domain.wallet.WalletService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,8 +30,7 @@ public class WalletRestController {
 
     @GetMapping
     public ResponseEntity getAllUserWalletsBySavings(@RequestParam(value = "savings") boolean savings){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.findUserByEmail(email);
+        User user = userService.getUserByAuthentication();
         return ResponseEntity.ok(walletService.findAllUserWalletsBySavings(user, savings));
     }
 
