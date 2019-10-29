@@ -83,4 +83,16 @@ class UserRestControllerSpec extends Specification {
         then:'server returns 200 code(ok)'
         response.status==200
     }
+
+    def "should return 401 code when trying to get record with given incorrect login and password"(){
+        given:
+        def restClient = new RESTClient("http://localhost:8080")
+        when:"try to get record with incorrect autorization"
+        restClient.handler.failure=restClient.handler.success
+        restClient.headers['Authorization'] = "Basic " + "temp1@gmail.com:qwerty123".bytes.encodeBase64()
+        def response = restClient.get(
+                path: '/users')
+        then:'server returns 401 code(Unauthorized)'
+        response.status==401
+    }
 }
