@@ -5,7 +5,6 @@ import spock.lang.Specification
 
 
 class UserRestControllerSpec extends Specification {
-    def restClient = new RESTClient("http://localhost:8080")
 
 //    def 'should return #result code (created) when trying to save record with all required fields'() {
 //        when: 'try to save record with all required fields'
@@ -43,6 +42,8 @@ class UserRestControllerSpec extends Specification {
 //        'temp3'      | 'temp3'     | '$2a$10$kzpD8VZM1cn5Dlmsy1Uw..eOa34VghnWkiwcjrSXlfoVxAQezGjYu' | 'temp3@gmail.com' || 409
 //    }
 //
+
+    def restClient = new RESTClient("http://localhost:8080")
     def "should return suitable code when trying to save record"() {
         given:
         when: 'try to save record'
@@ -70,5 +71,16 @@ class UserRestControllerSpec extends Specification {
         'temp3'      | 'temp3'     | '$2a$10$kzpD8VZM1cn5Dlmsy1Uw..eOa34VghnWkiwcjrSXlfoVxAQezGjYu' | 'temp3gmail.com'  || 400
         'temp3'      | 'temp3'     | '$2a$10$kzpD8VZM1cn5Dlmsy1Uw..eOa34VghnWkiwcjrSXlfoVxAQezGjYu' | 'temp3.gmail.com' || 400
         'temp3'      | 'temp3'     | '$2a$10$kzpD8VZM1cn5Dlmsy1Uw..eOa34VghnWkiwcjrSXlfoVxAQezGjYu' | 'temp3'           || 400
+    }
+
+    def "should return 200 code when trying to get record with given correct login and password"(){
+        given:
+        when:"try to get record with correct autorization"
+        restClient.handler.failure=restClient.handler.success
+        restClient.headers['Authorization'] = "Basic " + "temp1@gmail.com:qwerty".bytes.encodeBase64()
+        def response = restClient.get(
+                path: '/users')
+        then:'server returns 200 code(ok)'
+        response.status==200
     }
 }
