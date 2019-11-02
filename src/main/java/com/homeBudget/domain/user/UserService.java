@@ -35,29 +35,28 @@ public class UserService {
         return userRepository.findUserByEmail(email).orElseThrow(() -> new RecordNotFoundException("user not found"));
     }
 
-    public UserDTO changingUserData(UserDTO userDTO, String email){
+    public UserDTO changingUserData(String firstName, String lastName, String email){
         User user = userRepository.findUserByEmail(email).get();
-        if(userDTO.getFirstName() == null){
-            user.setLastName(userDTO.getLastName());
+        if(firstName.isEmpty()){
+            user.setLastName(lastName);
         }
-        if(userDTO.getLastName() == null){
-            user.setFirstName(userDTO.getFirstName());
+        if(lastName.isEmpty()){
+            user.setFirstName(firstName);
         }
         else{
-            user.setFirstName(userDTO.getLastName());
-            user.setLastName(userDTO.getLastName());
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
         }
         userRepository.save(user);
-        return userDTO;
+        return new UserDTO(user);
     }
 
     public UserDTO registerUserAccount(User user){
         if (isEmailExists(user.getEmail())) {
             throw new RecordExistsException(env.getProperty("recordExists") + " " + user.getEmail());
         } else {
-            UserDTO userDTO = new UserDTO(user);
             createUser(user.getFirstName(), user.getLastName(), user.getPassword(), user.getEmail());
-            return userDTO;
+            return new UserDTO(user);
         }
     }
 
