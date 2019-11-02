@@ -20,5 +20,4 @@ public class ErrorValidatingResponse {
     private String message;
     private List<String> details;
     private int status;
-
 }

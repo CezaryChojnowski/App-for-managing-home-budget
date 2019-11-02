@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+
 @SuppressWarnings({"unchecked","rawtypes"})
 @ControllerAdvice
 @PropertySource("classpath:messages.properties")
@@ -37,6 +40,20 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         }
         ErrorValidatingResponse error = new ErrorValidatingResponse(validationFailed , details, HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ ConstraintViolationException.class })
+    public ResponseEntity handleConstraintViolation(
+            ConstraintViolationException ex, WebRequest request) {
+        List<String> errors = new ArrayList<>();
+        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
+            errors.add(violation.getRootBeanClass().getName() + " " +
+                    violation.getPropertyPath() + ": " + violation.getMessage());
+        }
+        ApiError apiError =
+                new ApiError(validationFailed ,ex.getLocalizedMessage(), HttpStatus.BAD_REQUEST.value());
+
+        return new ResponseEntity<Object>(apiError, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RecordNotFoundException.class)
