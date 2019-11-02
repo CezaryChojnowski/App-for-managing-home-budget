@@ -44,16 +44,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({ ConstraintViolationException.class })
     public ResponseEntity handleConstraintViolation(
-            ConstraintViolationException ex, WebRequest request) {
-        List<String> errors = new ArrayList<>();
-        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
-            errors.add(violation.getRootBeanClass().getName() + " " +
-                    violation.getPropertyPath() + ": " + violation.getMessage());
+            ConstraintViolationException ex) {
+        List<String> details = new ArrayList<>();
+        for (ConstraintViolation<?> error : ex.getConstraintViolations()) {
+            details.add(error.getMessage());
         }
-        ApiError apiError =
-                new ApiError(validationFailed ,ex.getLocalizedMessage(), HttpStatus.BAD_REQUEST.value());
-
-        return new ResponseEntity<Object>(apiError, HttpStatus.BAD_REQUEST);
+        ConstraintViolationResponse constraintViolationResponse =
+                new ConstraintViolationResponse(validationFailed ,details, HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<Object>(constraintViolationResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RecordNotFoundException.class)
