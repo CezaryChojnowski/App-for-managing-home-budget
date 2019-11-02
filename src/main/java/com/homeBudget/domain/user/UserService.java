@@ -68,4 +68,15 @@ public class UserService {
     public String getEmailByAuthentication(){
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
+
+    public UserDTO changingEmail(String newEmail, String currentEmail){
+        User user = findUserByEmail(currentEmail);
+        user.setEmail(newEmail);
+        if (isEmailExists(user.getEmail())) {
+            throw new RecordExistsException(env.getProperty("recordExists") + " " + user.getEmail());
+        } else {
+        userRepository.save(user);
+        return new UserDTO(user);
+        }
+    }
 }
