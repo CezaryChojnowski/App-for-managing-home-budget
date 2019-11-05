@@ -5,6 +5,8 @@ import com.homeBudget.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @Builder
 @Entity
@@ -19,15 +21,20 @@ public class Person {
     private Long id;
 
     @Setter
+    @NotEmpty(message = "{user.firstName.notEmpty}")
     private String firstName;
 
     @Setter
+    @NotEmpty(message = "{user.firstName.notEmpty}")
     private String lastName;
 
     @Setter
+    @NotEmpty(message = "{user.email.notEmpty}")
+    @Email(message = "{user.email.Email}")
     private String email;
 
     @Setter
+    @NotEmpty(message = "{person.phoneNumber.notEmpty}")
     private String phoneNumber;
 
     @Setter

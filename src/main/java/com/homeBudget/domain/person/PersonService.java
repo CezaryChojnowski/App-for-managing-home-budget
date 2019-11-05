@@ -2,6 +2,7 @@ package com.homeBudget.domain.person;
 
 import com.homeBudget.domain.user.User;
 import com.homeBudget.domain.user.UserRepository;
+import com.homeBudget.rest.dto.PersonDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ public class PersonService {
     public final PersonRepository personRepository;
     public final UserRepository userRepository;
 
-    public Person createPerson(String firstName, String lastName, String personEmail, String phoneNumber, String userEmail){
+    public PersonDTO createPerson(String firstName, String lastName, String personEmail, String phoneNumber, String userEmail){
         Person person = new Person.PersonBuilder()
                 .firstName(firstName)
                 .lastName(lastName)
@@ -21,10 +22,11 @@ public class PersonService {
                 .phoneNumber(phoneNumber)
                 .user(userRepository.findUserByEmail(userEmail).get())
                 .build();
-        return person;
+        personRepository.save(person);
+        return new PersonDTO(person);
     }
 
-    public List<Person> findPersonsByUser(User user){
+    public List<Person> getPersons(User user){
         return personRepository.findAllByUser(user);
     }
 }
