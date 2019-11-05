@@ -43,4 +43,11 @@ public class CategoryRestController {
         List<Subcategory> subcategoriesList = subcategoryService.getAllSubcategoryByUser(user);
         return ResponseEntity.ok(subcategoryService.addSubcategory(subcategoriesList, subcategory, idCategory));
     }
+
+    @GetMapping
+    public ResponseEntity getUserCategories(){
+        User user = userService.getUserByAuthentication();
+        List<Category> categoryList = categoryService.getAllCategoriesByUser(user);
+        return ResponseEntity.ok(categoryList);
+    }
 }
