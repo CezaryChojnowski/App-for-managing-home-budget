@@ -37,16 +37,16 @@ public class Person {
     @JsonIgnore
     private User user;
 
-//    @Override
-//    public String toString() {
-//        StringBuilder result = new StringBuilder();
-//        result.append("person{" +
-//                "idPerson=" + id +
-//                ", firstName='" + firstName + '\'' +
-//                ", lastName='" + lastName + '\'' +
-//                ", email='" + email + '\'' +
-//                ", phoneNumber='" + phoneNumber + '\'' +
-//                '}');
-//        return result.toString();
-//    }
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("event{" +
+                "idEvent=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}');
+        return result.toString();
+    }
 }

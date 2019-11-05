@@ -20,7 +20,7 @@ public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idTransaction;
+    private int id;
 
     @Setter
     private String comment;
@@ -30,7 +30,7 @@ public class Transaction {
 
     @Setter
     @Column(name = "date_transaction", columnDefinition = "DATE")
-    private LocalDate dateTransaction;
+    private LocalDate date;
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
@@ -60,10 +60,10 @@ public class Transaction {
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("transaction{" +
-                "idTransaction=" + idTransaction +
+                "idTransaction=" + id +
                 ", comment='" + comment + '\'' +
                 ", amount='" + amount + '\'' +
-                ", dateTransaction='" + dateTransaction + '\'' +
+                ", dateTransaction='" + date + '\'' +
                 '}');
         return result.toString();
     }

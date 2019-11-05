@@ -34,7 +34,7 @@ public class SubcategoryRestController {
                                                @RequestParam(value = "idEvent", required = false) int idEvent,
                                                @RequestParam(value = "idPerson", required = false) Long idPerson,
                                                @Valid @RequestBody Transaction transaction){
-        return ResponseEntity.ok(transactionService.createNewTransaction(transaction.getAmount(),transaction.getComment(),transaction.getDateTransaction(), idSubcategory, idWallet, idEvent, idPerson));
+        return ResponseEntity.ok(transactionService.createNewTransaction(transaction.getAmount(),transaction.getComment(),transaction.getDate(), idSubcategory, idWallet, idEvent, idPerson));
     }
 
 }

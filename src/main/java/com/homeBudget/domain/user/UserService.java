@@ -37,10 +37,10 @@ public class UserService {
 
     public UserDTO changingUserData(String firstName, String lastName, String email){
         User user = userRepository.findUserByEmail(email).get();
-        if(firstName.isEmpty()){
+        if(firstName.equals(" ")){
             user.setLastName(lastName);
         }
-        if(lastName.isEmpty()){
+        if(lastName.equals(" ")){
             user.setFirstName(firstName);
         }
         else{

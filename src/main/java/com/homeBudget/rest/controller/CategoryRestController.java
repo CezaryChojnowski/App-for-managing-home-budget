@@ -31,11 +31,11 @@ public class CategoryRestController {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findUserByEmail(email);
         List<Category> categoriesList = categoryService.getAllCategoriesByUser(user);
-        if(categoryService.checkIfUserHasCategoryWithTheGivenName(categoriesList, category.getNameCategory())){
-            throw new RecordExistsException(env.getProperty("recordExists") + " " + category.getNameCategory());
+        if(categoryService.checkIfUserHasCategoryWithTheGivenName(categoriesList, category.getName())){
+            throw new RecordExistsException(env.getProperty("recordExists") + " " + category.getName());
         }
         else{
-            return ResponseEntity.ok(categoryService.createNewCategory(category.getNameCategory(), category.isTypeCategory(), email));
+            return ResponseEntity.ok(categoryService.createNewCategory(category.getName(), category.isCredits(), email));
         }
     }
 
@@ -46,11 +46,11 @@ public class CategoryRestController {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findUserByEmail(email);
         List<Subcategory> subcategoriesList = subcategoryService.getAllSubcategoryByUser(user);
-        if(subcategoryService.checkIfUserHasSubcategoryWithTheGivenName(subcategoriesList, subcategory.getNameSubcategory())){
-            throw new RecordExistsException(env.getProperty("recordExists") + " " + subcategory.getNameSubcategory());
+        if(subcategoryService.checkIfUserHasSubcategoryWithTheGivenName(subcategoriesList, subcategory.getName())){
+            throw new RecordExistsException(env.getProperty("recordExists") + " " + subcategory.getName());
         }
         else{
-            return ResponseEntity.ok(subcategoryService.createNewSubcategory(subcategory.getNameSubcategory(), idCategory));
+            return ResponseEntity.ok(subcategoryService.createNewSubcategory(subcategory.getName(), idCategory));
         }
     }
 }

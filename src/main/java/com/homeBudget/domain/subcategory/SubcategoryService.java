@@ -18,8 +18,8 @@ public class SubcategoryService {
 
     public Subcategory createNewSubcategory(String nameCategory, int idCategory){
         Subcategory subcategory = new Subcategory.SubcategoryBuilder()
-                .nameSubcategory(nameCategory)
-                .category(categoryRepository.findCategoryByIdCategory(idCategory))
+                .name(nameCategory)
+                .category(categoryRepository.findCategoryById(idCategory))
                 .build();
         return subcategoryRepository.save(subcategory);
     }
@@ -34,7 +34,7 @@ public class SubcategoryService {
     }
 
     public boolean checkIfUserHasSubcategoryWithTheGivenName(List<Subcategory> userSubCategories, String newSubcategoryName){
-        return userSubCategories.stream().anyMatch(o -> o.getNameSubcategory().equals(newSubcategoryName));
+        return userSubCategories.stream().anyMatch(o -> o.getName().equals(newSubcategoryName));
     }
 
 }

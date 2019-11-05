@@ -17,7 +17,7 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idEvent;
+    private int id;
 
     @Setter
     private String name;
@@ -43,7 +43,7 @@ public class Event {
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("event{" +
-                "idEvent=" + idEvent +
+                "idEvent=" + id +
                 ", nameEvent='" + name + '\'' +
                 ", startDate='" + startDate + '\'' +
                 ", finishDate='" + finishDate + '\'' +

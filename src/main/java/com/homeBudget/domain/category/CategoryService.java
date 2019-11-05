@@ -17,8 +17,8 @@ public class CategoryService {
 
     public Category createNewCategory(String nameCategory, boolean typeCategory, String emailUser){
         Category category = new Category.CategoryBuilder()
-                .nameCategory(nameCategory)
-                .typeCategory(typeCategory)
+                .name(nameCategory)
+                .credits(typeCategory)
                 .user(userRepository.findUserByEmail(emailUser).get())
                 .build();
         return categoryRepository.save(category);
@@ -29,6 +29,6 @@ public class CategoryService {
     }
 
     public boolean checkIfUserHasCategoryWithTheGivenName(List<Category> userCategories, String newCategoryName){
-        return userCategories.stream().anyMatch(o -> o.getNameCategory().equals(newCategoryName));
+        return userCategories.stream().anyMatch(o -> o.getName().equals(newCategoryName));
     }
 }

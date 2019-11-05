@@ -40,10 +40,10 @@ public class TransactionService {
         Transaction transaction = new Transaction.TransactionBuilder()
                 .amount(amount)
                 .comment(comment)
-                .dateTransaction(dateTransaction)
-                .subcategory(subcategoryRepository.findSubcategoryByIdSubcategory(id_subcategory))
+                .date(dateTransaction)
+                .subcategory(subcategoryRepository.findSubcategoryById(id_subcategory))
                 .wallet(walletRepository.findWalletById(id_wallet))
-                .event(eventRepository.findEventByIdEvent(id_event))
+                .event(eventRepository.findEventById(id_event))
                 .person(personRepository.findPersonById(id_person))
                 .build();
         return transactionRepository.save(transaction);
@@ -51,7 +51,7 @@ public class TransactionService {
 
     public List<Transaction> findAllTransactionsByDate(LocalDate startDate, LocalDate finishDate, User user){
         List<Transaction> transactions = findAllTransactionByUser(user);
-        List<Transaction> transactionsByDate = transactionRepository.findTransactionsByDateTransactionBetween(startDate, finishDate);
+        List<Transaction> transactionsByDate = transactionRepository.findTransactionsByDateBetween(startDate, finishDate);
         transactions.retainAll(transactionsByDate);
         return transactions;
     }

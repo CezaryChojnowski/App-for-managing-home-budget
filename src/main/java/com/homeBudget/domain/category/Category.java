@@ -16,13 +16,13 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idCategory;
+    private int id;
 
     @Setter
-    private String nameCategory;
+    private String name;
 
     @Setter
-    private boolean typeCategory;
+    private boolean credits;
 
     @Setter
     @ManyToOne(cascade=CascadeType.MERGE, fetch = FetchType.LAZY)
@@ -34,9 +34,9 @@ public class Category {
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("category{" +
-                "idCategory=" + idCategory +
-                ", nameCategory='" + nameCategory + '\'' +
-                ", typeCategory=" + typeCategory +
+                "idCategory=" + id +
+                ", nameCategory='" + name + '\'' +
+                ", typeCategory=" + credits +
                 '}');
         return result.toString();
     }

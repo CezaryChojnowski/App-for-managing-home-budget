@@ -16,10 +16,10 @@ public class Subcategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idSubcategory;
+    private int id;
 
     @Setter
-    private String nameSubcategory;
+    private String name;
 
     @Setter
     @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.LAZY)
@@ -31,8 +31,8 @@ public class Subcategory {
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("subcategory{" +
-                "idSubcategory=" + idSubcategory +
-                ", nameSubcategory='" + nameSubcategory + '\'' +
+                "idSubcategory=" + id +
+                ", nameSubcategory='" + name + '\'' +
                 '}');
         return result.toString();
     }

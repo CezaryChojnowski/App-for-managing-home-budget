@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,8 +34,9 @@ public class UserRestController {
     }
 
     @PatchMapping
-    public ResponseEntity changingUserData(@NotEmpty(message = "{firstName.message.empty}") @RequestParam String firstName,
-                                           @NotEmpty(message = "{lastName.message.empty}") @RequestParam String lastName){
+
+    public ResponseEntity changingUserData(@NotNull(message = "{firstName.message.empty}") @RequestParam(defaultValue = " ") String firstName,
+                                           @NotNull(message = "{lastName.message.empty}") @RequestParam(defaultValue = " ") String lastName){
         return ResponseEntity.ok(userService.changingUserData(firstName, lastName, userService.getEmailByAuthentication()));
     }
 
