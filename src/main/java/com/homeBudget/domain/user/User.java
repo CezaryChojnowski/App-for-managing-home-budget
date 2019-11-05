@@ -1,12 +1,12 @@
 package com.homeBudget.domain.user;
 
+import com.homeBudget.configuration.validator.ValidEmail;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 
@@ -34,11 +34,12 @@ public class User implements UserDetails {
     @Setter
     @Column(name = "pass")
     @NotEmpty(message = "{user.password.notEmpty}")
+//    @ValidPassword
     private String password;
 
     @Setter
     @NotEmpty(message = "{user.email.notEmpty}")
-    @Email(message = "{user.email.Email}")
+    @ValidEmail
     private String email;
 
     @Override

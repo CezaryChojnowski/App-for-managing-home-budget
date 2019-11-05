@@ -1,11 +1,12 @@
 package com.homeBudget.domain.person;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.homeBudget.configuration.validator.ValidEmail;
+import com.homeBudget.configuration.validator.ValidPhoneNumber;
 import com.homeBudget.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 @Builder
@@ -30,11 +31,12 @@ public class Person {
 
     @Setter
     @NotEmpty(message = "{user.email.notEmpty}")
-    @Email(message = "{user.email.Email}")
+    @ValidEmail
     private String email;
 
     @Setter
     @NotEmpty(message = "{person.phoneNumber.notEmpty}")
+    @ValidPhoneNumber
     private String phoneNumber;
 
     @Setter
