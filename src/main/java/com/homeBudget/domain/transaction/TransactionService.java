@@ -8,6 +8,7 @@ import com.homeBudget.domain.subcategory.SubcategoryRepository;
 import com.homeBudget.domain.user.User;
 import com.homeBudget.domain.user.UserRepository;
 import com.homeBudget.domain.wallet.WalletRepository;
+import com.homeBudget.rest.dto.TransactionDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,7 @@ public class TransactionService {
         return transactions;
     }
 
-    public Transaction createNewTransaction(float amount, String comment, LocalDate dateTransaction, int id_subcategory, int id_wallet, int id_event, Long id_person){
+    public TransactionDTO createNewTransaction(float amount, String comment, LocalDate dateTransaction, int id_subcategory, int id_wallet, Long id_event, Long id_person){
         Transaction transaction = new Transaction.TransactionBuilder()
                 .amount(amount)
                 .comment(comment)
@@ -46,7 +47,8 @@ public class TransactionService {
                 .event(eventRepository.findEventById(id_event))
                 .person(personRepository.findPersonById(id_person))
                 .build();
-        return transactionRepository.save(transaction);
+        transactionRepository.save(transaction);
+        return new TransactionDTO(transaction);
     }
 
     public List<Transaction> findAllTransactionsByDate(LocalDate startDate, LocalDate finishDate, User user){

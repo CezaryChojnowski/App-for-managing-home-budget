@@ -8,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -26,10 +29,13 @@ public class Transaction {
     private String comment;
 
     @Setter
+    @NotNull(message = "{transaction.amount.notEmpty}")
+    @Min(message = "{transaction.amount.min}", value = 0)
     private float amount;
 
     @Setter
     @Column(name = "date_transaction", columnDefinition = "DATE")
+    @NotNull(message = "{transaction.date.notEmpty}")
     private LocalDate date;
 
     @Setter

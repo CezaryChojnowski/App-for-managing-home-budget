@@ -31,7 +31,7 @@ public class SubcategoryRestController {
     @PostMapping("{idSubcategory}/transactions")
     public ResponseEntity createNewTransaction(@PathVariable("idSubcategory") int idSubcategory,
                                                @RequestParam(value = "idWallet") int idWallet,
-                                               @RequestParam(value = "idEvent", required = false) int idEvent,
+                                               @RequestParam(value = "idEvent", required = false) Long idEvent,
                                                @RequestParam(value = "idPerson", required = false) Long idPerson,
                                                @Valid @RequestBody Transaction transaction){
         return ResponseEntity.ok(transactionService.createNewTransaction(transaction.getAmount(),transaction.getComment(),transaction.getDate(), idSubcategory, idWallet, idEvent, idPerson));
