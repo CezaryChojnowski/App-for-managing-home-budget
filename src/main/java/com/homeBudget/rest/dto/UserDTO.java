@@ -6,7 +6,6 @@ import lombok.*;
 
 @Value
 @Data
-@RequiredArgsConstructor
 public class UserDTO {
     private String firstName;
     private String lastName;

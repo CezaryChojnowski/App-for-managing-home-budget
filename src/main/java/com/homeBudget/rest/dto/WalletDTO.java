@@ -2,12 +2,10 @@ package com.homeBudget.rest.dto;
 
 import com.homeBudget.domain.wallet.Wallet;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 @Value
 @Data
-@RequiredArgsConstructor
 public class WalletDTO {
     private String name;
     private boolean savings;
