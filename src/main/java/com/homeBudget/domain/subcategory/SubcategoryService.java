@@ -1,9 +1,13 @@
 package com.homeBudget.domain.subcategory;
 
+import com.homeBudget.configuration.error.RecordExistsException;
 import com.homeBudget.domain.category.Category;
 import com.homeBudget.domain.category.CategoryRepository;
 import com.homeBudget.domain.user.User;
+import com.homeBudget.rest.dto.SubcategoryDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +19,7 @@ public class SubcategoryService {
 
     public final SubcategoryRepository subcategoryRepository;
     public final CategoryRepository categoryRepository;
+    private final Environment env;
 
     public Subcategory createNewSubcategory(String nameCategory, int idCategory){
         Subcategory subcategory = new Subcategory.SubcategoryBuilder()
@@ -35,6 +40,16 @@ public class SubcategoryService {
 
     public boolean checkIfUserHasSubcategoryWithTheGivenName(List<Subcategory> userSubCategories, String newSubcategoryName){
         return userSubCategories.stream().anyMatch(o -> o.getName().equals(newSubcategoryName));
+    }
+
+    public SubcategoryDTO addSubcategory(List<Subcategory> subcategoriesList, Subcategory subcategory, int id){
+        if(checkIfUserHasSubcategoryWithTheGivenName(subcategoriesList, subcategory.getName())){
+            throw new RecordExistsException(env.getProperty("recordExists") + " " + subcategory.getName());
+        }
+        else{
+            createNewSubcategory(subcategory.getName(), id);
+            return new SubcategoryDTO(subcategory);
+        }
     }
 
 }

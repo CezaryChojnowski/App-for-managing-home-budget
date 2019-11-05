@@ -24,19 +24,14 @@ public class CategoryRestController {
     private final CategoryService categoryService;
     private final SubcategoryService subcategoryService;
     private final UserService userService;
-    private final Environment env;
+
 
     @PostMapping
     public ResponseEntity createNewCategory(@Valid @RequestBody Category category){
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findUserByEmail(email);
         List<Category> categoriesList = categoryService.getAllCategoriesByUser(user);
-        if(categoryService.checkIfUserHasCategoryWithTheGivenName(categoriesList, category.getName())){
-            throw new RecordExistsException(env.getProperty("recordExists") + " " + category.getName());
-        }
-        else{
-            return ResponseEntity.ok(categoryService.createNewCategory(category.getName(), category.isCredits(), email));
-        }
+        return ResponseEntity.ok(categoryService.addCategory(categoriesList, category, userService.getEmailByAuthentication()));
     }
 
     @RequestMapping("{idCategory}/subcategories")
@@ -46,11 +41,6 @@ public class CategoryRestController {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findUserByEmail(email);
         List<Subcategory> subcategoriesList = subcategoryService.getAllSubcategoryByUser(user);
-        if(subcategoryService.checkIfUserHasSubcategoryWithTheGivenName(subcategoriesList, subcategory.getName())){
-            throw new RecordExistsException(env.getProperty("recordExists") + " " + subcategory.getName());
-        }
-        else{
-            return ResponseEntity.ok(subcategoryService.createNewSubcategory(subcategory.getName(), idCategory));
-        }
+        return ResponseEntity.ok(subcategoryService.addSubcategory(subcategoriesList, subcategory, idCategory));
     }
 }

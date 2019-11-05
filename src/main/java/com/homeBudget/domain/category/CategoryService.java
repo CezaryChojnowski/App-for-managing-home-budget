@@ -1,8 +1,12 @@
 package com.homeBudget.domain.category;
 
+import com.homeBudget.configuration.error.RecordExistsException;
 import com.homeBudget.domain.user.User;
 import com.homeBudget.domain.user.UserRepository;
+import com.homeBudget.rest.dto.CategoryDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +18,7 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private final Environment env;
 
     public Category createNewCategory(String nameCategory, boolean typeCategory, String emailUser){
         Category category = new Category.CategoryBuilder()
@@ -31,4 +36,15 @@ public class CategoryService {
     public boolean checkIfUserHasCategoryWithTheGivenName(List<Category> userCategories, String newCategoryName){
         return userCategories.stream().anyMatch(o -> o.getName().equals(newCategoryName));
     }
+
+    public CategoryDTO addCategory(List<Category> categoriesList, Category category, String email){
+        if(checkIfUserHasCategoryWithTheGivenName(categoriesList, category.getName())){
+            throw new RecordExistsException(env.getProperty("recordExists") + " " + category.getName());
+        }
+        else{
+            createNewCategory(category.getName(), category.isCredits(), email);
+            return new CategoryDTO(category);
+        }
+    }
+
 }
