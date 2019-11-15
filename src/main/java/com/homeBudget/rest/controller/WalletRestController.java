@@ -21,9 +21,11 @@ public class WalletRestController {
     private final WalletService walletService;
     private final UserService userService;
 
+    @CrossOrigin("http://localhost:3001")
     @PostMapping
     public ResponseEntity addWallet(@Valid @RequestBody Wallet wallet){
-        User user = userService.getUserByAuthentication();
+//        User user = userService.getUserByAuthentication();
+        User user = userService.findUserByEmail("temp1@gmail.com");
         List<Wallet> walletsList = walletService.findAllUserWallets(user);
         return ResponseEntity.ok(walletService.addWallet(walletsList, wallet, user.getEmail()));
     }
