@@ -31,6 +31,16 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User createUser2(String firstName, String lastName, String password, String email) {
+        User user = new User.UserBuilder()
+                .firstName(firstName)
+                .lastName(lastName)
+                .password(bCryptPasswordEncoder.encode(password))
+                .email(email)
+                .build();
+        return userRepository.save(user);
+    }
+
     public User findUserByEmail(String email) {
         return userRepository.findUserByEmail(email).orElseThrow(() -> new RecordNotFoundException("user not found"));
     }

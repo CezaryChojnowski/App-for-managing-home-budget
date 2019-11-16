@@ -66,7 +66,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
                 http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-    
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder builder) throws Exception {
         builder

@@ -39,7 +39,7 @@ public class User implements UserDetails {
 
     @Setter
     @NotEmpty(message = "{user.email.notEmpty}")
-    @ValidEmail
+//    @ValidEmail
     private String email;
 
     @Override

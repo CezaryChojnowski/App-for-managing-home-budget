@@ -64,5 +64,5 @@ public class JwtTokenProvider {
         String id = (String)claims.get("id");
         return Integer.parseInt(id);
     }
-    
+
 }
