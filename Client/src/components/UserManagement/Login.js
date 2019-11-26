@@ -64,7 +64,6 @@ class Login extends Component {
                     placeholder="Email Address"
                     name="email"
                     value={this.state.email}
-                    //value={"temp1@gmail.com"}
                     onChange={this.onChange}
                   />
                   {errors.email && (
@@ -80,7 +79,6 @@ class Login extends Component {
                     placeholder="Password"
                     name="password"
                     value={this.state.password}
-                    // value={"qwerty"}
                     onChange={this.onChange}
                   />
                   {errors.password && (
