@@ -1,7 +1,11 @@
 export const GET_ERRORS = "GET_ERRORS";
+
 export const GET_WALLETS = "GET_WALLETS";
 export const GET_WALLET = "GET_WALLET";
 export const DELETE_WALLET = "DELETE_WALLET";
+
+export const GET_CATEGORIES = "GET_CATEGORIES";
+export const GET_CATEGORY = "GET_CATEGORY";
 
 export const GET_BACKLOG = "GET_BACKLOG";
 export const GET_WALLET_TRANSACTION = "GET_WALLET_TRANSACTION";
