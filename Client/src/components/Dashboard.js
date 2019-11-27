@@ -1,16 +1,22 @@
 import React, { Component } from "react";
-import WalletItem from "./Wallet/WalletItem";
-import CreateWalletItem from "./Wallet/CreateWalletButton";
-import { connect } from "react-redux";
-import { getWallets } from "../actions/walletActions";
-import PropTypes from "prop-types";
-import CreateWalletButton from "./Wallet/CreateWalletButton";
-import MovingToWalletsButton from "./Wallet/MovingToWalletsButton";
+import GoToWalletsButton from "./Wallet/GoToWalletsButton";
+import GoToCategoriesButton from "./Category/GoToCategoriesButton";
+import GoToSubcategoriesButton from "./Subcategory/GoToSubcategoriesButton";
+import GoToPersonsButton from "./Person/GoToPersonsButton";
+import GoToTransactionsButton from "./Transaction/GoToTransactionsButton";
+import GoToEventsButton from "./Event/GoToEventsButton";
 
 class Dashboard extends Component {
   render(){
     return(
-      <MovingToWalletsButton/>
+      <>
+      <GoToWalletsButton/>
+      <GoToCategoriesButton/>
+      <GoToSubcategoriesButton/>
+      <GoToPersonsButton/>
+      <GoToEventsButton/>
+      <GoToTransactionsButton/>
+      </>
     )
   }
 }
