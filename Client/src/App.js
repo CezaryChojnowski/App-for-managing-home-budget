@@ -17,6 +17,7 @@ import { logout } from "./actions/securityActions";
 import SecuredRoute from "./securityUtils/SecureRoute";
 import GetWallets from "./components/Wallet/GetWallets";
 import GetCategories from "./components/Category/GetCategories";
+import UpdateBalance from "./components/Wallet/UpdateBalance"
 
 const jwtToken = localStorage.jwtToken;
 
@@ -54,6 +55,7 @@ class App extends Component {
               //Private Routes
             }
             <Switch>
+              <SecuredRoute exact path="/updateBalance" component={UpdateBalance}/>
               <SecuredRoute exact path="/getCategories" component={GetCategories}/>
               <SecuredRoute exact path="/getWallets" component={GetWallets}/>
               <SecuredRoute exact path="/dashboard" component={Dashboard} />
