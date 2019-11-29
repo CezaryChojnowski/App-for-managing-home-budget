@@ -3,11 +3,14 @@ package com.homeBudget.domain.person;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.homeBudget.configuration.validator.ValidEmail;
 import com.homeBudget.configuration.validator.ValidPhoneNumber;
+import com.homeBudget.domain.transaction.Transaction;
 import com.homeBudget.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Entity
@@ -44,6 +47,9 @@ public class Person {
     @JoinColumn(name="id_user")
     @JsonIgnore
     private User user;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "person")
+    private List<Transaction> transactions = new ArrayList<>();
 
     @Override
     public String toString() {

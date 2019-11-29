@@ -1,11 +1,14 @@
 package com.homeBudget.domain.event;
 
+import com.homeBudget.domain.transaction.Transaction;
 import com.homeBudget.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -38,6 +41,9 @@ public class Event {
     @JoinColumn(name="id_user")
     @JsonIgnore
     private User user;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "event")
+    private List<Transaction> transactions = new ArrayList<>();
 
     @Override
     public String toString() {

@@ -1,6 +1,7 @@
 package com.homeBudget.domain.wallet;
 
 
+import com.homeBudget.domain.transaction.Transaction;
 import com.homeBudget.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -8,6 +9,8 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -39,10 +42,13 @@ public class Wallet {
     private boolean savings;
 
     @Setter
-    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = User.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
     @JoinColumn(name="id_user")
     @JsonIgnore
     private User user;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "wallet")
+    private List<Transaction> transactions = new ArrayList<>();
 
     @Override
     public String toString() {

@@ -1,10 +1,13 @@
 package com.homeBudget.domain.category;
 
+import com.homeBudget.domain.subcategory.Subcategory;
 import com.homeBudget.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,10 +28,13 @@ public class Category {
     private boolean credits;
 
     @Setter
-    @ManyToOne(cascade=CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_user")
     @JsonIgnore
     private User user;
+
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "category")
+    private List<Subcategory> subcategories = new ArrayList<>();
 
     @Override
     public String toString() {
@@ -37,6 +43,7 @@ public class Category {
                 "idCategory=" + id +
                 ", nameCategory='" + name + '\'' +
                 ", typeCategory=" + credits +
+                ", sucategories=" + subcategories +
                 '}');
         return result.toString();
     }

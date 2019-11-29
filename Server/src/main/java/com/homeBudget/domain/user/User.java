@@ -1,6 +1,7 @@
 package com.homeBudget.domain.user;
 
-import com.homeBudget.configuration.validator.ValidEmail;
+import com.homeBudget.domain.category.Category;
+import com.homeBudget.domain.wallet.Wallet;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,7 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,7 +24,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Setter
     @NotEmpty(message = "{user.first_name.notEmpty}")
@@ -41,6 +44,13 @@ public class User implements UserDetails {
     @NotEmpty(message = "{user.email.notEmpty}")
 //    @ValidEmail
     private String email;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    private List<Wallet> wallets = new ArrayList<>();
+
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Category> categories = new ArrayList<>();
+
 
     @Override
     public String toString() {
@@ -62,7 +72,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return email;
     }
 
     @Override
