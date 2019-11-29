@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_ERRORS, GET_WALLETS, GET_WALLET } from "./types";
+import { GET_ERRORS, GET_WALLETS, GET_WALLET, DELETE_WALLET } from "./types";
 
 export const createWallet = (wallet, history) => async dispatch => {
   try {
@@ -19,6 +19,16 @@ export const getWallets = () => async dispatch => {
     type: GET_WALLETS,
     payload: res.data
   });
+};
+
+export const deleteWallet = id => async dispatch => {
+   {
+    await axios.delete(`http://localhost:8080/wallets/${id}`);
+    dispatch({
+      type: DELETE_WALLET,
+      payload: id
+    });
+  }
 };
 
 export const getWallet = (id, history) => async dispatch => {
