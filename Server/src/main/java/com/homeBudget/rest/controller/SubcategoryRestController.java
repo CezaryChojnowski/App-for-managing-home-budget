@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 
 @RestController
@@ -22,10 +23,9 @@ public class SubcategoryRestController {
     private final SubcategoryService subcategoryService;
     private final TransactionService transactionService;
 
-    @GetMapping
-    public ResponseEntity getAllSubcategoryByUser(){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.findUserByEmail(email);
+    @GetMapping("/all")
+    public ResponseEntity getAllSubcategoryByUser(Principal principal){
+        User user = userService.findUserByEmail(principal.getName());
         return ResponseEntity.ok(subcategoryService.getAllSubcategoryByUser(user));
     }
     @PostMapping("{idSubcategory}/transactions")

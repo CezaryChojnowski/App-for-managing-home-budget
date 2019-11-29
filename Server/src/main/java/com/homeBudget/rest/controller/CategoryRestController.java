@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.core.env.Environment;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -27,9 +28,9 @@ public class CategoryRestController {
 
 
     @PostMapping
-    public ResponseEntity createNewCategory(@Valid @RequestBody Category category){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.findUserByEmail(email);
+    public ResponseEntity createNewCategory(@Valid @RequestBody Category category,
+                                            Principal principal){
+        User user = userService.findUserByEmail(principal.getName());
         List<Category> categoriesList = categoryService.getAllCategoriesByUser(user);
         return ResponseEntity.ok(categoryService.addCategory(categoriesList, category, userService.getEmailByAuthentication()));
     }
@@ -45,8 +46,10 @@ public class CategoryRestController {
     }
 
     @GetMapping
-    public ResponseEntity getUserCategories(){
-        User user = userService.getUserByAuthentication();
+    @RequestMapping("/all")
+    @CrossOrigin("http://localhost:3000")
+    public ResponseEntity getUserCategories(Principal principal){
+        User user = userService.findUserByEmail(principal.getName());
         List<Category> categoryList = categoryService.getAllCategoriesByUser(user);
         return ResponseEntity.ok(categoryList);
     }
