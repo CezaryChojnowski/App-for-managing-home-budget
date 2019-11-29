@@ -63,7 +63,7 @@ class AddWallet extends Component{
         let balance = false;
         let financialGoal = false;
 
-        if(this.state.name.length<3 || this.state.name == ""){
+        if(this.state.name.length<0 || this.state.name == ""){
           name = true;
         }
 
@@ -139,7 +139,7 @@ class AddWallet extends Component{
                                 <hr />
                                 <form onSubmit={this.onSubmit}>
                                   <div className="form-group">
-                                      <input type="text" className={classnames("form-control form-control-lg", {"is-invalid": errors.message})} placeholder="Wallet name" name="name" value={this.state.name} onChange={this.onChange} autoComplete="off"/>
+                                      <input type="text" className={classnames("form-control form-control-lg", {"is-invalid": errors.status===409})} placeholder="Wallet name" name="name" value={this.state.name} onChange={this.onChange} autoComplete="off"/>
                                       {this.state.validationError.name && <span>{this.messages.name_incorrect}</span>}
                                       {errors.status===409 && (
                                         <div className="invalid-feedback">{errors.details}</div>

@@ -11,9 +11,12 @@ class GetWallets extends Component {
     this.props.getWallets();
   }
 
+
+
   render() {
     const {wallets} = this.props.wallet;
     return (
+      <>
       <div className="wallets">
         <div className="container">
           <div className="row">
@@ -21,7 +24,6 @@ class GetWallets extends Component {
               <h1 className="display-4 text-center">Wallets</h1>
               <br />
               <CreateWalletButton />
-
               <br />
               <hr />
               {wallets.map(wallet => (
@@ -31,6 +33,7 @@ class GetWallets extends Component {
           </div>
         </div>
       </div>
+      </>
     );
   }
 }
