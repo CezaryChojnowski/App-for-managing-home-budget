@@ -6,7 +6,6 @@ import com.homeBudget.domain.user.UserRepository;
 import com.homeBudget.rest.dto.WalletDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class WalletService {
     private final UserRepository userRepository;
     private final Environment env;
 
-    public List<Wallet> findAllUserWallets(User user){
+    public Iterable<Wallet> findAllUserWallets(User user){
         return walletRepository.findWalletByUser(user);
     }
 
@@ -46,6 +45,10 @@ public class WalletService {
         return walletRepository.findWalletById(id);
     }
 
+    public void deleteWallet(int idWallet){
+        walletRepository.deleteById(idWallet);
+    }
+
     public Wallet findWalletByUserAndIdWallet(User user, int idWallet){
         return walletRepository.findWalletByUserAndId(user, idWallet);
     }
@@ -65,5 +68,9 @@ public class WalletService {
             createNewWallet(wallet.getName(), wallet.getBalance(), wallet.getFinancialGoal(), wallet.getComment(), wallet.isSavings(), email);
             return walletDTO;
         }
+    }
+
+    public List<Wallet> findAllWallets(User user){
+        return walletRepository.findWalletByUser(user);
     }
 }

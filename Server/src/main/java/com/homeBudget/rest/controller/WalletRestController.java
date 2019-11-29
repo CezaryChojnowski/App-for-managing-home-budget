@@ -57,7 +57,7 @@ public class WalletRestController {
     @CrossOrigin("http://localhost:3000")
     public List<Wallet> getAllWallets(Principal principal){
         User user = userService.findUserByEmail(principal.getName());
-        return walletService.findAllProjects(user);
+        return walletService.findAllWallets(user);
     }
 
     @RequestMapping(value = "/{idWallet}", method = RequestMethod.DELETE)
