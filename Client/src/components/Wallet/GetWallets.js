@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import WalletItem from "./WalletItem";
-import CreateWalletItem from "./CreateWalletButton";
+import CreateWalletButton from "./CreateWalletButton";
 import { connect } from "react-redux";
 import { getWallets } from "../../actions/walletActions";
 import PropTypes from "prop-types";
+import UpdateBalanceButton from "./UpdateBalanceButton";
 
 class GetWallets extends Component {
   componentDidMount() {
@@ -19,7 +20,7 @@ class GetWallets extends Component {
             <div className="col-md-12">
               <h1 className="display-4 text-center">Wallets</h1>
               <br />
-              <CreateWalletItem />
+              <CreateWalletButton />
 
               <br />
               <hr />

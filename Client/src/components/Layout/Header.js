@@ -21,13 +21,18 @@ class Header extends Component {
               Dashboard
             </Link>
           </li>
+          <li className="nav-item">
+            <Link className="nav-link" to="/updateBalance">
+              Update balance
+            </Link>
+          </li>
         </ul>
 
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
             <Link className="nav-link" to="/dashboard">
               <i className="fas fa-user-circle mr-1" />
-              {user.fullName}
+              {user.email}
             </Link>
           </li>
           <li className="nav-item">
