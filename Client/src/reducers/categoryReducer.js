@@ -1,25 +1,25 @@
-import { GET_CATEGORIES, GET_CATEGORY } from "../actions/types";
+import {GET_CATEGORIES, GET_CATEGORY} from "../actions/types";
 
 const initialState = {
-  categories: [],
-  category: {}
+    categories: [],
+    category: {}
 };
 
-export default function(state = initialState, action) {
-  switch (action.type) {
-    case GET_CATEGORIES:
-      return {
-        ...state,
-        categories: action.payload
-      };
+export default function (state = initialState, action) {
+    switch (action.type) {
+        case GET_CATEGORIES:
+            return {
+                ...state,
+                categories: action.payload
+            };
 
-      case GET_CATEGORY:
-        return {
-          ...state,
-          category: action.payload
-        };
+        case GET_CATEGORY:
+            return {
+                ...state,
+                category: action.payload
+            };
 
-    default:
-      return state;
-  }
+        default:
+            return state;
+    }
 }

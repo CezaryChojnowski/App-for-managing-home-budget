@@ -1,25 +1,25 @@
-import { GET_SUBCATEGORIES, GET_SUBCATEGORY } from "../actions/types";
+import {GET_SUBCATEGORIES, GET_SUBCATEGORY} from "../actions/types";
 
 const initialState = {
-  subcategories: [],
-  subcategory: {}
+    subcategories: [],
+    subcategory: {}
 };
 
-export default function(state = initialState, action) {
-  switch (action.type) {
-    case GET_SUBCATEGORIES:
-      return {
-        ...state,
-        subcategories: action.payload
-      };
+export default function (state = initialState, action) {
+    switch (action.type) {
+        case GET_SUBCATEGORIES:
+            return {
+                ...state,
+                subcategories: action.payload
+            };
 
-      case GET_SUBCATEGORY:
-        return {
-          ...state,
-          subcategory: action.payload
-        };
+        case GET_SUBCATEGORY:
+            return {
+                ...state,
+                subcategory: action.payload
+            };
 
-    default:
-      return state;
-  }
+        default:
+            return state;
+    }
 }
