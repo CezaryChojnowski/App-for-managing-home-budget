@@ -11,6 +11,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import GoToWalletsButton from './Wallet/GoToWalletsButton';
 import GoToCategoriesButton from './Category/GoToCategoriesButton'
+import GoToEventsButton from "./Event/GoToEventsButton";
 
 const useStyles = makeStyles({
   list: {
@@ -54,6 +55,7 @@ const sideList = side => (
         ))} */}
         <ListItemText><GoToWalletsButton/></ListItemText>
         <ListItemText><GoToCategoriesButton/></ListItemText>
+        <ListItemText><GoToEventsButton/></ListItemText>
       </List>
     </div>
   );
