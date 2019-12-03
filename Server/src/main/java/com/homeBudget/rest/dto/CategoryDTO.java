@@ -8,11 +8,9 @@ import lombok.*;
 @Data
 public class CategoryDTO {
     private String name;
-    private boolean type;
 
 
     public CategoryDTO(Category category){
         this.name=category.getName();
-        this.type=category.isCredits();
     }
 }

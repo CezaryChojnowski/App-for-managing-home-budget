@@ -20,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/categories")
 @RequiredArgsConstructor
+@CrossOrigin
 public class CategoryRestController {
 
     private final CategoryService categoryService;
@@ -47,10 +48,9 @@ public class CategoryRestController {
 
     @GetMapping
     @RequestMapping("/all")
-    @CrossOrigin("http://localhost:3000")
-    public ResponseEntity getUserCategories(Principal principal){
+    public List<Category> getUserCategories(Principal principal){
         User user = userService.findUserByEmail(principal.getName());
-        List<Category> categoryList = categoryService.getAllCategoriesByUser(user);
-        return ResponseEntity.ok(categoryList);
+        System.out.println(categoryService.getAllCategoriesByUser(user));
+        return categoryService.getAllCategoriesByUser(user);
     }
 }

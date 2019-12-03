@@ -20,10 +20,9 @@ public class CategoryService {
     private final UserRepository userRepository;
     private final Environment env;
 
-    public Category createNewCategory(String nameCategory, boolean typeCategory, String emailUser){
+    public Category createNewCategory(String nameCategory, String emailUser){
         Category category = new Category.CategoryBuilder()
                 .name(nameCategory)
-                .credits(typeCategory)
                 .user(userRepository.findUserByEmail(emailUser).get())
                 .build();
         return categoryRepository.save(category);
@@ -42,7 +41,7 @@ public class CategoryService {
             throw new RecordExistsException(env.getProperty("recordExists") + " " + category.getName());
         }
         else{
-            createNewCategory(category.getName(), category.isCredits(), email);
+            createNewCategory(category.getName(), email);
             return new CategoryDTO(category);
         }
     }

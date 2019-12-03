@@ -31,6 +31,7 @@ import static com.homeBudget.configuration.security.SecurityConstants.TOKEN_PREF
 @RequestMapping("/users")
 @PropertySource("classpath:messages.properties")
 @Validated
+@CrossOrigin
 public class UserRestController {
 
     private final UserService userService;
@@ -45,7 +46,6 @@ public class UserRestController {
     private AuthenticationManager authenticationManager;
 
 
-    @CrossOrigin("http://localhost:3000")
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result){
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
@@ -64,10 +64,9 @@ public class UserRestController {
         return ResponseEntity.ok(new JWTLoginSucessReponse(true, jwt));
     }
 
-    @CrossOrigin("http://localhost:3000")
     @PostMapping
     public ResponseEntity registerUserAccount(@Valid @RequestBody User user) {
-        return ResponseEntity.ok(userService.createUser2(user.getFirstName(), user.getLastName(), user.getPassword(), user.getEmail()));
+        return ResponseEntity.ok(userService.registerUserAccount(user));
     }
 
     @GetMapping

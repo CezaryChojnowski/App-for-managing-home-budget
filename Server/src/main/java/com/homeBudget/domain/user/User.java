@@ -1,5 +1,6 @@
 package com.homeBudget.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.homeBudget.domain.category.Category;
 import com.homeBudget.domain.wallet.Wallet;
 import lombok.*;
@@ -48,8 +49,13 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     private List<Wallet> wallets = new ArrayList<>();
 
-    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private List<Category> categories = new ArrayList<>();
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Category> events = new ArrayList<>();
 
 
     @Override

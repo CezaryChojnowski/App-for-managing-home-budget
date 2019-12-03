@@ -9,22 +9,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/events")
+@CrossOrigin
 public class EventRestController {
     public final EventService eventService;
     public final UserService userService;
 
     @PostMapping
-    public ResponseEntity createEvent(@RequestBody Event event){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+    public ResponseEntity createEvent(@RequestBody Event event, Principal principal){
+        String email = userService.findUserByEmail(principal.getName()).getEmail();
         return ResponseEntity.ok(eventService.createNewEvent(event.getName(), event.getStartDate(), event.getFinishDate(), email));
     }
 
-    @GetMapping
-    public ResponseEntity getAllEventsByUser(){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+    @RequestMapping(value="/all", method = RequestMethod.GET)
+    public ResponseEntity getAllEventsByUser(Principal principal){
+        String email = userService.findUserByEmail(principal.getName()).getEmail();
         User user = userService.findUserByEmail(email);
         return ResponseEntity.ok(eventService.getAllEventsByUser(user));
     }

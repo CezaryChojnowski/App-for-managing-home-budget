@@ -18,12 +18,12 @@ import java.util.List;
 @RequestMapping("/wallets")
 @RequiredArgsConstructor
 @PropertySource("classpath:messages.properties")
+@CrossOrigin
 public class WalletRestController {
 
     private final WalletService walletService;
     private final UserService userService;
 
-    @CrossOrigin("http://localhost:3000")
     @PostMapping
     public ResponseEntity addWallet(@Valid @RequestBody Wallet wallet, Principal principal){
         User user = userService.findUserByEmail(principal.getName());
@@ -46,7 +46,6 @@ public class WalletRestController {
     }
 
     @GetMapping("/{id}")
-    @CrossOrigin("http://localhost:3000")
     public ResponseEntity<?> getWalletById(@PathVariable int id, Principal principal){
         User user = userService.findUserByEmail(principal.getName());
         Wallet wallet = walletService.findWalletByUserAndIdWallet(user, id);
@@ -54,14 +53,13 @@ public class WalletRestController {
     }
 
     @GetMapping("/all")
-    @CrossOrigin("http://localhost:3000")
     public List<Wallet> getAllWallets(Principal principal){
         User user = userService.findUserByEmail(principal.getName());
+        System.out.println(walletService.findAllWallets(user));
         return walletService.findAllWallets(user);
     }
 
     @RequestMapping(value = "/{idWallet}", method = RequestMethod.DELETE)
-    @CrossOrigin("http://localhost:3000")
     public void deleteWallet(@PathVariable int idWallet, Principal principal){
         walletService.deleteWallet(idWallet);
     }

@@ -25,15 +25,12 @@ public class Category {
     private String name;
 
     @Setter
-    private boolean credits;
-
-    @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
     @JoinColumn(name="id_user")
     @JsonIgnore
     private User user;
 
-    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "category")
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "category")
     private List<Subcategory> subcategories = new ArrayList<>();
 
     @Override
@@ -42,8 +39,6 @@ public class Category {
         result.append("category{" +
                 "idCategory=" + id +
                 ", nameCategory='" + name + '\'' +
-                ", typeCategory=" + credits +
-                ", sucategories=" + subcategories +
                 '}');
         return result.toString();
     }

@@ -31,6 +31,7 @@ public class Subcategory {
     private Category category;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "subcategory")
+    @JsonIgnore
     private List<Transaction> transactions = new ArrayList<>();
 
     @Override

@@ -49,11 +49,11 @@ public class Event {
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("event{" +
-                "idEvent=" + id +
-                ", nameEvent='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", startDate='" + startDate + '\'' +
                 ", finishDate='" + finishDate + '\'' +
-                ", eventOver='" + over + '\'' +
+                ", Over='" + over + '\'' +
                 '}');
         return result.toString();
     }
