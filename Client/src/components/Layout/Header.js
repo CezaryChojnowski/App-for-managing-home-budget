@@ -73,9 +73,6 @@ class Header extends Component {
         return (
             <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
                 <div className="container">
-                        {/* <Link className="navbar-brand" to="/">
-                            Five-dollar-bill app
-                        </Link> */}
                         <TemporaryDrawer></TemporaryDrawer>
                         <button
                             className="navbar-toggler"
