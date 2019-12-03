@@ -4,6 +4,7 @@ import CreateWalletButton from "./CreateWalletButton";
 import {connect} from "react-redux";
 import {getWallets} from "../../actions/walletActions";
 import PropTypes from "prop-types";
+import UpdateWalletButton from "./UpdateWalletButton";
 
 class GetWallets extends Component {
     componentDidMount() {
@@ -13,6 +14,7 @@ class GetWallets extends Component {
     }
 
     render() {
+        {console.log(this.props.wallet)}
         const {wallets} = this.props.wallet;
         return (
             <> < div className = "wallets" > <div className="container">

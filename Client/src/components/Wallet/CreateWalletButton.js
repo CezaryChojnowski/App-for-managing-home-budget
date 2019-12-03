@@ -1,13 +1,32 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import AddIcon from '@material-ui/icons/Add';
+import {makeStyles} from '@material-ui/core/styles';
+import Fab from '@material-ui/core/Fab';
 
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        '& > *': {
+            margin: theme.spacing(1)
+        }
+    },
+    extendedIcon: {
+        marginRight: theme.spacing(1)
+    }
+}));
 const CreateWalletButton = () => {
-    return(
-        <>
-            <Link to="/addWallet" className="btn btn-lg btn-info">
-                Create a wallet
-            </Link>
-        </>
+    const classes = useStyles();
+    return (
+        <> < div className = {
+            classes.root
+        } > <Link to="/addWallet">
+            <Fab color="primary" aria-label="add">
+                <AddIcon/>
+            </Fab>
+        </Link>
+    </div>
+</>
     );
 };
 

@@ -3,6 +3,9 @@ import CategoryItem from "./CategoryItem";
 import {connect} from "react-redux";
 import {getCategories} from "../../actions/categoryActions";
 import PropTypes from "prop-types";
+import CreateCategoryButton from "./CreateCategoryButton"
+import CreateSubcategoryButton from "./CreateSubcategoryButton"
+
 
 class GetCategories extends Component {
     componentDidMount() {
@@ -13,6 +16,8 @@ class GetCategories extends Component {
 
     render() {
         const {categories} = this.props.category;
+        {console.log(this.props);
+        }
         return (
             <div className="categories">
                 <div className="container">
@@ -20,8 +25,8 @@ class GetCategories extends Component {
                         <div className="col-md-12">
                             <h1 className="display-4 text-center">Categories</h1>
                             <br/>
-
-                            <br/>
+                            <CreateCategoryButton/>Create category
+                            <CreateSubcategoryButton/>Create subcategory
                             <hr/> {
                                 categories.map(
                                     category => (<CategoryItem key={category.id} category={category}/>)

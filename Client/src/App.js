@@ -18,6 +18,9 @@ import SecuredRoute from "./securityUtils/SecureRoute";
 import GetWallets from "./components/Wallet/GetWallets";
 import GetCategories from "./components/Category/GetCategories";
 import UpdateBalance from "./components/Wallet/UpdateBalance"
+import UpdateWallet from "./components/Wallet/UpdateWallet";
+import AddCategory from "./components/Category/AddCategory";
+import AddSubcategory from "./components/Category/AddSubcategory";
 
 const jwtToken = localStorage.jwtToken;
 
@@ -51,6 +54,9 @@ class App extends Component {
                             <SecuredRoute exact="exact" path="/getWallets" component={GetWallets}/>
                             <SecuredRoute exact="exact" path="/dashboard" component={Dashboard}/>
                             <SecuredRoute exact="exact" path="/addWallet" component={AddWallet}/>
+                            <SecuredRoute exact="exact" path="/addCategory" component={AddCategory}/>
+                            <SecuredRoute exact="exact" path="/addSubcategory" component={AddSubcategory}/>
+                            <SecuredRoute exact path="/updateWallet/:id" component={UpdateWallet}/>
                         </Switch>
                     </div>
                 </Router>
