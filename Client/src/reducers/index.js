@@ -4,7 +4,8 @@ import securityReducer from "./securityReducer";
 import walletReducer from "./walletReducer";
 import categoryReducer from "./categoryReducer";
 import subcategoryReducer from "./subcategoryReducer";
+import eventReducer from "./eventReducer";
 
 export default combineReducers(
-    {errors: errorReducer, wallet: walletReducer, security: securityReducer, category: categoryReducer, subcategory: subcategoryReducer}
+    {errors: errorReducer, wallet: walletReducer, security: securityReducer, category: categoryReducer, subcategory: subcategoryReducer, event: eventReducer}
 );

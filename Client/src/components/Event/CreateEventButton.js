@@ -20,7 +20,7 @@ const CreateEventsButton = () => {
     return (
         <> < div className = {
             classes.root
-        } > <Link to="/addEvents">
+        } > <Link to="/addEvent">
             <Fab color="primary" aria-label="add">
                 <AddIcon/>
             </Fab>

@@ -1,19 +1,23 @@
-import React, {Component, Children} from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {createSubcategory} from "../../actions/subcategoryActions";
+import {createEvent} from "../../actions/eventActions";
 import classnames from "classnames";
-import { getCategories } from "../../actions/categoryActions";
-class AddSubcategory extends Component {
+class AddEvent extends Component {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
+
         this.state = {
             name: "",
+            startDate: "",
+            finishDate: "",
             errors: {},
             checked: false,
             validationError: {
-                name: false
+                name: false,
+                balance: false,
+                financialGoal: false
             }
         }
 
@@ -29,7 +33,7 @@ class AddSubcategory extends Component {
     }
 
     messages = {
-        name_incorrect: 'Subcategory name can not be empty',
+        name_incorrect: 'Wallet name can not be empty',
     }
 
     handleChange() {
@@ -51,7 +55,7 @@ class AddSubcategory extends Component {
         const validation = this.formValidation();
         this.setState({
             validationError: {
-                name: validation.name,
+                name: validation.name
             }
         })
     }
@@ -71,23 +75,26 @@ class AddSubcategory extends Component {
         const validation = this.formValidation();
         this.setState({
             validationError: {
-                name: validation.name,
+                name: validation.name
             }
         })
         let resultValidation = false;
         resultValidation = (Object.values(this.state.validationError)).includes(true);
         if (resultValidation === false) {
-            const newSubcategory = {
+            const newEvent = {
                 name: this.state.name,
+                startDate: this.state.startDate,
+                finishDate: this.state.finishDate,
+
             };
             this
                 .props
-                .createSubcategory(1,newSubcategory, this.props.history);
+                .createEvent(newEvent, this.props.history);
 
         } else {
             this.setState({
                 validationError: {
-                    name: validation.name,
+                    name: validation.name
                 }
             })
         }
@@ -96,16 +103,26 @@ class AddSubcategory extends Component {
     render() {
 
         const content = this.state.checked
-        const {errors} = this.state
-        
+            ? <div className="form-group">
+                    <input
+                        className="form-control form-control-lg"
+                        placeholder="Financial Goal"
+                        type="number"
+                        name="financialGoal"
+                        value={this.state.financialGoal}
+                        onChange={this.onChange}/> {this.state.validationError.financialGoal && <span>{this.messages.financialGoal_incorrect}</span>}
+                </div>
+            : null;
+
+        const {errors} = this.state;
+
         return (
             <div>
-                {        console.log(this.state.categories)}
-                <div className="project">
+                <div className="event">
                     <div className="container">
                         <div className="row">
                             <div className="col-md-8 m-auto">
-                                <h5 className="display-4 text-center">Add new subcategory</h5>
+                                <h5 className="display-4 text-center">Add new wallet</h5>
                                 <hr/>
                                 <form onSubmit={this.onSubmit}>
                                     <div className="form-group">
@@ -114,7 +131,7 @@ class AddSubcategory extends Component {
                                             className={classnames("form-control form-control-lg", {
                                                 "is-invalid": errors.status === 409
                                             })}
-                                            placeholder="Category name"
+                                            placeholder="Event name"
                                             name="name"
                                             value={this.state.name}
                                             onChange={this.onChange}
@@ -124,6 +141,26 @@ class AddSubcategory extends Component {
                                                 <div className="invalid-feedback">{errors.details}</div>
                                             )
                                         }
+                                    </div>
+
+                                    <div className="form-group">
+                                        <input
+                                            type="date"
+                                            className="form-control form-control-lg"
+                                            placeholder="Start date"
+                                            name="startDate"
+                                            value={this.state.startDate}
+                                            onChange={this.onChange}/>
+                                    </div>
+
+                                    <div className="form-group">
+                                        <input
+                                            className="form-control form-control-lg"
+                                            placeholder="Finish date"
+                                            type="date"
+                                            name="finishDate"
+                                            value={this.state.finishDate}
+                                            onChange={this.onChange}/>
                                     </div>
                                     <input type="submit" className="btn btn-primary btn-block mt-4"/>
                                 </form>
@@ -136,11 +173,11 @@ class AddSubcategory extends Component {
     }
 }
 
-AddSubcategory.propTypes = {
-    createSubcategory: PropTypes.func.isRequired,
+AddEvent.propTypes = {
+    createEvent: PropTypes.func.isRequired,
     errors: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({errors: state.errors});
 
-export default connect(mapStateToProps, {createSubcategory})(AddSubcategory);
+export default connect(mapStateToProps, {createEvent})(AddEvent);
