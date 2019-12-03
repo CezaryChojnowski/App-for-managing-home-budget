@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {logout} from "../../actions/securityActions";
+import TemporaryDrawer from "../TemporaryDrawer"
 
 class Header extends Component {
     logout() {
@@ -20,11 +21,6 @@ class Header extends Component {
                     <li className="nav-item">
                         <Link className="nav-link" to="/dashboard">
                             Dashboard
-                        </Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/updateBalance">
-                            Update balance
                         </Link>
                     </li>
                 </ul>
@@ -77,17 +73,18 @@ class Header extends Component {
         return (
             <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
                 <div className="container">
-                    <Link className="navbar-brand" to="/">
-                        Five-dollar-bill app
-                    </Link>
-                    <button
-                        className="navbar-toggler"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target="#mobile-nav">
-                        <span className="navbar-toggler-icon"/>
-                    </button>
-                    {headerLinks}
+                        {/* <Link className="navbar-brand" to="/">
+                            Five-dollar-bill app
+                        </Link> */}
+                        <TemporaryDrawer></TemporaryDrawer>
+                        <button
+                            className="navbar-toggler"
+                            type="button"
+                            data-toggle="collapse"
+                            data-target="#mobile-nav">
+                            <span className="navbar-toggler-icon"/>
+                        </button>
+                        {headerLinks}
                 </div>
             </nav>
         );

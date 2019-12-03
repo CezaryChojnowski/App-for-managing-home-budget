@@ -5,17 +5,12 @@ import GoToSubcategoriesButton from "./Subcategory/GoToSubcategoriesButton";
 import GoToPersonsButton from "./Person/GoToPersonsButton";
 import GoToTransactionsButton from "./Transaction/GoToTransactionsButton";
 import GoToEventsButton from "./Event/GoToEventsButton";
+import TemporaryDrawer from "./TemporaryDrawer"
 
 class Dashboard extends Component {
   render(){
     return(
       <>
-      <GoToWalletsButton/>
-      <GoToCategoriesButton/>
-      <GoToSubcategoriesButton/>
-      <GoToPersonsButton/>
-      <GoToEventsButton/>
-      <GoToTransactionsButton/>
       </>
     )
   }

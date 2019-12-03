@@ -1,7 +1,5 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import Dialog from "./Dialog";
-import CreateWalletButton from "./CreateWalletButton";
 import {deleteWallet} from "../../actions/walletActions";
 import PropTypes from "prop-types";
 
@@ -27,21 +25,6 @@ class WalletItem extends Component {
                             <h2>{wallet.name}</h2>
                             <p>{wallet.comment}</p>
                             <p>{wallet.balance}</p>
-                            <div>
-                                <button onClick={(e) => this.setState({isOpen: true})}>. . .</button>
-                                <Dialog
-                                    isOpen={this.state.isOpen}
-                                    onClose={(e) => this.setState({isOpen: false})}>
-                                    <li
-                                        className="list-group-item delete"
-                                        onClick={this
-                                            .onDeleteClick
-                                            .bind(this, wallet.id)}>
-                                        <i className="fa fa-minus-circle pr-1">
-                                            Delete Wallet</i>
-                                    </li>
-                                </Dialog>
-                            </div>
                         </div>
                     </div>
                 </div>

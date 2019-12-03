@@ -4,7 +4,6 @@ import CreateWalletButton from "./CreateWalletButton";
 import {connect} from "react-redux";
 import {getWallets} from "../../actions/walletActions";
 import PropTypes from "prop-types";
-import UpdateBalanceButton from "./UpdateBalanceButton";
 
 class GetWallets extends Component {
     componentDidMount() {
