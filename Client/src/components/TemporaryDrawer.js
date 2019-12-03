@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import GoToWalletsButton from './Wallet/GoToWalletsButton';
+import GoToCategoriesButton from './Category/GoToCategoriesButton'
 
 const useStyles = makeStyles({
   list: {
@@ -45,12 +46,14 @@ const sideList = side => (
       onKeyDown={toggleDrawer(side, false)}
     >
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+        {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
             <ListItemText><GoToWalletsButton/></ListItemText>
           </ListItem>
-        ))}
+        ))} */}
+        <ListItemText><GoToWalletsButton/></ListItemText>
+        <ListItemText><GoToCategoriesButton/></ListItemText>
       </List>
     </div>
   );
@@ -84,7 +87,7 @@ const sideList = side => (
 
   return (
     <div>
-      <Button onClick={toggleDrawer('left', true)}><span class="navbar-toggler-icon"></span></Button>
+      <Button onClick={toggleDrawer('left', true)}><span className="navbar-toggler-icon"></span></Button>
       <Drawer open={state.left} onClose={toggleDrawer('left', false)}>
         {sideList('left')}
       </Drawer>
