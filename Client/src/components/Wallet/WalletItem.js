@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { Link } from "react-router-dom";
 
 class WalletItem extends Component {
 
@@ -20,10 +21,11 @@ class WalletItem extends Component {
         open: !this.state.open
     });
     handleClick = event => {
-        this.state.ancherEl
-            ? this.setState({anchorEl: null})
-            : this.setState({anchorEl: event.currentTarget});
+        this.setState({anchorEl: event.currentTarget});
     };
+    handlClose = () => {
+        this.setState({anchorEl: null})
+    }
 
     onDeleteClick = id => {
         this
@@ -60,14 +62,19 @@ class WalletItem extends Component {
                                     anchorEl={this.state.anchorEl}
                                     keepMounted="keepMounted"
                                     open={Boolean(this.state.anchorEl)}
-                                    onClose={this.handleClose}>
+                                    onClose={this.handlClose}>
                                     <MenuItem
                                         onClick={this
                                             .onDeleteClick
                                             .bind(this, wallet.id)}>Delete</MenuItem>
-                                    <MenuItem onClick={this.handleClose}>Edit</MenuItem>
+                                    <MenuItem onClick={this.handlClose}>Edit</MenuItem>
                                 </Menu>
                             </div>
+                            <Link to={`/updateWallet/${wallet.id}`}>
+                  <li className="list-group-item update">
+                    <i className="fa fa-edit pr-1"> Update Project Info</i>
+                  </li>
+                </Link>
                         </div>
                     </div>
                 </div>
