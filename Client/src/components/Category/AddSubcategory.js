@@ -4,12 +4,16 @@ import {connect} from "react-redux";
 import {createSubcategory} from "../../actions/subcategoryActions";
 import classnames from "classnames";
 import { getCategories } from "../../actions/categoryActions";
+import store from '../../store'
+import state from "axios"
+import CategoryItemToForm from "./CategoryItemToForm";
 class AddSubcategory extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             name: "",
+            value: "1",
             errors: {},
             checked: false,
             validationError: {
@@ -30,6 +34,10 @@ class AddSubcategory extends Component {
 
     messages = {
         name_incorrect: 'Subcategory name can not be empty',
+    }
+
+    componentDidMount() {
+        this.props.getCategories();        
     }
 
     handleChange() {
@@ -56,6 +64,10 @@ class AddSubcategory extends Component {
         })
     }
 
+    handleChange(event) {
+        this.setState({value: event.target.value});
+      }
+
     formValidation = () => {
         let name = false;
 
@@ -80,9 +92,11 @@ class AddSubcategory extends Component {
             const newSubcategory = {
                 name: this.state.name,
             };
+            console.log(this.state.value);
+            
             this
                 .props
-                .createSubcategory(1,newSubcategory, this.props.history);
+                .createSubcategory(this.state.value,newSubcategory, this.props.history);
 
         } else {
             this.setState({
@@ -97,10 +111,12 @@ class AddSubcategory extends Component {
 
         const content = this.state.checked
         const {errors} = this.state
+        const {categories} = this.props.category;
+
         
         return (
+            <>
             <div>
-                {        console.log(this.state.categories)}
                 <div className="project">
                     <div className="container">
                         <div className="row">
@@ -109,6 +125,11 @@ class AddSubcategory extends Component {
                                 <hr/>
                                 <form onSubmit={this.onSubmit}>
                                     <div className="form-group">
+                                    <select value={this.state.value} onChange={this.handleChange} name="id">
+                                    {categories.map(
+                                        category => (<CategoryItemToForm key={category.id} category={category}/>)
+                                    )}
+                                    </select>
                                         <input
                                             type="text"
                                             className={classnames("form-control form-control-lg", {
@@ -132,15 +153,19 @@ class AddSubcategory extends Component {
                     </div>
                 </div>
             </div>
+            </>
         );
     }
 }
 
 AddSubcategory.propTypes = {
     createSubcategory: PropTypes.func.isRequired,
-    errors: PropTypes.object.isRequired
+    errors: PropTypes.object.isRequired,
+    category: PropTypes.object.isRequired,
+    getCategories: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({errors: state.errors});
 
-export default connect(mapStateToProps, {createSubcategory})(AddSubcategory);
+const mapStateToProps = state => ({errors: state.errors, category:state.category});
+
+export default connect(mapStateToProps, {createSubcategory, getCategories})(AddSubcategory);
