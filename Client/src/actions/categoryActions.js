@@ -9,7 +9,7 @@ export const getCategories = () => async dispatch => {
 export const createCategory = (category, history) => async dispatch => {
     try {
         const res = await axios.post("http://localhost:8080/categories", category);
-        history.push("/dashboard");
+        history.push("/getCategories");
     } catch (err) {
         dispatch({type: GET_ERRORS, payload: err.response.data});
     }

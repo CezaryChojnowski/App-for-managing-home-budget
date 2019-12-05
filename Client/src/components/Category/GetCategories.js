@@ -16,8 +16,6 @@ class GetCategories extends Component {
 
     render() {
         const {categories} = this.props.category;
-        {console.log(this.props);
-        }
         return (
             <div className="categories">
                 <div className="container">
