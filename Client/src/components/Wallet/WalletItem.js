@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from "react-router-dom";
+import ProgressBar from "./ProgressBar"
 
 class WalletItem extends Component {
 
@@ -75,6 +76,9 @@ class WalletItem extends Component {
                     <i className="fa fa-edit pr-1"> Update Project Info</i>
                   </li>
                 </Link>
+                { wallet.savings && 
+                    <ProgressBar percentage={(wallet.balance/wallet.financialGoal)*100} balance={wallet.balance} financialGoal={wallet.financialGoal}/>
+                }
                         </div>
                     </div>
                 </div>

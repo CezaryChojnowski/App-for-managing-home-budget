@@ -105,7 +105,7 @@ class AddWallet extends Component {
                 comment: this.state.comment,
                 balance: this.state.balance,
                 financialGoal: this.state.financialGoal,
-                savings: this.state.savings
+                savings: this.state.checked
             };
             this
                 .props
