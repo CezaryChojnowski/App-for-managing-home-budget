@@ -130,6 +130,8 @@ class AddSubcategory extends Component {
                                         category => (<CategoryItemToForm key={category.id} category={category}/>)
                                     )}
                                     </select>
+                                    </div>
+                                    <div className="form-group">
                                         <input
                                             type="text"
                                             className={classnames("form-control form-control-lg", {

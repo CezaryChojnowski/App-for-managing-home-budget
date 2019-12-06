@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/persons")
+@RequestMapping("/people")
 @RequiredArgsConstructor
 @CrossOrigin
 public class PersonRestController {
@@ -21,7 +21,7 @@ public class PersonRestController {
     public final PersonService personService;
     public final UserService userService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity getPersonsByUser(Principal principal){
         String email = userService.findUserByEmail(principal.getName()).getEmail();
         User user = userService.findUserByEmail(email);

@@ -16,5 +16,7 @@ export const GET_EVENTS = "GET_EVENTS";
 export const GET_PERSON = "GET_PERSON";
 export const GET_PEOPLE = "GET_PEOPLE";
 
+export const GET_TRANSACTION = "GET_TRANSACTION";
+export const GET_TRANSACTIONS = "GET_TRANSACTIONS"
 
 export const SET_CURRENT_USER = "SET_CURRENT_USER";

@@ -48,6 +48,7 @@ public class Wallet {
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "wallet")
+    @JsonIgnore
     private List<Transaction> transactions = new ArrayList<>();
 
     @Override

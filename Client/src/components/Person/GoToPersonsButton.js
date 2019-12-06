@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 const GoToPersonsButton = () => {
     return(
         <>
-            <Link to="/getPersons" className="btn btn-lg btn-info">
+            <Link to="/getPeople" className="btn btn-lg btn-info">
                 Persons
             </Link>
         </>

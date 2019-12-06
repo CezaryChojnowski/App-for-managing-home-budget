@@ -39,8 +39,8 @@ public class CategoryRestController {
     @RequestMapping("{idCategory}/subcategories")
     @PostMapping
     public ResponseEntity createNewSubcategory(@PathVariable("idCategory") int idCategory,
-                                               @Valid @RequestBody Subcategory subcategory){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+                                               @Valid @RequestBody Subcategory subcategory, Principal principal){
+        String email = userService.findUserByEmail(principal.getName()).getEmail();
         User user = userService.findUserByEmail(email);
         List<Subcategory> subcategoriesList = subcategoryService.getAllSubcategoryByUser(user);
         return ResponseEntity.ok(subcategoryService.addSubcategory(subcategoriesList, subcategory, idCategory));

@@ -1,5 +1,6 @@
 package com.homeBudget.rest.controller;
 
+import com.homeBudget.domain.transaction.Transaction;
 import com.homeBudget.domain.transaction.TransactionService;
 import com.homeBudget.domain.user.User;
 import com.homeBudget.domain.user.UserService;
@@ -10,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,14 +22,12 @@ import java.time.LocalDate;
 public class TransactionRestController {
     public final TransactionService transactionService;
     public final UserService userService;
-    @GetMapping
-    public ResponseEntity getAllTransactionByUser(@RequestParam(value = "startDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-                                                  @RequestParam(value = "finishDate", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)  LocalDate finishDate){
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+
+    @GetMapping("/all")
+    public List<Transaction> getAllTransactions(Principal principal){
+        String email = userService.findUserByEmail(principal.getName()).getEmail();
         User user = userService.findUserByEmail(email);
-        if(transactionService.checkIfDateIsNull(startDate, finishDate)){
-            return ResponseEntity.ok(transactionService.findAllTransactionByUser(user));
-        }
-            return ResponseEntity.ok(transactionService.findAllTransactionsByDate(startDate, finishDate, user));
+        return transactionService.findAllTransactionByUser(user);
+
     }
 }

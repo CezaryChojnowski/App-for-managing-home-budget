@@ -55,7 +55,6 @@ public class WalletRestController {
     @GetMapping("/all")
     public List<Wallet> getAllWallets(Principal principal){
         User user = userService.findUserByEmail(principal.getName());
-        System.out.println(walletService.findAllWallets(user));
         return walletService.findAllWallets(user);
     }
 
