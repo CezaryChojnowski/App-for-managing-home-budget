@@ -19,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/transactions")
 @PropertySource("classpath:messages.properties")
+@CrossOrigin
 public class TransactionRestController {
     public final TransactionService transactionService;
     public final UserService userService;
@@ -29,5 +30,20 @@ public class TransactionRestController {
         User user = userService.findUserByEmail(email);
         return transactionService.findAllTransactionByUser(user);
 
+    @PostMapping()
+    public ResponseEntity addTransaction(@RequestParam(value = "event", required = false) Long eventID ,
+                                      @RequestParam(value = "person", required = false) Long personID,
+                                      @RequestParam(value = "wallet", required = true) int walletID,
+                                      @RequestParam(value="subcategory", required = true) int subcategoryID,
+                                      @RequestBody Transaction transaction,
+                                              Principal principal){
+        String email = userService.findUserByEmail(principal.getName()).getEmail();
+        return ResponseEntity.ok(transactionService.createNewTransaction(transaction.getAmount(), transaction.getComment(), transaction.getDate(), subcategoryID, walletID, eventID, personID, transaction.isExpenditure()));
+    }
+
+    @GetMapping("/{idEvent}")
+    public ResponseEntity getAllTransactionsByEvent(Principal principal,
+                                                    @PathVariable(value = "idEvent") long idEvent){
+        return ResponseEntity.ok(transactionService.findTransactionByEvent(idEvent));
     }
 }

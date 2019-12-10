@@ -1,5 +1,6 @@
 package com.homeBudget.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.homeBudget.domain.category.Category;
 import com.homeBudget.domain.wallet.Wallet;
@@ -47,6 +48,7 @@ public class User implements UserDetails {
     private String email;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    @JsonIgnore
     private List<Wallet> wallets = new ArrayList<>();
 
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

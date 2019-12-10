@@ -9,7 +9,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -39,15 +38,16 @@ public class Transaction {
     private LocalDate date;
 
     @Setter
+    private boolean expenditure;
+
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_subcategory")
-    @JsonIgnore
     private Subcategory subcategory;
 
     @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="id_wallet")
-    @JsonIgnore
     private Wallet wallet;
 
     @Setter
@@ -70,6 +70,7 @@ public class Transaction {
                 ", comment='" + comment + '\'' +
                 ", amount='" + amount + '\'' +
                 ", dateTransaction='" + date + '\'' +
+                ", expenditure='" + expenditure + '\'' +
                 '}');
         return result.toString();
     }

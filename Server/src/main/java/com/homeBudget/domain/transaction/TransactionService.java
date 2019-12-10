@@ -7,6 +7,7 @@ import com.homeBudget.domain.subcategory.SubcategoryService;
 import com.homeBudget.domain.subcategory.SubcategoryRepository;
 import com.homeBudget.domain.user.User;
 import com.homeBudget.domain.user.UserRepository;
+import com.homeBudget.domain.wallet.Wallet;
 import com.homeBudget.domain.wallet.WalletRepository;
 import com.homeBudget.rest.dto.TransactionDTO;
 import lombok.RequiredArgsConstructor;
@@ -37,18 +38,26 @@ public class TransactionService {
         return transactions;
     }
 
-    public TransactionDTO createNewTransaction(float amount, String comment, LocalDate dateTransaction, int id_subcategory, int id_wallet, Long id_event, Long id_person){
+    public Transaction createNewTransaction(float amount, String comment, LocalDate dateTransaction, int id_subcategory, int id_wallet, Long id_event, Long id_person, boolean expenditure){
         Transaction transaction = new Transaction.TransactionBuilder()
                 .amount(amount)
                 .comment(comment)
                 .date(dateTransaction)
+                .expenditure(expenditure)
                 .subcategory(subcategoryRepository.findSubcategoryById(id_subcategory))
                 .wallet(walletRepository.findWalletById(id_wallet))
                 .event(eventRepository.findEventById(id_event))
                 .person(personRepository.findPersonById(id_person))
                 .build();
-        transactionRepository.save(transaction);
-        return new TransactionDTO(transaction);
+        Wallet wallet = walletRepository.findWalletById(id_wallet);
+        if(expenditure==true){
+            wallet.setBalance(wallet.getBalance()-amount);
+        }
+        else{
+            wallet.setBalance(wallet.getBalance()+amount);
+        }
+        walletRepository.save(wallet);
+        return transactionRepository.save(transaction);
     }
 
     public List<Transaction> findAllTransactionsByDate(LocalDate startDate, LocalDate finishDate, User user){
