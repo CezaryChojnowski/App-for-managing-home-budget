@@ -29,14 +29,6 @@ public class SubcategoryService {
         return subcategoryRepository.save(subcategory);
     }
 
-    public List<Subcategory> getAllSubcategoryByUser(User user){
-        List<Category> categoryList = categoryRepository.findCategoriesByUser(user);
-        List<Subcategory> subcategoryList = new ArrayList<>();
-        for(Category c: categoryList){
-            subcategoryList.addAll(subcategoryRepository.findAllByCategory(c));
-        }
-        return subcategoryList;
-    }
 
     public boolean checkIfUserHasSubcategoryWithTheGivenName(List<Subcategory> userSubCategories, String newSubcategoryName){
         return userSubCategories.stream().anyMatch(o -> o.getName().equals(newSubcategoryName));
@@ -50,6 +42,10 @@ public class SubcategoryService {
             createNewSubcategory(subcategory.getName(), id);
             return new SubcategoryDTO(subcategory);
         }
+    }
+
+    public List<Subcategory> getAllSubcategoriesByUserEmail(String email){
+        return subcategoryRepository.findSubcategoriesByUserEmail(email);
     }
 
 }

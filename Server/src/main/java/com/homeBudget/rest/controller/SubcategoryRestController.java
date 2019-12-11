@@ -27,7 +27,7 @@ public class SubcategoryRestController {
     @GetMapping("/all")
     public ResponseEntity getAllSubcategoryByUser(Principal principal){
         User user = userService.findUserByEmail(principal.getName());
-        return ResponseEntity.ok(subcategoryService.getAllSubcategoryByUser(user));
+        return ResponseEntity.ok(subcategoryService.getAllSubcategoriesByUserEmail(user.getEmail()));
     }
     @PostMapping("{idSubcategory}/transactions")
     public ResponseEntity createNewTransaction(@PathVariable("idSubcategory") int idSubcategory,

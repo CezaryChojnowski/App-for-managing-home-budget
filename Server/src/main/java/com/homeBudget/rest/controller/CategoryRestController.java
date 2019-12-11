@@ -42,7 +42,7 @@ public class CategoryRestController {
                                                @Valid @RequestBody Subcategory subcategory, Principal principal){
         String email = userService.findUserByEmail(principal.getName()).getEmail();
         User user = userService.findUserByEmail(email);
-        List<Subcategory> subcategoriesList = subcategoryService.getAllSubcategoryByUser(user);
+        List<Subcategory> subcategoriesList = subcategoryService.getAllSubcategoriesByUserEmail(user.getEmail());
         return ResponseEntity.ok(subcategoryService.addSubcategory(subcategoriesList, subcategory, idCategory));
     }
 
