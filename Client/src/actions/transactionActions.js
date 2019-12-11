@@ -19,3 +19,12 @@ export const createTransaction = (event, person, wallet, subcategory ,transactio
         dispatch({type: GET_ERRORS, payload: err.response.data});
     }
 };
+
+export const getEventTransactions = (id, history) => async dispatch => {
+    try {
+        const res = await axios.get(`http://localhost:8080/transactions/${id}`);
+        dispatch({type: GET_TRANSACTIONS, payload: res.data});
+    } catch (error) {
+        history.push("/dashboard");
+    }
+};
