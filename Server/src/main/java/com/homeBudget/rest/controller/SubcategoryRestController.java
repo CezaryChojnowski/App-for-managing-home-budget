@@ -17,6 +17,7 @@ import java.security.Principal;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/subcategories")
+@CrossOrigin
 public class SubcategoryRestController {
 
     private final UserService userService;
@@ -34,7 +35,7 @@ public class SubcategoryRestController {
                                                @RequestParam(value = "idEvent", required = false) Long idEvent,
                                                @RequestParam(value = "idPerson", required = false) Long idPerson,
                                                @Valid @RequestBody Transaction transaction){
-        return ResponseEntity.ok(transactionService.createNewTransaction(transaction.getAmount(),transaction.getComment(),transaction.getDate(), idSubcategory, idWallet, idEvent, idPerson));
+        return ResponseEntity.ok(transactionService.createNewTransaction(transaction.getAmount(),transaction.getComment(),transaction.getDate(), idSubcategory, idWallet, idEvent, idPerson, transaction.isExpenditure()));
     }
 
 }

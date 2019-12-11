@@ -29,6 +29,7 @@ public class TransactionRestController {
         String email = userService.findUserByEmail(principal.getName()).getEmail();
         User user = userService.findUserByEmail(email);
         return transactionService.findAllTransactionByUser(user);
+    }
 
     @PostMapping()
     public ResponseEntity addTransaction(@RequestParam(value = "event", required = false) Long eventID ,

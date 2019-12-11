@@ -1,5 +1,6 @@
 package com.homeBudget.domain.transaction;
 
+import com.homeBudget.domain.event.Event;
 import com.homeBudget.domain.event.EventRepository;
 import com.homeBudget.domain.person.PersonRepository;
 import com.homeBudget.domain.subcategory.Subcategory;
@@ -69,6 +70,10 @@ public class TransactionService {
 
     public boolean checkIfDateIsNull(LocalDate startDate, LocalDate finishDate){
         return (startDate == null && finishDate == null);
+    }
+
+    public List<Transaction> findTransactionByEvent(Long eventID){
+        return transactionRepository.findTransactionsByEvent(eventRepository.findEventById(eventID));
     }
 
 }

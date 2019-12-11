@@ -1,5 +1,6 @@
 package com.homeBudget.domain.transaction;
 
+import com.homeBudget.domain.event.Event;
 import com.homeBudget.domain.subcategory.Subcategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -12,4 +13,5 @@ import java.util.List;
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
  List<Transaction> findAllBySubcategory(Subcategory subcategory);
  List<Transaction> findTransactionsByDateBetween(LocalDate startDate, LocalDate finishDate);
+ List<Transaction> findTransactionsByEvent(Event event);
  }

@@ -15,4 +15,5 @@ public interface WalletRepository extends JpaRepository<Wallet, Integer> {
     List<Wallet> findWalletByUserAndSavings(User user, boolean savings);
 
     Wallet findWalletByUserAndId(User user, int id);
+
 }

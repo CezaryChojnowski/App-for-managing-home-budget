@@ -1,5 +1,6 @@
 package com.homeBudget.rest.controller;
 
+import com.homeBudget.domain.transaction.Transaction;
 import com.homeBudget.domain.user.User;
 import com.homeBudget.domain.user.UserService;
 import com.homeBudget.domain.wallet.Wallet;
@@ -29,6 +30,12 @@ public class WalletRestController {
         User user = userService.findUserByEmail(principal.getName());
         Iterable<Wallet> walletsList = walletService.findAllUserWallets(user);
         return ResponseEntity.ok(walletService.addWallet((List<Wallet>) walletsList, wallet, user.getEmail()));
+    }
+
+    @GetMapping("/simpleWallets")
+    public List<Wallet> getAllSimpleWallets(Principal principal){
+        User user = userService.findUserByEmail(principal.getName());
+       return walletService.findAllUserWalletsBySavings(user, false);
     }
 
     @GetMapping
