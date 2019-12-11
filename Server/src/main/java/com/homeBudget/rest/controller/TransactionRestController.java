@@ -27,8 +27,7 @@ public class TransactionRestController {
     @GetMapping("/all")
     public List<Transaction> getAllTransactions(Principal principal){
         String email = userService.findUserByEmail(principal.getName()).getEmail();
-        User user = userService.findUserByEmail(email);
-        return transactionService.findAllTransactionByUser(user);
+        return transactionService.getAllTransactionsByUserEmail(email);
     }
 
     @PostMapping()
@@ -46,5 +45,10 @@ public class TransactionRestController {
     public ResponseEntity getAllTransactionsByEvent(Principal principal,
                                                     @PathVariable(value = "idEvent") long idEvent){
         return ResponseEntity.ok(transactionService.findTransactionByEvent(idEvent));
+    }
+
+    @RequestMapping(value = "/{idTransactions}", method = RequestMethod.DELETE)
+    public void deleteWallet(@PathVariable int idTransactions, Principal principal){
+        transactionService.deleteTransactions(idTransactions);
     }
 }
