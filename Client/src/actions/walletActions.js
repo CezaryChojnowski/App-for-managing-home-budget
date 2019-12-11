@@ -15,6 +15,11 @@ export const getWallets = () => async dispatch => {
     dispatch({type: GET_WALLETS, payload: res.data});
 };
 
+export const getSimpleWallets = () => async dispatch => {
+    const res = await axios.get("http://localhost:8080/wallets/simpleWallets");
+    dispatch({type: GET_WALLETS, payload: res.data});
+};
+
 export const deleteWallet = id => async dispatch => {
     {
         await axios.delete(`http://localhost:8080/wallets/${id}`);

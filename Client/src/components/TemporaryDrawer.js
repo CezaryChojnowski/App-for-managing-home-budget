@@ -13,6 +13,7 @@ import GoToWalletsButton from './Wallet/GoToWalletsButton';
 import GoToCategoriesButton from './Category/GoToCategoriesButton'
 import GoToEventsButton from "./Event/GoToEventsButton";
 import GoToPersonsButton from "./Person/GoToPersonsButton"
+import GoToTransactionsButton from "./Transaction/GoToTransactionsButton"
 
 const useStyles = makeStyles({
   list: {
@@ -58,6 +59,7 @@ const sideList = side => (
         <ListItemText><GoToCategoriesButton/></ListItemText>
         <ListItemText><GoToEventsButton/></ListItemText>
         <ListItemText><GoToPersonsButton/></ListItemText>
+        <ListItemText><GoToTransactionsButton/></ListItemText>
       </List>
     </div>
   );

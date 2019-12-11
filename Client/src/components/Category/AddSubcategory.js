@@ -13,7 +13,7 @@ class AddSubcategory extends Component {
         super(props);
         this.state = {
             name: "",
-            value: "1",
+            value: "",
             errors: {},
             checked: false,
             validationError: {
@@ -112,7 +112,6 @@ class AddSubcategory extends Component {
         const content = this.state.checked
         const {errors} = this.state
         const {categories} = this.props.category;
-
         
         return (
             <>
@@ -126,6 +125,7 @@ class AddSubcategory extends Component {
                                 <form onSubmit={this.onSubmit}>
                                     <div className="form-group">
                                     <select value={this.state.value} onChange={this.handleChange} name="id">
+                                    <option value={""}> - </option>
                                     {categories.map(
                                         category => (<CategoryItemToForm key={category.id} category={category}/>)
                                     )}

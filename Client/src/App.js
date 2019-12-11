@@ -24,6 +24,8 @@ import AddSubcategory from "./components/Category/AddSubcategory";
 import GetEvents from "./components/Event/GetEvents";
 import AddEvent from "./components/Event/AddEvent";
 import GetPeople from "./components/Person/GetPeople"
+import GetTransactions from "./components/Transaction/GetTransactions";
+import AddTransaction from "./components/Transaction/AddTransaction";
 
 
 const jwtToken = localStorage.jwtToken;
@@ -64,6 +66,8 @@ class App extends Component {
                             <SecuredRoute exact="exact" path="/getEvents" component={GetEvents}/>
                             <SecuredRoute exact="exact" path="/addEvent" component={AddEvent}/>
                             <SecuredRoute exact="exact" path="/getPeople" component={GetPeople}/>
+                            <SecuredRoute exact="exact" path="/getTransactions" component={GetTransactions}/>
+                            <SecuredRoute exact="exact" path="/addTransaction" component={AddTransaction}/>
                         </Switch>
                     </div>
                 </Router>
