@@ -1,4 +1,4 @@
-import {GET_TRANSACTIONS, GET_TRANSACTION} from "../actions/types";
+import {GET_TRANSACTIONS, GET_TRANSACTION, DELETE_TRANSACTION} from "../actions/types";
 
 const initialState = {
     transactions: [],
@@ -18,7 +18,13 @@ export default function (state = initialState, action) {
                 ...state,
                 transaction: action.payload
             };
-
+        case DELETE_TRANSACTION:
+            return {
+                ...state,
+                transactions: state
+                    .transactions
+                    .filter(transaction => transaction.id !== action.payload)
+            };
         default:
             return state;
     }

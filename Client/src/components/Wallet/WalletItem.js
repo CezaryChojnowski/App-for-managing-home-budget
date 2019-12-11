@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {Link} from "react-router-dom";
-import ProgressBar from "./ProgressBar"
 import {Progress} from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
 

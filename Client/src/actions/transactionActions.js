@@ -1,5 +1,5 @@
 import axios from "axios";
-import {GET_TRANSACTIONS, GET_ERRORS} from "./types";
+import {GET_TRANSACTIONS, GET_ERRORS, DELETE_TRANSACTION} from "./types";
 
 export const getTransactions = () => async dispatch => {
     const res = await axios.get("http://localhost:8080/transactions/all");
@@ -26,5 +26,12 @@ export const getEventTransactions = (id, history) => async dispatch => {
         dispatch({type: GET_TRANSACTIONS, payload: res.data});
     } catch (error) {
         history.push("/dashboard");
+    }
+};
+
+export const deleteTransaction = id => async dispatch => {
+    {
+        await axios.delete(`http://localhost:8080/transactions/${id}`);
+        dispatch({type: DELETE_TRANSACTION, payload: id});
     }
 };
