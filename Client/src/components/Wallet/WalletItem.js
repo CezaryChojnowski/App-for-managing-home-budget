@@ -5,8 +5,11 @@ import PropTypes from "prop-types";
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import ProgressBar from "./ProgressBar"
+import {Progress} from 'react-sweet-progress';
+import "react-sweet-progress/lib/style.css";
+
 
 class WalletItem extends Component {
 
@@ -43,6 +46,10 @@ class WalletItem extends Component {
             ? "simple-popper"
             : null;
         const {classes} = this.props;
+        var progressValue = (wallet.balance/wallet.financialGoal)*100;
+        if(progressValue>100){
+            progressValue=100;
+        }
         return (
             <div className="container">
                 <div className="card card-body bg-light mb-3">
@@ -72,13 +79,21 @@ class WalletItem extends Component {
                                 </Menu>
                             </div>
                             <Link to={`/updateWallet/${wallet.id}`}>
-                  <li className="list-group-item update">
-                    <i className="fa fa-edit pr-1"> Update Project Info</i>
-                  </li>
-                </Link>
-                { wallet.savings && 
-                    <ProgressBar percentage={(wallet.balance/wallet.financialGoal)*100} balance={wallet.balance} financialGoal={wallet.financialGoal}/>
-                }
+                                <li className="list-group-item update">
+                                    <i className="fa fa-edit pr-1">
+                                        Update Project Info</i>
+                                </li>
+                            </Link>
+                            {/* { wallet.savings &&
+                             <ProgressBar percentage={(wallet.balance/wallet.financialGoal)*100} balance={wallet.balance} financialGoal={wallet.financialGoal}/>
+                            } */
+                            }
+                            {
+                                wallet.savings && 
+                                <div>
+                                        <Progress percent={progressValue}/>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
