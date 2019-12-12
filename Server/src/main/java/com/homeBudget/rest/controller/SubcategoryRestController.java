@@ -38,4 +38,9 @@ public class SubcategoryRestController {
         return ResponseEntity.ok(transactionService.createNewTransaction(transaction.getAmount(),transaction.getComment(),transaction.getDate(), idSubcategory, idWallet, idEvent, idPerson, transaction.isExpenditure()));
     }
 
+    @RequestMapping(value = "/{idSubcategory}", method = RequestMethod.DELETE)
+    public void deleteSubcategory(@PathVariable int idSubcategory, Principal principal){
+        subcategoryService.deleteSubcategory(idSubcategory);
+    }
+
 }

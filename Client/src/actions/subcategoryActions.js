@@ -1,5 +1,5 @@
 import axios from "axios";
-import {GET_SUBCATEGORIES, GET_ERRORS} from "./types";
+import {GET_SUBCATEGORIES, GET_ERRORS, DELETE_SUBCATEGORY} from "./types";
 
 export const getSubcategories = () => async dispatch => {
     const res = await axios.get("http://localhost:8080/subcategories/all");
@@ -14,3 +14,11 @@ export const createSubcategory = (id, subcategory, history) => async dispatch =>
         dispatch({type: GET_ERRORS, payload: err.response.data});
     }
 };
+
+export const deleteSubcategory = id => async dispatch => {
+    {
+        await axios.delete(`http://localhost:8080/subcategories/${id}`);
+        dispatch({type: DELETE_SUBCATEGORY, payload: id});
+    }
+};
+

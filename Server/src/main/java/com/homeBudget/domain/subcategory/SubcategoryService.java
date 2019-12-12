@@ -48,4 +48,8 @@ public class SubcategoryService {
         return subcategoryRepository.findSubcategoriesByUserEmail(email);
     }
 
+    public void deleteSubcategory(int id){
+        subcategoryRepository.deleteById(id);
+    }
+
 }
