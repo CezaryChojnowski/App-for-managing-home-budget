@@ -7,6 +7,7 @@ import com.homeBudget.domain.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -31,5 +32,11 @@ public class EventRestController {
         String email = userService.findUserByEmail(principal.getName()).getEmail();
         User user = userService.findUserByEmail(email);
         return ResponseEntity.ok(eventService.getAllEventsByUser(user));
+    }
+
+    @RequestMapping(value = "/{idEvent}", method = RequestMethod.DELETE)
+    @Transactional
+    public void deleteWallet(@PathVariable Long idEvent, Principal principal){
+        eventService.deleteEvent(idEvent);
     }
 }

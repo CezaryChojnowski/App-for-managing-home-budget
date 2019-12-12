@@ -10,4 +10,6 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Integer> {
     Event findEventById(Long id);
     List<Event> findEventsByUser(User user);
+
+    void deleteById(Long id);
 }

@@ -37,12 +37,13 @@ public class Event {
     private boolean over;
 
     @Setter
-    @ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = User.class)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
     @JoinColumn(name="id_user")
     @JsonIgnore
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "event")
+    @JsonIgnore
     private List<Transaction> transactions = new ArrayList<>();
 
     @Override
