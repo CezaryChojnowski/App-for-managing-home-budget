@@ -6,12 +6,15 @@ export const DELETE_WALLET = "DELETE_WALLET";
 
 export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_CATEGORY = "GET_CATEGORY";
+export const DELETE_CATEGORY = "DELETE_CATEGORY";
 
 export const GET_SUBCATEGORIES = "GET_SUBCATEGORIES";
 export const GET_SUBCATEGORY = "GET_SUBCATEGORY";
+export const DELETE_SUBCATEGORY = "DELETE_SUBCATEGORY";
 
 export const GET_EVENT = "GET_EVENT";
 export const GET_EVENTS = "GET_EVENTS";
+export const DELETE_EVENT = "DELETE_EVENT";
 
 export const GET_PERSON = "GET_PERSON";
 export const GET_PEOPLE = "GET_PEOPLE";

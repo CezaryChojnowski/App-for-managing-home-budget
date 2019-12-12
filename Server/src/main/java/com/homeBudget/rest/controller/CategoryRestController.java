@@ -53,4 +53,9 @@ public class CategoryRestController {
         System.out.println(categoryService.getAllCategoriesByUser(user));
         return categoryService.getAllCategoriesByUser(user);
     }
+
+    @RequestMapping(value = "/{idCategory}", method = RequestMethod.DELETE)
+    public void deleteWallet(@PathVariable int idCategory, Principal principal){
+        categoryService.deleteCategory(idCategory);
+    }
 }
