@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {editWallet, getWallet} from "../../actions/walletActions";
 import classnames from "classnames";
-import UpdateWalletButton from "./UpdateWalletButton";
 
 class UpdateWallet extends Component {
 

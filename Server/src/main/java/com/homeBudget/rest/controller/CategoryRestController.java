@@ -7,7 +7,9 @@ import com.homeBudget.domain.subcategory.SubcategoryService;
 import com.homeBudget.domain.user.User;
 import com.homeBudget.domain.user.UserService;
 import com.homeBudget.configuration.error.RecordExistsException;
+import com.homeBudget.domain.wallet.Wallet;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -46,6 +48,12 @@ public class CategoryRestController {
         return ResponseEntity.ok(subcategoryService.addSubcategory(subcategoriesList, subcategory, idCategory));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCategoryById(@PathVariable int id, Principal principal){
+        Category category = categoryService.findCategoryById(id);
+        return new ResponseEntity<Category>(category, HttpStatus.OK);
+    }
+
     @GetMapping
     @RequestMapping("/all")
     public List<Category> getUserCategories(Principal principal){
@@ -57,5 +65,13 @@ public class CategoryRestController {
     @RequestMapping(value = "/{idCategory}", method = RequestMethod.DELETE)
     public void deleteWallet(@PathVariable int idCategory, Principal principal){
         categoryService.deleteCategory(idCategory);
+    }
+
+    @RequestMapping(value = "/{idCategory}", method = RequestMethod.PATCH)
+    public ResponseEntity editWallet(@PathVariable("idCategory") int idCategory,
+                                     @Valid @RequestBody Category category,
+                                     Principal principal){
+        User user = userService.findUserByEmail(principal.getName());
+        return ResponseEntity.ok(categoryService.editCategory(category.getId(), category.getName()));
     }
 }

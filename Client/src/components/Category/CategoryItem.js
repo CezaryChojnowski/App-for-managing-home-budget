@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { Redirect } from 'react-router-dom'
 
 class CategoryItem extends Component {
 
@@ -32,6 +33,19 @@ class CategoryItem extends Component {
             .props
             .deleteCategory(id);
     };
+
+    setRedirect = () => {
+        this.setState({
+          redirect: true
+        })
+      }
+      renderRedirect = id => {
+        if (this.state.redirect) {
+          return <Redirect to={{
+            pathname: `/updateCategory/${id}`,
+        }}/>
+        }
+      }
 
     render() {
         const {category} = this.props;
@@ -68,7 +82,8 @@ class CategoryItem extends Component {
                                         onClick={this
                                             .onDeleteClick
                                             .bind(this, category.id)}>Delete</MenuItem>
-                                    <MenuItem onClick={this.handlClose}>Edit</MenuItem>
+                                    {this.renderRedirect(category.id)}        
+                                    <MenuItem onClick={this.setRedirect}>Edit</MenuItem>
                                 </Menu>
                             </div>                           
                             {

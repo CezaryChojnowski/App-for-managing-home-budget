@@ -50,4 +50,14 @@ public class CategoryService {
         categoryRepository.deleteById(id);
     }
 
+    public Category editCategory(int id, String name){
+        Category category = categoryRepository.findCategoryById(id);
+        System.out.print(category);
+        category.setName(name);
+        return categoryRepository.save(category);
+    }
+
+    public Category findCategoryById(int id){
+        return categoryRepository.findCategoryById(id);
+    }
 }
