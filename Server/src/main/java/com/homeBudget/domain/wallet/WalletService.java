@@ -26,7 +26,7 @@ public class WalletService {
         return walletRepository.findWalletByUserAndSavings(user, savings);
     }
 
-    public Wallet createNewWallet(String name, float balance, float financialGoal, String comment, boolean savings, String emailUser){
+    public Wallet createNewWallet(int id, String name, float balance, float financialGoal, String comment, boolean savings, String emailUser){
         Wallet wallet = new Wallet.WalletBuilder()
                 .name(name)
                 .balance(balance)
@@ -53,9 +53,12 @@ public class WalletService {
         return walletRepository.findWalletByUserAndId(user, idWallet);
     }
 
-    public Wallet updateBalance(User user, int id, float balance){
-        Wallet wallet = findWalletByUserAndIdWallet(user, id);
+    public Wallet editWallet(int id, String name, float balance, String comment, float financialGoal){
+        Wallet wallet = findWalletByIdWallet(id);
+        wallet.setName(name);
         wallet.setBalance(balance);
+        wallet.setComment(comment);
+        wallet.setFinancialGoal(financialGoal);
         return walletRepository.save(wallet);
     }
 
@@ -65,7 +68,7 @@ public class WalletService {
         }
         else{
             WalletDTO walletDTO = new WalletDTO(wallet);
-            createNewWallet(wallet.getName(), wallet.getBalance(), wallet.getFinancialGoal(), wallet.getComment(), wallet.isSavings(), email);
+            createNewWallet(wallet.getId() ,wallet.getName(), wallet.getBalance(), wallet.getFinancialGoal(), wallet.getComment(), wallet.isSavings(), email);
             return walletDTO;
         }
     }

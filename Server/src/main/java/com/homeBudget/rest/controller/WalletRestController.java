@@ -45,11 +45,11 @@ public class WalletRestController {
     }
 
     @PatchMapping(value = "/{idWallet}")
-    public ResponseEntity changeBalance(@PathVariable("idWallet") Integer idWallet,
-                                        @RequestParam("balance") float balance,
+    public ResponseEntity editWallet(@PathVariable("idWallet") int idWallet,
+                                        @Valid @RequestBody Wallet wallet,
                                         Principal principal){
         User user = userService.findUserByEmail(principal.getName());
-        return ResponseEntity.ok(walletService.updateBalance(user, idWallet, balance));
+        return ResponseEntity.ok(walletService.editWallet(wallet.getId(), wallet.getName(), wallet.getBalance(), wallet.getComment(), wallet.getFinancialGoal()));
     }
 
     @GetMapping("/{id}")

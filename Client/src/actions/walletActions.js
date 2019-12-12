@@ -10,6 +10,15 @@ export const createWallet = (wallet, history) => async dispatch => {
     }
 };
 
+export const editWallet = (id, wallet, history) => async dispatch => {
+    try {
+        const res = await axios.patch(`http://localhost:8080/wallets/${id}`, wallet);
+        history.push("/getWallets");
+    } catch (err) {
+        dispatch({type: GET_ERRORS, payload: err.response.data});
+    }
+};
+
 export const getWallets = () => async dispatch => {
     const res = await axios.get("http://localhost:8080/wallets/all");
     dispatch({type: GET_WALLETS, payload: res.data});

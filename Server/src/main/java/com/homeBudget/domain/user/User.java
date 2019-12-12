@@ -3,6 +3,7 @@ package com.homeBudget.domain.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.homeBudget.domain.category.Category;
+import com.homeBudget.domain.event.Event;
 import com.homeBudget.domain.wallet.Wallet;
 import lombok.*;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -47,7 +48,7 @@ public class User implements UserDetails {
 //    @ValidEmail
     private String email;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     @JsonIgnore
     private List<Wallet> wallets = new ArrayList<>();
 
@@ -55,9 +56,10 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private List<Category> categories = new ArrayList<>();
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Category> events = new ArrayList<>();
+    @JsonIgnore
+    private List<Event> events = new ArrayList<>();
 
 
     @Override

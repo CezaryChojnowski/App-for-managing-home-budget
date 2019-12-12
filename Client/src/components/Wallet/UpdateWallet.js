@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {createWallet, getWallet} from "../../actions/walletActions";
+import {editWallet, getWallet} from "../../actions/walletActions";
 import classnames from "classnames";
 import UpdateWalletButton from "./UpdateWalletButton";
 
@@ -11,6 +11,7 @@ class UpdateWallet extends Component {
         super();
 
         this.state = {
+            id: "",
             name: "",
             comment: "",
             balance: "",
@@ -35,7 +36,6 @@ class UpdateWallet extends Component {
             .onSubmit
             .bind(this);
     }
-    
 
     messages = {
         name_incorrect: 'Wallet name can not be empty',
@@ -53,27 +53,17 @@ class UpdateWallet extends Component {
         if (nextProps.errors) {
             this.setState({errors: nextProps.errors});
         }
-        const {
-            id,
-            name,
-            balance,
-            financialGoal,
-            savings,
-          } = nextProps.wallet;
-      
-          this.setState({
-            id,
-            name,
-            balance,
-            financialGoal,
-            savings,
-          });
+        const {id, name, balance, financialGoal, savings} = nextProps.wallet;
+
+        this.setState({id, name, balance, financialGoal, savings});
     }
 
     componentDidMount() {
-        const { id } = this.props.match.params;
-        this.props.getWallet(id, this.props.history);
-      }
+        const {id} = this.props.match.params;
+        this
+            .props
+            .getWallet(id, this.props.history);
+    }
 
     onChange(e) {
         this.setState({
@@ -127,7 +117,7 @@ class UpdateWallet extends Component {
             balance: this.state.balance,
             financialGoal: this.state.financialGoal,
             savings: this.state.savings
-          };
+        };
 
         let resultValidation = false;
         resultValidation = (Object.values(this.state.validationError)).includes(true);
@@ -141,7 +131,7 @@ class UpdateWallet extends Component {
             };
             this
                 .props
-                .createWallet(updateWallet, this.props.history);
+                .editWallet(1, updateWallet, this.props.history);
 
         } else {
             this.setState({
@@ -155,21 +145,7 @@ class UpdateWallet extends Component {
     }
 
     render() {
-
-        const content = this.state.checked
-            ? <div className="form-group">
-                    <input
-                        className="form-control form-control-lg"
-                        placeholder="Financial Goal"
-                        type="number"
-                        name="financialGoal"
-                        value={this.state.financialGoal}
-                        onChange={this.onChange}/> {this.state.validationError.financialGoal && <span>{this.messages.financialGoal_incorrect}</span>}
-                </div>
-            : null;
-
         const {errors} = this.state;
-
         return (
             <div>
                 <div className="project">
@@ -217,21 +193,17 @@ class UpdateWallet extends Component {
                                             onChange={this.onChange}/> {this.state.validationError.balance && <span>{this.messages.balance_incorrect}</span>}
                                     </div>
 
-                                    {content}
-
-                                    <label className="form-group">
-                                        <input
-                                            className="form-control form-control-lg"
-                                            placeholder="Savings"
-                                            type="checkbox"
-                                            name="savings"
-                                            value={this.state.savings}
-                                            onChange={this.handleInputChange,
-                                            this.handleChange}
-                                            checked={this.state.checked}/>
-                                        Savings account
-                                    </label>
-
+                                    {
+                                        this.state.savings && <div className="form-group">
+                                                <input
+                                                    className="form-control form-control-lg"
+                                                    placeholder="Financial Goal"
+                                                    type="number"
+                                                    name="financialGoal"
+                                                    value={this.state.financialGoal}
+                                                    onChange={this.onChange}/> {this.state.validationError.financialGoal && <span>{this.messages.financialGoal_incorrect}</span>}
+                                            </div>
+                                    }
                                     <input type="submit" className="btn btn-primary btn-block mt-4"/>
                                 </form>
                             </div>
@@ -245,18 +217,13 @@ class UpdateWallet extends Component {
 
 UpdateWallet.propTypes = {
     getWallet: PropTypes.func.isRequired,
-    createWallet: PropTypes.func.isRequired,
+    editWallet: PropTypes.func.isRequired,
     wallet: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired
-  };
+};
 
-  const mapStateToProps = state => ({
-    wallet: state.wallet.wallet,
-    errors: state.errors
-  });
+const mapStateToProps = state => (
+    {wallet: state.wallet.wallet, errors: state.errors}
+);
 
-
-  export default connect(
-    mapStateToProps,
-    { getWallet, createWallet }
-  )(UpdateWallet);
+export default connect(mapStateToProps, {getWallet, editWallet})(UpdateWallet);

@@ -1,4 +1,4 @@
-import {GET_SUBCATEGORIES, GET_SUBCATEGORY} from "../actions/types";
+import {GET_SUBCATEGORIES, GET_SUBCATEGORY, DELETE_SUBCATEGORY} from "../actions/types";
 
 const initialState = {
     subcategories: [],
@@ -17,6 +17,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 subcategory: action.payload
+            };
+
+        case DELETE_SUBCATEGORY:
+            return {
+                ...state,
+                subcategories: state
+                    .subcategories
+                    .filter(subcategory => subcategory.id !== action.payload)
             };
 
         default:

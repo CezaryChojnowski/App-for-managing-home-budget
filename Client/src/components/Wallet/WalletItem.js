@@ -8,6 +8,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import {Link} from "react-router-dom";
 import {Progress} from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
+import { Redirect } from 'react-router-dom'
+
 
 
 class WalletItem extends Component {
@@ -35,6 +37,19 @@ class WalletItem extends Component {
             .props
             .deleteWallet(id);
     };
+
+    setRedirect = () => {
+        this.setState({
+          redirect: true
+        })
+      }
+      renderRedirect = id => {
+        if (this.state.redirect) {
+          return <Redirect to={{
+            pathname: `/updateWallet/${id}`,
+        }}/>
+        }
+      }
 
     render() {
         const {wallet} = this.props;
@@ -74,19 +89,10 @@ class WalletItem extends Component {
                                         onClick={this
                                             .onDeleteClick
                                             .bind(this, wallet.id)}>Delete</MenuItem>
-                                    <MenuItem onClick={this.handlClose}>Edit</MenuItem>
+                                    {this.renderRedirect(wallet.id)}
+                                    <MenuItem onClick={this.setRedirect}>Edit</MenuItem>
                                 </Menu>
                             </div>
-                            <Link to={`/updateWallet/${wallet.id}`}>
-                                <li className="list-group-item update">
-                                    <i className="fa fa-edit pr-1">
-                                        Update Project Info</i>
-                                </li>
-                            </Link>
-                            {/* { wallet.savings &&
-                             <ProgressBar percentage={(wallet.balance/wallet.financialGoal)*100} balance={wallet.balance} financialGoal={wallet.financialGoal}/>
-                            } */
-                            }
                             {
                                 wallet.savings && 
                                 <div>
