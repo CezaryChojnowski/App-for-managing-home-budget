@@ -6,8 +6,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from "react-router-dom";
 import { Redirect } from 'react-router-dom'
-
-
+import {deleteEvent} from "../../actions/eventActions";
 
 class EventItem extends Component {
 
@@ -44,6 +43,12 @@ class EventItem extends Component {
       }
     }
 
+    onDeleteClick = id => {
+        this
+            .props
+            .deleteEvent(id);
+    };
+
     render() {
       
         const {event} = this.props;
@@ -77,7 +82,10 @@ class EventItem extends Component {
                                       {this.renderRedirect(event.id)}
                                     <MenuItem
                                         onClick={this.setRedirect}>Event transactions</MenuItem>
-                                    <MenuItem onClick={this.handlClose}>Edit</MenuItem>
+                                    <MenuItem
+                                        onClick={this
+                                            .onDeleteClick
+                                            .bind(this, event.id)}>Delete</MenuItem>
                                 </Menu>
                             </div>
                         </div>
@@ -88,4 +96,9 @@ class EventItem extends Component {
     }
 }
 
-export default connect(null,)(EventItem);
+EventItem.propTypes = {
+    deleteEvent: PropTypes.func.isRequired
+};
+
+export default connect(null, {deleteEvent})(EventItem);
+
