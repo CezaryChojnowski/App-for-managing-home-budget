@@ -76,4 +76,13 @@ public class WalletService {
     public List<Wallet> findAllWallets(User user){
         return walletRepository.findWalletByUser(user);
     }
+
+    public void TransferFunds(int idWallet_1, int idWallet_2, float amount){
+        Wallet wallet1 = walletRepository.findWalletById(idWallet_1);
+        Wallet wallet2 = walletRepository.findWalletById(idWallet_2);
+        wallet1.setBalance(wallet1.getBalance()-amount);
+        wallet2.setBalance(wallet2.getBalance()+amount);
+        walletRepository.save(wallet1);
+        walletRepository.save(wallet2);
+    }
 }

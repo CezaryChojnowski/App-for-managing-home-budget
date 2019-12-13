@@ -69,4 +69,12 @@ public class WalletRestController {
     public void deleteWallet(@PathVariable int idWallet, Principal principal){
         walletService.deleteWallet(idWallet);
     }
+
+    @PatchMapping
+    public void TransferFunds(@RequestParam("idWallet1") int idWallet1,
+                                     @RequestParam("idWallet2") int idWallet2,
+                                        @RequestParam("amount") float amount,
+                                     Principal principal){
+        walletService.TransferFunds(idWallet1, idWallet2, amount);
+    }
 }
