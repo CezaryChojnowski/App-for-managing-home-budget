@@ -13,11 +13,12 @@ import GoToWalletsButton from './Wallet/GoToWalletsButton';
 import GoToCategoriesButton from './Category/GoToCategoriesButton'
 import GoToEventsButton from "./Event/GoToEventsButton";
 import GoToPersonsButton from "./Person/GoToPersonsButton"
-import GoToTransactionsButton from "./Transaction/GoToTransactionsButton"
+import GoToTransactionsButton from "./Transaction/GoToTransactionsButton";
+
 
 const useStyles = makeStyles({
   list: {
-    width: 250,
+    width: 200,
   },
   fullList: {
     width: 'auto',
@@ -55,11 +56,11 @@ const sideList = side => (
             <ListItemText><GoToWalletsButton/></ListItemText>
           </ListItem>
         ))} */}
-        <ListItemText><GoToWalletsButton/></ListItemText>
-        <ListItemText><GoToCategoriesButton/></ListItemText>
-        <ListItemText><GoToEventsButton/></ListItemText>
-        <ListItemText><GoToPersonsButton/></ListItemText>
-        <ListItemText><GoToTransactionsButton/></ListItemText>
+        <ListItem><GoToWalletsButton/></ListItem>
+        <ListItem><GoToCategoriesButton/></ListItem>
+        <ListItem><GoToEventsButton/></ListItem>
+        <ListItem><GoToPersonsButton/></ListItem>
+        <ListItem><GoToTransactionsButton/></ListItem>
       </List>
     </div>
   );

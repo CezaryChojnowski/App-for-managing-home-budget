@@ -44,3 +44,11 @@ export const getWallet = (id, history) => async dispatch => {
         history.push("/dashboard");
     }
 };
+
+export const transferFunds = (wallet1, wallet2, amount) => async dispatch => {
+    try {
+        const res = await axios.patch(`http://localhost:8080/wallets?idWallet1=${wallet1}&idWallet2=${wallet2}&amount=${amount}`);
+    } catch (err) {
+        dispatch({type: GET_ERRORS, payload: err.response.data});
+    }
+};
