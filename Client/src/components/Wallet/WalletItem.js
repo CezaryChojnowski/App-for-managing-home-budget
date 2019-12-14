@@ -108,9 +108,9 @@ class WalletItem extends Component {
             .props
             .transferFunds( this.state.senderWallet.id, this.state.recipientWallet.id, "1000");
         this.setState({openDialog: false});
-        // window
-        //     .location
-        //     .reload(false);
+        window
+            .location
+            .reload(false);
     }
 
     onChange(e) {

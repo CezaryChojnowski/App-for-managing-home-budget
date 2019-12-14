@@ -87,11 +87,11 @@ class UpdateWallet extends Component {
             name = true;
         }
 
-        if (this.state.balance <= 0 || this.state.balance == "") {
+        if (this.state.balance < 0 || this.state.balance == "") {
             balance = true;
         }
 
-        if (this.state.checked == true && (this.state.financialGoal < 0 || this.state.financialGoal == "")) {
+        if (this.state.checked == true && (this.state.financialGoal <= 0 || this.state.financialGoal == "")) {
             financialGoal = true;
         }
 
@@ -102,13 +102,6 @@ class UpdateWallet extends Component {
     onSubmit(e) {
         e.preventDefault();
         const validation = this.formValidation();
-        this.setState({
-            validationError: {
-                name: validation.name,
-                balance: validation.balance,
-                financialGoal: validation.financialGoal
-            }
-        })
 
         const updateWallet = {
             id: this.state.id,
@@ -119,7 +112,7 @@ class UpdateWallet extends Component {
         };
 
         let resultValidation = false;
-        resultValidation = (Object.values(this.state.validationError)).includes(true);
+        resultValidation = (Object.values(validation)).includes(true);
         if (resultValidation === false) {
             const newWallet = {
                 name: this.state.name,

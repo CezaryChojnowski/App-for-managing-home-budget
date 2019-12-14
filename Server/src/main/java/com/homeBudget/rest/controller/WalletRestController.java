@@ -49,7 +49,8 @@ public class WalletRestController {
                                         @Valid @RequestBody Wallet wallet,
                                         Principal principal){
         User user = userService.findUserByEmail(principal.getName());
-        return ResponseEntity.ok(walletService.editWallet(wallet.getId(), wallet.getName(), wallet.getBalance(), wallet.getComment(), wallet.getFinancialGoal()));
+        List<Wallet> walletsList = (List<Wallet>) walletService.findAllUserWallets(user);
+        return ResponseEntity.ok(walletService.editWallet(wallet.getId(), wallet.getName(), wallet.getBalance(), wallet.getComment(), wallet.getFinancialGoal(), walletsList));
     }
 
     @GetMapping("/{id}")

@@ -53,13 +53,17 @@ public class WalletService {
         return walletRepository.findWalletByUserAndId(user, idWallet);
     }
 
-    public Wallet editWallet(int id, String name, float balance, String comment, float financialGoal){
+    public Wallet editWallet(int id, String name, float balance, String comment, float financialGoal, List<Wallet> walletsList){
         Wallet wallet = findWalletByIdWallet(id);
-        wallet.setName(name);
-        wallet.setBalance(balance);
-        wallet.setComment(comment);
-        wallet.setFinancialGoal(financialGoal);
-        return walletRepository.save(wallet);
+        walletsList.remove(wallet);
+        if(checkIfUserHasWalletWithTheGivenName(walletsList, name)){
+            throw new RecordExistsException(env.getProperty("recordExists") + " " + name);
+        }
+            wallet.setName(name);
+            wallet.setBalance(balance);
+            wallet.setComment(comment);
+            wallet.setFinancialGoal(financialGoal);
+            return walletRepository.save(wallet);
     }
 
     public WalletDTO addWallet(List<Wallet> walletsList, Wallet wallet, String email){
