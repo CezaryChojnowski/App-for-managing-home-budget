@@ -58,7 +58,6 @@ public class CategoryRestController {
     @RequestMapping("/all")
     public List<Category> getUserCategories(Principal principal){
         User user = userService.findUserByEmail(principal.getName());
-        System.out.println(categoryService.getAllCategoriesByUser(user));
         return categoryService.getAllCategoriesByUser(user);
     }
 

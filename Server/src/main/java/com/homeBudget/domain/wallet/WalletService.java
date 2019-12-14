@@ -77,12 +77,12 @@ public class WalletService {
         return walletRepository.findWalletByUser(user);
     }
 
-    public void TransferFunds(int idWallet_1, int idWallet_2, float amount){
-        Wallet wallet1 = walletRepository.findWalletById(idWallet_1);
-        Wallet wallet2 = walletRepository.findWalletById(idWallet_2);
-        wallet1.setBalance(wallet1.getBalance()-amount);
-        wallet2.setBalance(wallet2.getBalance()+amount);
-        walletRepository.save(wallet1);
-        walletRepository.save(wallet2);
+    public void TransferFunds(int senderWallet, int recipientWallet, float amount){
+        Wallet sender = walletRepository.findWalletById(senderWallet);
+        Wallet recipient = walletRepository.findWalletById(recipientWallet);
+        sender.setBalance(sender.getBalance()-amount);
+        recipient.setBalance(recipient.getBalance()+amount);
+        walletRepository.save(sender);
+        walletRepository.save(recipient);
     }
 }

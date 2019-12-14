@@ -52,7 +52,6 @@ public class CategoryService {
 
     public Category editCategory(int id, String name){
         Category category = categoryRepository.findCategoryById(id);
-        System.out.print(category);
         category.setName(name);
         return categoryRepository.save(category);
     }

@@ -45,9 +45,13 @@ export const getWallet = (id, history) => async dispatch => {
     }
 };
 
-export const transferFunds = (wallet1, wallet2, amount) => async dispatch => {
+export const transferFunds = (IDsenderWallet, IDrecipientWallet, amount) => async dispatch => {
     try {
-        const res = await axios.patch(`http://localhost:8080/wallets?idWallet1=${wallet1}&idWallet2=${wallet2}&amount=${amount}`);
+        const res = await axios.patch(`http://localhost:8080/wallets`, null, {params: {
+            IDsenderWallet,
+            IDrecipientWallet,
+            amount,
+        }});
     } catch (err) {
         dispatch({type: GET_ERRORS, payload: err.response.data});
     }

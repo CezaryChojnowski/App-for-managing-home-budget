@@ -30,10 +30,9 @@ class WalletItem extends Component {
             anchorEl: null,
             open: false,
             openDialog: false,
-            wallet: "",
+            senderWallet: "",
             amount: "",
-            wallet1: "",
-            wallet2: ""
+            recipientWallet: ""
         };
         this.handleChangeWallet = this
             .handleChangeWallet
@@ -90,8 +89,7 @@ class WalletItem extends Component {
     }
 
     handleChangeWallet(event) {
-        this.setState({wallet: event.target.value});
-        this.setState({wallet2: event.target.value});
+        this.setState({senderWallet: event.target.value});
     }
 
     ITEM_HEIGHT = 48;
@@ -108,11 +106,11 @@ class WalletItem extends Component {
     onSubmit(e) {
         this
             .props
-            .transferFunds(this.state.wallet1, this.state.wallet2.id, "1000");
+            .transferFunds( this.state.senderWallet.id, this.state.recipientWallet.id, "1000");
         this.setState({openDialog: false});
-        window
-            .location
-            .reload(false);
+        // window
+        //     .location
+        //     .reload(false);
     }
 
     onChange(e) {
@@ -124,9 +122,8 @@ class WalletItem extends Component {
     render() {
         const {wallet} = this.props;
         const {wallets} = this.props.wallets;
-        console.log(this.state.wallet);
-        console.log(this.state.wallet1);
-        console.log(this.state.wallet2);
+        this.state.recipientWallet=wallet;
+
         const open = this.state.anchorEl === null
             ? false
             : true;
@@ -177,7 +174,6 @@ class WalletItem extends Component {
                                 open={this.state.openDialog}
                                 onClose={this.handleCloseDialog}
                                 aria-labelledby="form-dialog-title">
-                                {this.state.wallet1 = wallet.id}
                                 <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText>

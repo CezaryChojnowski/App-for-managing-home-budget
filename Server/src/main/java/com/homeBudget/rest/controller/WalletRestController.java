@@ -71,10 +71,10 @@ public class WalletRestController {
     }
 
     @PatchMapping
-    public void TransferFunds(@RequestParam("idWallet1") int idWallet1,
-                                     @RequestParam("idWallet2") int idWallet2,
+    public void TransferFunds(@RequestParam("IDsenderWallet") int IDsenderWallet,
+                                     @RequestParam("IDrecipientWallet") int IDrecipientWallet,
                                         @RequestParam("amount") float amount,
                                      Principal principal){
-        walletService.TransferFunds(idWallet1, idWallet2, amount);
+        walletService.TransferFunds(IDsenderWallet, IDrecipientWallet, amount);
     }
 }
