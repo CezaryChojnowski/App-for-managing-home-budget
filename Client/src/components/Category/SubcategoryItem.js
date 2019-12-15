@@ -30,6 +30,9 @@ class SubcategoryItem extends Component {
         this
             .props
             .deleteSubcategory(id);
+            window
+            .location
+            .reload(false);
     };
 
     render() {

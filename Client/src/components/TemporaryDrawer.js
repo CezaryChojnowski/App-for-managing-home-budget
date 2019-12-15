@@ -50,17 +50,11 @@ const sideList = side => (
       onKeyDown={toggleDrawer(side, false)}
     >
       <List>
-        {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText><GoToWalletsButton/></ListItemText>
-          </ListItem>
-        ))} */}
+        <ListItem><GoToTransactionsButton/></ListItem>
         <ListItem><GoToWalletsButton/></ListItem>
+        <ListItem><GoToPersonsButton/></ListItem>
         <ListItem><GoToCategoriesButton/></ListItem>
         <ListItem><GoToEventsButton/></ListItem>
-        <ListItem><GoToPersonsButton/></ListItem>
-        <ListItem><GoToTransactionsButton/></ListItem>
       </List>
     </div>
   );

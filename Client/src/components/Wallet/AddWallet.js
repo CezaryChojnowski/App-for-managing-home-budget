@@ -179,19 +179,17 @@ class AddWallet extends Component {
 
                                     {content}
 
-                                    <label className="form-group">
-                                        <input
-                                            className="form-control form-control-lg"
-                                            placeholder="Savings"
-                                            type="checkbox"
-                                            name="savings"
-                                            value={this.state.savings}
-                                            onChange={this.handleInputChange,
-                                            this.handleChange}
-                                            checked={this.state.checked}/>
-                                        Savings account
-                                    </label>
-
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" 
+                                        class="custom-control-input" 
+                                        id="customCheck1"
+                                        type="checkbox"
+                                        value={this.state.savings}
+                                        onChange={this.handleInputChange,
+                                        this.handleChange}                                       
+                                        />
+                                        <label class="custom-control-label" for="customCheck1">Savings wallet</label>
+                                    </div>
                                     <input type="submit" className="btn btn-primary btn-block mt-4"/>
                                 </form>
                             </div>
