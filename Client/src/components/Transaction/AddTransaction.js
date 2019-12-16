@@ -27,6 +27,7 @@ class AddTransaction extends Component {
             wallet: "",
             event: "",
             person: "",
+            moreOptions: false,
             errors: {},
             validationError: {
                 name: false
@@ -53,6 +54,9 @@ class AddTransaction extends Component {
             .bind(this);
         this.handleChangePerson = this
             .handleChangePerson
+            .bind(this);
+        this.handleChange = this
+            .handleChange
             .bind(this);
     }
 
@@ -83,6 +87,12 @@ class AddTransaction extends Component {
         if (nextProps.errors) {
             this.setState({errors: nextProps.errors});
         }
+    }
+
+    handleChange() {
+        this.setState({
+            moreOptions: !this.state.moreOptions
+        })
     }
 
     handleChangeWallet(event) {
@@ -125,7 +135,6 @@ class AddTransaction extends Component {
         if (this.state.amount.length < 0 || this.state.amount == "") {
             amount = true;
         }
-
         if (this.date == "") {
             date = true;
         }
@@ -173,20 +182,50 @@ class AddTransaction extends Component {
 
     render() {
 
-        const content = this.state.checked
         const {wallets} = this.props.wallet;
         const {events} = this.props.event;
         const {subcategories} = this.props.subcategory;
         const {people} = this.props.person;
         const {errors} = this.state;
 
-        if(wallets[0] != undefined && subcategories[0] != undefined){
-            this.state.wallet=wallets[0].id
-            this.state.subcategory=subcategories[0].id
+        if (wallets[0] != undefined && subcategories[0] != undefined) {
+            this.state.wallet = wallets[0].id
+            this.state.subcategory = subcategories[0].id
         }
-        
+
+        const content = this.state.moreOptions
+            ? <> 
+            < div className = "form-group" > Select event < select
+        className = "custom-select"
+        value = {
+            this.state.event
+        }
+        onChange = {
+            this.handleChangeEvent
+        }
+        name = "id" > <option value={""}>
+                -
+            </option>
+            {
+            events.map(event => (<EventItemToForm key={event.id} event={event}/>))
+        } </select>
+            </div > <div className="form-group">
+            Select person
+            <select
+                className="custom-select"
+                value={this.state.person}
+                onChange={this.handleChangePerson}
+                name="id">
+                <option value={""}>
+                    -
+                </option>
+                {people.map(person => (<PersonItemToForm key={person.id} person={person}/>))}
+            </select>
+        </div>
+    </>: null;
+
         return (
-            
+
             <div>
                 <div className="transacion">
                     <div className="container">
@@ -196,18 +235,19 @@ class AddTransaction extends Component {
                                 <hr/>
                                 <form onSubmit={this.onSubmit}>
                                     <div className="form-group">
-                                        <select value={this.state.wallet} onChange={this.handleChangeWallet} name="id">
+                                        Sellect wallet
+                                        <select
+                                            className="custom-select"
+                                            value={this.state.wallet}
+                                            onChange={this.handleChangeWallet}
+                                            name="id">
                                             {wallets.map(wallet => (<WalletItemToForm key={wallet.id} wallet={wallet}/>))}
                                         </select>
                                     </div>
                                     <div className="form-group">
-                                        <select value={this.state.event} onChange={this.handleChangeEvent} name="id">
-                                        <option value={""}> - </option>
-                                            {events.map(event => (<EventItemToForm key={event.id} event={event}/>))}
-                                        </select>
-                                    </div>
-                                    <div className="form-group">
+                                        Sellect subcategory
                                         <select
+                                            className="custom-select"
                                             value={this.state.subcategory}
                                             onChange={this.handleChangeSubcategory}
                                             name="id">
@@ -216,12 +256,6 @@ class AddTransaction extends Component {
                                                     subcategory => (<SubcategoryItemToForm key={subcategory.id} subcategory={subcategory}/>)
                                                 )
                                             }
-                                        </select>
-                                    </div>
-                                    <div className="form-group">
-                                        <select value={this.state.person} onChange={this.handleChangePerson} name="id">
-                                        <option value={""}> - </option>
-                                            {people.map(person => (<PersonItemToForm key={person.id} person={person}/>))}
                                         </select>
                                     </div>
                                     <div className="form-group">
@@ -251,14 +285,29 @@ class AddTransaction extends Component {
                                             onChange={this.onChange}/>
                                     </div>
                                     <div className="form-group">
-                                        <input
-                                            type="date"
-                                            className="form-control form-control-lg"
-                                            placeholder="Date"
-                                            name="date"
-                                            value={this.state.date}
-                                            onChange={this.onChange}/>
+                                        {
+                                            <input
+                                                    type="date"
+                                                    className="form-control form-control-lg"
+                                                    placeholder="Date"
+                                                    name="date"
+                                                    value={this.state.date}
+                                                    onChange={this.onChange}/>
+                                        }
                                     </div>
+
+                                    {content}
+
+                                    <div className="custom-control custom-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            className="custom-control-input"
+                                            id="customCheck1"
+                                            value={this.state.moreOptions}
+                                            onChange={this.handleChange}/>
+                                        <label className="custom-control-label" htmlFor="customCheck1">More option</label>
+                                    </div>
+
                                     <input type="submit" className="btn btn-primary btn-block mt-4"/>
                                 </form>
                             </div>
