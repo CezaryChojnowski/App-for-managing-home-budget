@@ -282,7 +282,7 @@ class AddTransaction extends Component {
                                             placeholder="amount"
                                             name="amount"
                                             value={this.state.amount}
-                                            onChange={this.onChange}/>
+                                         onChange={this.onChange}/>
                                     </div>
                                     <div className="form-group">
                                         {

@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import {Link} from "react-router-dom";
 import {Progress} from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
 import {Redirect} from 'react-router-dom'
@@ -14,10 +13,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
 import {getWallets} from "../../actions/walletActions";
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
 import {transferFunds} from "../../actions/walletActions";
@@ -106,7 +102,7 @@ class WalletItem extends Component {
     onSubmit(e) {
         this
             .props
-            .transferFunds( this.state.senderWallet.id, this.state.recipientWallet.id, "1000");
+            .transferFunds( this.state.senderWallet.id, this.state.recipientWallet.id, this.state.amount);
         this.setState({openDialog: false});
         window
             .location
@@ -122,8 +118,17 @@ class WalletItem extends Component {
     render() {
         const {wallet} = this.props;
         const {wallets} = this.props.wallets;
+        // var walletsListWithotSender = [];
+        // var currentWalletInex;
+        // // console.log(wallets)
+        // console.log(this.state.recipientWallet)
+        // if(wallets!=undefined && this.state.recipientWallet!=undefined){
+        //     currentWalletInex=wallets.indexOf(wallet, 0);
+        //     walletsListWithotSender = wallets;
+        //     walletsListWithotSender.splice(currentWalletInex,1);
+        // }
+        // console.log(walletsListWithotSender);
         this.state.recipientWallet=wallet;
-
         const open = this.state.anchorEl === null
             ? false
             : true;
@@ -135,6 +140,7 @@ class WalletItem extends Component {
         if (progressValue > 100) {
             progressValue = 100;
         }
+        
         return (
             <div className="container">
                 <div className="card card-body bg-light mb-3">
@@ -176,15 +182,18 @@ class WalletItem extends Component {
                                 aria-labelledby="form-dialog-title">
                                 <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
                                 <DialogContent>
-                                    <DialogContentText>
-                                        To subscribe to this website, please enter your email address here. We will send
-                                        updates occasionally.
+                                    <DialogContentText>                                      
+                                        Transfer funds to the savings wallet
                                     </DialogContentText>
+                                    Select sender wallet
+                                    <br></br>
                                     <Select
                                         labelId="demo-mutiple-name-label"
                                         id="demo-mutiple-name"
-                                        value={this.state.wallet}
+                                        className="form-control form-control-lg"
+                                        value={this.state.senderWallet}
                                         onChange={this.handleChangeWallet}
+                                        placeholder="Wallet sender"
                                         input={<Input />}
                                         MenuProps={this.MenuProps}>
                                         {
@@ -196,21 +205,28 @@ class WalletItem extends Component {
                                         }
                                     </Select>
                                     <br></br>
+                                    <div className="form-group">
                                     <input
                                         autoFocus="autoFocus"
                                         margin="dense"
                                         id="amount"
                                         label="amount"
+                                        name="amount"
                                         type="number"
+                                        placeholder="Amount"
+                                        className="form-control form-control-lg"
                                         value={this.state.amount}
                                         onChange={this.onChange}/>
+                                    </div>
+                                {/* {console.log("Senedr: " + this.state.senderWallet.name)}
+                                {console.log("Recipient: " + this.state.recipientWallet.name)} */}
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={this.handleCloseDialog} color="primary">
                                         Cancel
                                     </Button>
                                     <Button onClick={this.onSubmit} color="primary">
-                                        Subscribe
+                                        Transfer founds
                                     </Button>
                                 </DialogActions>
                             </Dialog>
