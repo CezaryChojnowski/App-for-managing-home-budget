@@ -75,6 +75,7 @@ class Register extends Component {
                                         placeholder="First name"
                                         name="firstName"
                                         value={this.state.firstName}
+                                        autoComplete = "off"
                                         onChange={this.onChange}/> {errors.firstName && (<div className="invalid-feedback">{errors.firstName}</div>)}
                                 </div>
                                 <div className="form-group">
@@ -84,6 +85,7 @@ class Register extends Component {
                                         placeholder="Last name"
                                         name="lastName"
                                         value={this.state.lastName}
+                                        autoComplete = "off"                                        
                                         onChange={this.onChange}/> {errors.lastName && (<div className="invalid-feedback">{errors.lastName}</div>)}
                                 </div>
                                 <div className="form-group">
@@ -93,6 +95,7 @@ class Register extends Component {
                                         placeholder="Password"
                                         name="password"
                                         value={this.state.password}
+                                        autoComplete = "off"
                                         onChange={this.onChange}/> {
                                         errors.password && (
                                             <div className="invalid-feedback">
@@ -103,11 +106,12 @@ class Register extends Component {
                                     <div className="form-group">
                                         <input
                                             type="text"
-                                            className={classnames("form-control form-control-lg", {"is-invalid": errors.email})}
+                                            className={classnames("form-control form-control-lg", {"is-invalid": errors.status === 409})}
                                             placeholder="Email"
                                             name="email"
                                             value={this.state.email}
-                                            onChange={this.onChange}/> {errors.email && (<div className="invalid-feedback">{errors.email}</div>)}
+                                            autoComplete = "off"                                           
+                                            onChange={this.onChange}/> {errors.status === 409 && (<div className="invalid-feedback">{errors.details}</div>)}
                                     </div>
                                 </div>
                                 <input type="submit" className="btn btn-info btn-block mt-4"/>
