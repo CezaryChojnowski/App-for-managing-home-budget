@@ -65,7 +65,6 @@ class EventItem extends Component {
                     <div className="row">
                         <div className="col-lg-6 col-md-4 col-8">
                             <h2>{event.name}</h2>
-                            <h2>{event.id}</h2>
                             <div>
                                 <Button
                                     aria-controls="simple-menu"

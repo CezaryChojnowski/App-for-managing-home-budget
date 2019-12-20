@@ -31,7 +31,7 @@ class GetTransactions extends Component {
         super();
         const d = new Date()
         this.state = {
-            month: d.getMonth(),
+            month: d.getMonth()+1,
             year: d.getFullYear(),
             disableButtonNextMonth: false,
             disableButtonPreviousMonth: false
@@ -65,13 +65,18 @@ class GetTransactions extends Component {
         
     };
 
-
+    Round(n, k) 
+    {
+        var factor = Math.pow(10, k+1);
+        n = Math.round(Math.round(n*factor)/10);
+        return n/(factor/10);
+    }
     render() {
-        console.log(this.state.month)
         const Month = this.state.month;
         const Year = this.state.year;
         const {transactions} = this.props.transaction;
         var lastYear, lastMonth, firstYear, firstMonth, lastDate, firstDate;
+        var totalExpenditure=0, totalRevenues=0;
         transactions.sort(
             (a, b) => (a.date > b.date)
                 ? 1
@@ -102,11 +107,19 @@ class GetTransactions extends Component {
                 .substring(7, 5) == Month &&
                 el.date.substring(4,0) == Year
         });
+        var s;
+        for(s of transactionsByMonth){
+            if(s.expenditure===true){
+                totalExpenditure = totalExpenditure + s.amount
+            }
+            else{
+                totalRevenues = totalRevenues + s.amount
+            }
+        }
         return (
             <> 
-            < div className = "wallets" > <div className="container">
-                <div className="row">
-                    <div className="col-md-12">
+            <p>Outflow: {this.Round(totalExpenditure,2)}</p>
+            <p>Inflow: {this.Round(totalRevenues,2)}</p>
                         <h1 className="display-4 text-center">Transactions</h1>
                         <br/>
                         <CreateTransactionButton/>
@@ -131,15 +144,16 @@ class GetTransactions extends Component {
                             }
                         </Button>
                         <br/>
-                        <hr/> {
+                        <div className="container">
+                        <hr/> 
+                        <table className="table"><tbody>{                            
                             transactionsByMonth.map(
                                 transaction => (<TransactionItem key={transaction.id} transaction={transaction}/>)
                             )
                         }
+                        </tbody>
+                        </table>
                     </div>
-                </div>
-            </div>
-        </div>
     </>
         );
     }

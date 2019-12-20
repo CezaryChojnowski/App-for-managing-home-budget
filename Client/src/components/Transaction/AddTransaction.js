@@ -235,7 +235,7 @@ class AddTransaction extends Component {
                                 <hr/>
                                 <form onSubmit={this.onSubmit}>
                                     <div className="form-group">
-                                        Sellect wallet
+                                        Select wallet
                                         <select
                                             className="custom-select"
                                             value={this.state.wallet}
@@ -245,7 +245,7 @@ class AddTransaction extends Component {
                                         </select>
                                     </div>
                                     <div className="form-group">
-                                        Sellect subcategory
+                                        Select subcategory
                                         <select
                                             className="custom-select"
                                             value={this.state.subcategory}

@@ -118,16 +118,6 @@ class WalletItem extends Component {
     render() {
         const {wallet} = this.props;
         const {wallets} = this.props.wallets;
-        // var walletsListWithotSender = [];
-        // var currentWalletInex;
-        // // console.log(wallets)
-        // console.log(this.state.recipientWallet)
-        // if(wallets!=undefined && this.state.recipientWallet!=undefined){
-        //     currentWalletInex=wallets.indexOf(wallet, 0);
-        //     walletsListWithotSender = wallets;
-        //     walletsListWithotSender.splice(currentWalletInex,1);
-        // }
-        // console.log(walletsListWithotSender);
         this.state.recipientWallet=wallet;
         const open = this.state.anchorEl === null
             ? false
@@ -140,11 +130,9 @@ class WalletItem extends Component {
         if (progressValue > 100) {
             progressValue = 100;
         }
-        
         return (
-            <div className="container">
                 <div className="card card-body bg-light mb-3">
-                    <div className="row">
+                    {/* <div className="row"> */}
                         <div className="col-lg-6 col-md-4 col-8">
                             <h2>{wallet.name}</h2>
                             <p>{wallet.comment}</p>
@@ -180,7 +168,7 @@ class WalletItem extends Component {
                                 open={this.state.openDialog}
                                 onClose={this.handleCloseDialog}
                                 aria-labelledby="form-dialog-title">
-                                <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+                                <DialogTitle id="form-dialog-title">Transfer funds</DialogTitle>
                                 <DialogContent>
                                     <DialogContentText>                                      
                                         Transfer funds to the savings wallet
@@ -218,8 +206,6 @@ class WalletItem extends Component {
                                         value={this.state.amount}
                                         onChange={this.onChange}/>
                                     </div>
-                                {/* {console.log("Senedr: " + this.state.senderWallet.name)}
-                                {console.log("Recipient: " + this.state.recipientWallet.name)} */}
                                 </DialogContent>
                                 <DialogActions>
                                     <Button onClick={this.handleCloseDialog} color="primary">
@@ -232,8 +218,7 @@ class WalletItem extends Component {
                             </Dialog>
                         </div>
                     </div>
-                </div>
-            </div>
+                // </div>
         );
     }
 }

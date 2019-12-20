@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 const GoToWalletsButton = () => {
     return(
         <>
-            <Link to="/getWallets" className="btn btn-lg btn-info">
+            <Link to="/getWallets" className="btn btn-outline-secondary">
                 Wallets
             </Link>
         </>

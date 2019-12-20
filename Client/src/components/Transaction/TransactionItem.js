@@ -35,27 +35,25 @@ class TransactionItem extends Component {
     render() {
         const {transaction} = this.props;
         const open = this.state.anchorEl === null
-        ? false
-        : true;
-    const id = this.state.open
-        ? "simple-popper"
-        : null;
+            ? false
+            : true;
+        const id = this.state.open
+            ? "simple-popper"
+            : null;
         return (
-            <div className="container">
-                <div className="card card-body bg-light mb-3">
-                    <div className="row">
-                        <div className="col-lg-6 col-md-4 col-8">
-                            <h2>{transaction.amount}</h2>
-                            <p>{transaction.wallet.name}</p>
-                            {/* <p>{transaction.subcategory.category.name}</p> */}
-                            <p>{transaction.subcategory.name}</p>
-                            <p>{transaction.date}</p>
-                            <div>
-                                <Button
+            <>
+                <tr>
+                <th scope="row" className="text-left">{transaction.wallet.name}</th>
+                    <th className="text-left">{transaction.subcategory.name}</th>
+                                                  
+                            {transaction.expenditure && <th className="text-right"><p className="text-danger">{-transaction.amount}</p></th>}
+                            {!transaction.expenditure && <th className="text-right">{transaction.amount}</th>}
+
+                                <th><Button
                                     aria-controls="simple-menu"
                                     aria-haspopup="true"
                                     onClick={this.handleClick}>
-                                    Open Menu
+                                    ... 
                                 </Button>
                                 <Menu
                                     id="simple-menu"
@@ -67,13 +65,12 @@ class TransactionItem extends Component {
                                         onClick={this
                                             .onDeleteClick
                                             .bind(this, transaction.id)}>Delete</MenuItem>
-                                    <MenuItem onClick={this.handlClose}>Edit</MenuItem>
+                                    {/* <MenuItem onClick={this.handlClose}>Edit</MenuItem> */}
                                 </Menu>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                </th>
+                                </tr>
+
+            </>
         );
     }
 }

@@ -35,3 +35,9 @@ export const deleteTransaction = id => async dispatch => {
         dispatch({type: DELETE_TRANSACTION, payload: id});
     }
 };
+
+// export const getStats = () => async dispatch => {
+//     axios.get(`http://localhost:8080/transactions/stats`).then(res => {const data = res.data
+//     });
+//     console.log(response);
+// };

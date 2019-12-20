@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom'
 const GoToCategoriesButton = () => {
     return(
         <>
-            <Link to="/getCategories" className="btn btn-lg btn-info">
+            <Link to="/getCategories" className="btn btn-outline-secondary">
                 Categories
             </Link>
         </>

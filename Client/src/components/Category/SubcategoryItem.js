@@ -66,7 +66,7 @@ class SubcategoryItem extends Component {
                                         onClick={this
                                             .onDeleteClick
                                             .bind(this, subcategory.id)}>Delete</MenuItem>
-                                    <MenuItem onClick={this.handlClose}>Edit</MenuItem>
+                                    {/* <MenuItem onClick={this.handlClose}>Edit</MenuItem> */}
                                 </Menu>
                             </div>
                         </div>

@@ -26,10 +26,16 @@ class GetEventTransactions extends Component {
             < div className = "wallets" > <div className="container">
                 <div className="row">
                     <div className="col-md-12">
-                        <h1 className="display-4 text-center">Transactions</h1>
+                        <h1 className="display-4 text-center">Event transactions</h1>
                         <br/>
                         <br/>
-                        <hr/> {transactions.map(transaction => (<TransactionItem key={transaction.id} transaction={transaction}/>))}
+                        <table className="table"><tbody>{                            
+                            transactions.map(
+                                transaction => (<TransactionItem key={transaction.id} transaction={transaction}/>)
+                            )
+                        }
+                        </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

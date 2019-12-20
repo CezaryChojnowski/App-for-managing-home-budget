@@ -14,15 +14,17 @@ import GoToCategoriesButton from './Category/GoToCategoriesButton'
 import GoToEventsButton from "./Event/GoToEventsButton";
 import GoToPersonsButton from "./Person/GoToPersonsButton"
 import GoToTransactionsButton from "./Transaction/GoToTransactionsButton";
+// import GoToCurrencyConverterButton from "./CurrencyConverter/GoToCurrencyConverterButton"
+import "../../src/App.css"
 
 
 const useStyles = makeStyles({
   list: {
-    width: 200,
+    width: 250,
   },
   fullList: {
     width: 'auto',
-  },
+  }
 });
 
 export default function TemporaryDrawer() {
@@ -44,7 +46,7 @@ export default function TemporaryDrawer() {
 
 const sideList = side => (
     <div
-      className={classes.list}
+      className="Temporary"
       role="presentation"
       onClick={toggleDrawer(side, false)}
       onKeyDown={toggleDrawer(side, false)}
@@ -55,33 +57,7 @@ const sideList = side => (
         <ListItem><GoToPersonsButton/></ListItem>
         <ListItem><GoToCategoriesButton/></ListItem>
         <ListItem><GoToEventsButton/></ListItem>
-      </List>
-    </div>
-  );
-
-  const fullList = side => (
-    <div
-      className={classes.fullList}
-      role="presentation"
-      onClick={toggleDrawer(side, false)}
-      onKeyDown={toggleDrawer(side, false)}
-    >
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        {/* <ListItem><GoToCurrencyConverterButton/></ListItem> */}
       </List>
     </div>
   );
