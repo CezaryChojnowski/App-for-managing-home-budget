@@ -40,7 +40,7 @@ if (jwtToken) {
     const currentTime = Date.now() / 1000;
     if (decoded_jwtToken.exp < currentTime) {
         store.dispatch(logout());
-        window.location.href = "/";
+        window.location.href = "/login";
     }
 }
 
