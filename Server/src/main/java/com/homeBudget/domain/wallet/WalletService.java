@@ -89,4 +89,8 @@ public class WalletService {
         walletRepository.save(sender);
         walletRepository.save(recipient);
     }
+
+    public int calculateSumOfAccountBalances(String email, boolean savings){
+        return walletRepository.calculateSumOfAccountBalances(email, savings);
+    }
 }
