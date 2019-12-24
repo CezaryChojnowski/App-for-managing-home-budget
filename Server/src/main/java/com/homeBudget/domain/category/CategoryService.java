@@ -6,7 +6,6 @@ import com.homeBudget.domain.user.UserRepository;
 import com.homeBudget.rest.dto.CategoryDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
