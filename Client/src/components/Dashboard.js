@@ -47,11 +47,20 @@ const useStyles = makeStyles(styles);
 
 export default function Dashboard() {
 
-  const [count, setCount] = useState(null);
+  const [numberOfTransactionsInTheCurrentMonth, setNumberOfTransactionsInTheCurrentMonth] = useState(null);
+  const [balanceOfAllAccounts, setBalanceOfAllAccounts] = useState(null);
+  const [averageDailyExpensesInCurrentMonth, setAverageDailyExpensesInCurrentMonth] = useState(null);
+  const [sumOfExpensesForTheCurrentMonth, setSumOfExpensesForTheCurrentMonth] = useState(null);
+  const [sumOfInComeForTheCurrentMonth, setSumOfInComeForTheCurrentMonth] = useState(null);
+
 
   useEffect(() => {
     axios.get(`http://localhost:8080/transactions/stats`).then(res => {const response = res.data
-    setCount(response.NumberOfTransactionsInTheCurrentMonth);
+    setNumberOfTransactionsInTheCurrentMonth(response.numberOfTransactionsInTheCurrentMonth);
+    setBalanceOfAllAccounts(response.balanceOfAllAccounts);
+    setAverageDailyExpensesInCurrentMonth(response.averageDailyExpensesInCurrentMonth);
+    setSumOfInComeForTheCurrentMonth(response.sumOfInComeForTheCurrentMonth);
+    setSumOfExpensesForTheCurrentMonth(response.sumOfExpensesForTheCurrentMonth);
   });
 
   })
@@ -68,7 +77,7 @@ export default function Dashboard() {
               </CardIcon>
               <p className={classes.cardCategory}>Average daily expenses</p>
               <h3 className={classes.cardTitle}>
-                30,50 <small>zł</small>
+                {averageDailyExpensesInCurrentMonth} <small>zł</small>
               </h3>
             </CardHeader>
             <CardFooter stats>
@@ -90,7 +99,7 @@ export default function Dashboard() {
                 <Store />
               </CardIcon>
               <p className={classes.cardCategory}>Balance of all accounts</p>
-              <h3 className={classes.cardTitle}>3506,245 zł</h3>
+              <h3 className={classes.cardTitle}>{balanceOfAllAccounts} zł</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -107,7 +116,7 @@ export default function Dashboard() {
                 {/* <Icon>info_outline</Icon> */}
               </CardIcon>
               <p className={classes.cardCategory}>Transactions in the month</p>
-              <h3 className={classes.cardTitle}>{count}</h3>
+              <h3 className={classes.cardTitle}>{numberOfTransactionsInTheCurrentMonth}</h3>
             </CardHeader>
             <CardFooter stats>
               {/* <div className={classes.stats}>
@@ -124,8 +133,8 @@ export default function Dashboard() {
                 <Accessibility />
               </CardIcon>
               <p className={classes.cardCategory}>Debts</p>
-              <h6 className={classes.cardTitle}>Payable: 143,23</h6>
-              <h6 className={classes.cardTitle}>Receivable: 33,33</h6>
+            <h6 className={classes.cardTitle}>Expenses: {sumOfExpensesForTheCurrentMonth}</h6>
+            <h6 className={classes.cardTitle}>InCome: {sumOfInComeForTheCurrentMonth}</h6>
             </CardHeader>
             <CardFooter stats>
               {/* <div className={classes.stats}>

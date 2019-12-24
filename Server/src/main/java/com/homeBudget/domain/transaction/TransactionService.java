@@ -4,13 +4,15 @@ import com.homeBudget.domain.event.EventRepository;
 import com.homeBudget.domain.person.PersonRepository;
 import com.homeBudget.domain.subcategory.SubcategoryService;
 import com.homeBudget.domain.subcategory.SubcategoryRepository;
-import com.homeBudget.domain.user.User;
 import com.homeBudget.domain.user.UserRepository;
 import com.homeBudget.domain.wallet.Wallet;
 import com.homeBudget.domain.wallet.WalletRepository;
+import com.homeBudget.rest.dto.DailyExpensesDTO;
+import com.homeBudget.rest.dto.StatsDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -48,17 +50,6 @@ public class TransactionService {
         return transactionRepository.save(transaction);
     }
 
-    public List<Transaction> findAllTransactionsByDate(LocalDate startDate, LocalDate finishDate, User user){
-        List<Transaction> transactions = getAllTransactionsByUserEmail(user.getEmail());
-        List<Transaction> transactionsByDate = transactionRepository.findTransactionsByDateBetween(startDate, finishDate);
-        transactions.retainAll(transactionsByDate);
-        return transactions;
-    }
-
-    public boolean checkIfDateIsNull(LocalDate startDate, LocalDate finishDate){
-        return (startDate == null && finishDate == null);
-    }
-
     public List<Transaction> findTransactionByEvent(Long eventID){
         return transactionRepository.findTransactionsByEvent(eventRepository.findEventById(eventID));
     }
@@ -69,6 +60,29 @@ public class TransactionService {
 
     public List<Transaction> getAllTransactionsByUserEmail(String email){
         return transactionRepository.findTransactionsByUserEmail(email);
+    }
+
+    public StatsDTO getStatsToDashboard(Principal principal){
+        String email = principal.getName();
+        StatsDTO stats = new StatsDTO();
+        LocalDate localDate = LocalDate.now();
+        LocalDate dateStartingCurrentMonthOfTheCurrentYear = LocalDate.parse(localDate.getYear() + "-" + localDate.getMonth().getValue() + "-" + "01");
+        LocalDate dateEndingCurrentMonthOfTheCurrentYear = LocalDate.parse(localDate.getYear() + "-" + localDate.getMonth().getValue() + "-" + localDate.getMonth().maxLength());
+        stats.setBalanceOfAllAccounts(walletRepository.calculateSumOfAccountBalances(email,false));
+        stats.setNumberOfTransactionsInTheCurrentMonth(transactionRepository.qwerty(email,dateStartingCurrentMonthOfTheCurrentYear,dateEndingCurrentMonthOfTheCurrentYear));
+        stats.setAverageDailyExpensesInCurrentMonth((transactionRepository.calculateTheSumOfExpensesForCurrentMonth(email, dateStartingCurrentMonthOfTheCurrentYear, dateEndingCurrentMonthOfTheCurrentYear, true))/localDate.getDayOfMonth());
+        stats.setSumOfExpensesForTheCurrentMonth(transactionRepository.calculateTheSumOfExpensesForCurrentMonth(email, dateStartingCurrentMonthOfTheCurrentYear, dateEndingCurrentMonthOfTheCurrentYear, true));
+        stats.setSumOfInComeForTheCurrentMonth(transactionRepository.calculateTheSumOfInComeForCurrentMonth(email,dateStartingCurrentMonthOfTheCurrentYear,dateEndingCurrentMonthOfTheCurrentYear,false));
+        return stats;
+    }
+
+    public List<DailyExpensesDTO> getDailyExpenses(Principal principal){
+        String email = principal.getName();
+        StatsDTO stats = new StatsDTO();
+        LocalDate localDate = LocalDate.now();
+        LocalDate dateStartingCurrentMonthOfTheCurrentYear = LocalDate.parse(localDate.getYear() + "-" + localDate.getMonth().getValue() + "-" + "01");
+        LocalDate dateEndingCurrentMonthOfTheCurrentYear = LocalDate.parse(localDate.getYear() + "-" + localDate.getMonth().getValue() + "-" + localDate.getMonth().maxLength());
+        return transactionRepository.sumAndGroupDailyExpenses(email,dateStartingCurrentMonthOfTheCurrentYear,dateEndingCurrentMonthOfTheCurrentYear);
     }
 
 }

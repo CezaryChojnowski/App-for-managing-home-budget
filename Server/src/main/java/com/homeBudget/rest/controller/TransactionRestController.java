@@ -1,18 +1,16 @@
 package com.homeBudget.rest.controller;
 
+import com.homeBudget.rest.dto.DailyExpensesDTO;
+import com.homeBudget.rest.dto.StatsDTO;
 import com.homeBudget.domain.transaction.Transaction;
 import com.homeBudget.domain.transaction.TransactionService;
-import com.homeBudget.domain.user.User;
 import com.homeBudget.domain.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -28,6 +26,16 @@ public class TransactionRestController {
     public List<Transaction> getAllTransactions(Principal principal){
         String email = userService.findUserByEmail(principal.getName()).getEmail();
         return transactionService.getAllTransactionsByUserEmail(email);
+    }
+
+    @GetMapping("/stats")
+    public StatsDTO allInfo(Principal principal){
+        return transactionService.getStatsToDashboard(principal);
+    }
+
+    @GetMapping("/getDailyExpenses")
+    public List<DailyExpensesDTO> abcde(Principal principal){
+        return transactionService.getDailyExpenses(principal);
     }
 
     @PostMapping()
