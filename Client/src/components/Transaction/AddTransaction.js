@@ -13,6 +13,8 @@ import {getPeople} from "../../actions/peopleActions";
 import EventItemToForm from "./EventItemToForm";
 import SubcategoryItemToForm from "./SubcategoryItemToForm";
 import PersonItemToForm from "./PersonItemToForm";
+import Radio from '@material-ui/core/Radio';
+
 class AddTransaction extends Component {
 
     constructor(props) {
@@ -27,6 +29,7 @@ class AddTransaction extends Component {
             wallet: "",
             event: "",
             person: "",
+            expenditure: true,
             moreOptions: false,
             errors: {},
             validationError: {
@@ -57,6 +60,9 @@ class AddTransaction extends Component {
             .bind(this);
         this.handleChange = this
             .handleChange
+            .bind(this);
+        this.handleChangeExpenditure = this
+            .handleChangeExpenditure
             .bind(this);
     }
 
@@ -115,6 +121,12 @@ class AddTransaction extends Component {
         this.setState({person: event.target.value});
     }
 
+    handleChangeExpenditure() {
+        this.setState({
+            expenditure: !this.state.expenditure
+        });
+    }
+
     onChange(e) {
         this.setState({
             [e.target.name]: e.target.value
@@ -157,8 +169,10 @@ class AddTransaction extends Component {
             const newTransaction = {
                 comment: this.state.comment,
                 amount: this.state.amount,
-                date: this.state.date
+                date: this.state.date,
+                expenditure: this.state.expenditure
             };
+            console.log(newTransaction);
             this
                 .props
                 .createTransaction(
@@ -194,8 +208,7 @@ class AddTransaction extends Component {
         }
 
         const content = this.state.moreOptions
-            ? <> 
-            < div className = "form-group" > Select event < select
+            ? <> < div className = "form-group" > Select event < select
         className = "custom-select"
         value = {
             this.state.event
@@ -208,7 +221,7 @@ class AddTransaction extends Component {
             </option>
             {
             events.map(event => (<EventItemToForm key={event.id} event={event}/>))
-        } </select>
+        } < /select>
             </div > <div className="form-group">
             Select person
             <select
@@ -234,6 +247,26 @@ class AddTransaction extends Component {
                                 <h5 className="display-4 text-center">Add transaction</h5>
                                 <hr/>
                                 <form onSubmit={this.onSubmit}>
+                                    <div>
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            value={false}
+                                            checked={this.state.expenditure === true}
+                                            onChange={this.handleChangeExpenditure}/>
+                                        Expenses
+                                    </label>
+                                    </div>
+                                    <div>
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            value={true}
+                                            checked={this.state.expenditure === false}
+                                            onChange={this.handleChangeExpenditure}/>
+                                        InCome
+                                    </label>
+                                    </div>
                                     <div className="form-group">
                                         Select wallet
                                         <select
@@ -282,7 +315,7 @@ class AddTransaction extends Component {
                                             placeholder="amount"
                                             name="amount"
                                             value={this.state.amount}
-                                         onChange={this.onChange}/>
+                                            onChange={this.onChange}/>
                                     </div>
                                     <div className="form-group">
                                         {
