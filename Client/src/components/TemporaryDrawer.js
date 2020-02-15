@@ -14,6 +14,8 @@ import GoToCategoriesButton from './Category/GoToCategoriesButton'
 import GoToEventsButton from "./Event/GoToEventsButton";
 import GoToPersonsButton from "./Person/GoToPersonsButton"
 import GoToTransactionsButton from "./Transaction/GoToTransactionsButton";
+import GoToDailyExpenses from "../GoToDailyExpenses"
+import TravelMode from "./Event/TravelMode"
 // import GoToCurrencyConverterButton from "./CurrencyConverter/GoToCurrencyConverterButton"
 import "../../src/App.css"
 
@@ -44,20 +46,27 @@ export default function TemporaryDrawer() {
     setState({ ...state, [side]: open });
   };
 
+// const changeState = () => {
+//   console.log(state.close)
+//     setState({close: true});
+//     console.log(state.close)
+// }
+
 const sideList = side => (
     <div
       className="Temporary"
       role="presentation"
       onClick={toggleDrawer(side, false)}
-      onKeyDown={toggleDrawer(side, false)}
+      onKeyDown={toggleDrawer(side, true)}
     >
       <List>
         <ListItem><GoToTransactionsButton/></ListItem>
         <ListItem><GoToWalletsButton/></ListItem>
-        <ListItem><GoToPersonsButton/></ListItem>
+        {/* <ListItem><GoToPersonsButton/></ListItem> */}
         <ListItem><GoToCategoriesButton/></ListItem>
         <ListItem><GoToEventsButton/></ListItem>
         {/* <ListItem><GoToCurrencyConverterButton/></ListItem> */}
+        <ListItem><GoToDailyExpenses/></ListItem>
       </List>
     </div>
   );

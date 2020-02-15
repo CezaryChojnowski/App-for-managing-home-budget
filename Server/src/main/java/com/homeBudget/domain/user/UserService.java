@@ -2,12 +2,16 @@ package com.homeBudget.domain.user;
 
 import com.homeBudget.configuration.error.RecordExistsException;
 import com.homeBudget.configuration.error.RecordNotFoundException;
+import com.homeBudget.domain.event.Event;
+import com.homeBudget.domain.event.EventRepository;
 import com.homeBudget.rest.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.security.Principal;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +31,7 @@ public class UserService {
                 .lastName(lastName)
                 .password(bCryptPasswordEncoder.encode(password))
                 .email(email)
+                .idTravel((long) 0)
                 .build();
         return userRepository.save(user);
     }
@@ -78,5 +83,30 @@ public class UserService {
         userRepository.save(user);
         return new UserDTO(user);
         }
+    }
+
+    public Long enableTravelMode(long idEvent, Principal principal){
+        User user = findUserByEmail(principal.getName());
+        user.setIdTravel(idEvent);
+        userRepository.save(user);
+        return idEvent;
+    }
+
+    public Long eventMode(Principal principal){
+        System.out.println(principal);
+        User user = userRepository.findUserByEmail(principal.getName()).get();
+        return user.getIdTravel();
+    }
+
+    public void turnOffTravelMode(Principal principal){
+        User user = userRepository.findUserByEmail(principal.getName()).get();
+        user.setIdTravel((long) 0);
+        userRepository.save(user);
+    }
+
+    public void turnOnTravelMode(Principal principal, Long eventId){
+        User user = userRepository.findUserByEmail(principal.getName()).get();
+        user.setIdTravel(eventId);
+        userRepository.save(user);
     }
 }

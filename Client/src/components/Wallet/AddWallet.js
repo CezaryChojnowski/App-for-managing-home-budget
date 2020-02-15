@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {createWallet} from "../../actions/walletActions";
 import classnames from "classnames";
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
 class AddWallet extends Component {
 
     constructor() {
@@ -37,8 +39,8 @@ class AddWallet extends Component {
     messages = {
         name_incorrect: 'Wallet name can not be empty',
         balance_incorrect: 'Balance can not be less than 0',
-        financialGoal_incorrect: 'Financial goal must be greater than 0'
-    }
+        financialGoal_incorrect: 'Financial goal must be greater than 0 and balance can not be greater than financial goal'
+        }
 
     handleChange() {
         this.setState({
@@ -56,14 +58,6 @@ class AddWallet extends Component {
         this.setState({
             [e.target.name]: e.target.value
         });
-        const validation = this.formValidation();
-        this.setState({
-            validationError: {
-                name: validation.name,
-                balance: validation.balance,
-                financialGoal: validation.financialGoal
-            }
-        })
     }
 
     formValidation = () => {
@@ -79,7 +73,7 @@ class AddWallet extends Component {
             balance = true;
         }
 
-        if (this.state.checked == true && (this.state.financialGoal <= 0 || this.state.financialGoal == "")) {
+        if (this.state.checked == true && (this.state.financialGoal <= 0 || this.state.financialGoal == "") || (this.state.balance>this.state.financialGoal)) {
             financialGoal = true;
         }
 
@@ -93,7 +87,10 @@ class AddWallet extends Component {
         let resultValidation = false;
         resultValidation = (Object.values(validation)).includes(true);
         if (resultValidation === false) {
-            const newWallet = {
+            if(this.state.balance>this.state.financialGoal){
+                this.setState({balance: this.state.financialGoal})
+            }
+            var newWallet = {
                 name: this.state.name,
                 comment: this.state.comment,
                 balance: this.state.balance,
@@ -115,17 +112,29 @@ class AddWallet extends Component {
     }
 
     render() {
-
+        console.log(errors)
         const content = this.state.checked
-            ? <div className="form-group">
-                    <input
-                        className="form-control form-control-lg"
-                        placeholder="Financial Goal"
+            ? 
+            <>
+            <br/>
+            <Grid container="container" justify="space-around">
+                    <TextField
+                        error={this.state.validationError.financialGoal}
+                        helperText={this.state.validationError.financialGoal && this.messages.financialGoal_incorrect}
+                        label="Financial goal"
                         type="number"
                         name="financialGoal"
+                        autoComplete="off"
+                        style={{
+                            width: 300
+                        }}
+                        InputLabelProps={{
+                            shrink: true
+                        }}
                         value={this.state.financialGoal}
-                        onChange={this.onChange}/> {this.state.validationError.financialGoal && <span>{this.messages.financialGoal_incorrect}</span>}
-                </div>
+                        onChange={this.onChange}/>
+                </Grid>
+                </>
             : null;
 
         const {errors} = this.state;
@@ -136,61 +145,68 @@ class AddWallet extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-md-8 m-auto">
-                                <h6 className="display-4 text-center">Create wallet</h6>
+                            <h3>Add wallet</h3>
                                 <hr/>
                                 <form onSubmit={this.onSubmit}>
-                                    <div className="form-group">
-                                        <input
-                                            type="text"
-                                            className={classnames("form-control form-control-lg", {
-                                                "is-invalid": errors.status === 409
-                                            })}
-                                            placeholder="Wallet name"
+
+                                    <Grid container="container" justify="space-around">
+
+                                        <TextField
+                                            id="outlined-multiline-flexible"
+                                            label="Wallet name"
                                             name="name"
+                                            multiline="multiline"
+                                            style={{
+                                                width: 300
+                                            }}
+                                            rowsMax="4"
+                                            error={this.state.validationError.name || errors.status===409}
+                                            helperText={(this.state.validationError.name && this.messages.name_incorrect) || (errors.status === 409 && errors.details)} 
+                                            autoComplete="off"
                                             value={this.state.name}
                                             onChange={this.onChange}
-                                            autoComplete="off"/> {this.state.validationError.name && <span>{this.messages.name_incorrect}</span>}
-                                        {
+                                            variant="outlined"/> {
                                             errors.status === 409 && (
                                                 <div className="invalid-feedback">{errors.details}</div>
                                             )
                                         }
-                                    </div>
+                                    </Grid>
+                                    <br/>
 
-                                    <div className="form-group">
-                                        <textarea
-                                            type="text"
-                                            className="form-control form-control-lg"
-                                            placeholder="Comment"
-                                            name="comment"
-                                            value={this.state.comment}
-                                            onChange={this.onChange}/>
-                                    </div>
-
-                                    <div className="form-group">
-                                        <input
-                                            className="form-control form-control-lg"
-                                            placeholder="Balance"
+                                    <Grid container="container" justify="space-around">
+                                        <TextField
+                                            error={this.state.validationError.balance}
+                                            helperText={this.state.validationError.balance && this.messages.balance_incorrect}
+                                            label="Balance"
                                             type="number"
                                             name="balance"
+                                            autoComplete="off"
+                                            style={{
+                                                width: 300
+                                            }}
+                                            InputLabelProps={{
+                                                shrink: true
+                                            }}
                                             value={this.state.balance}
-                                            onChange={this.onChange}/> {this.state.validationError.balance && <span>{this.messages.balance_incorrect}</span>}
-                                    </div>
-
+                                            onChange={this.onChange}/>
+                                    </Grid>
+                                    
                                     {content}
+                                    <br/> 
 
                                     <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" 
-                                        class="custom-control-input" 
-                                        id="customCheck1"
-                                        type="checkbox"
-                                        value={this.state.savings}
-                                        onChange={this.handleInputChange,
-                                        this.handleChange}                                       
-                                        />
+                                        <input
+                                            type="checkbox"
+                                            class="custom-control-input"
+                                            id="customCheck1"
+                                            value={this.state.savings}
+                                            onChange={this.handleInputChange,
+                                            this.handleChange}/>
                                         <label class="custom-control-label" for="customCheck1">Savings wallet</label>
                                     </div>
-                                    <input type="submit" className="btn btn-primary btn-block mt-4"/>
+                                    <br/>
+
+                                    <input type="submit" className="btn btn-primary" value="Create"/>
                                 </form>
                             </div>
                         </div>

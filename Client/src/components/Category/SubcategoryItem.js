@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import "../../../src/table.css";
+
 
 class SubcategoryItem extends Component {
 
@@ -44,12 +46,10 @@ class SubcategoryItem extends Component {
             ? "simple-popper"
             : null;
         return (
-            <div className="container">
-                <div className="card card-body bg-light mb-3">
-                    <div className="row">
-                        <div className="col-lg-6 col-md-4 col-8">
-                            <h2>{subcategory.name}</h2>
-                            <div>
+            <>
+            <tr>
+                            <td class="text-left"><p class="p-subcategory" >{subcategory.name}</p></td>
+                            <td class="text-left">
                                 <Button
                                     aria-controls="simple-menu"
                                     aria-haspopup="true"
@@ -68,11 +68,9 @@ class SubcategoryItem extends Component {
                                             .bind(this, subcategory.id)}>Delete</MenuItem>
                                     {/* <MenuItem onClick={this.handlClose}>Edit</MenuItem> */}
                                 </Menu>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            </td>
+                            </tr>
+                            </>
         );
     }
 }

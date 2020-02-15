@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import { Redirect } from 'react-router-dom'
+import "../../../src/table.css";
+
 
 class CategoryItem extends Component {
 
@@ -14,7 +16,9 @@ class CategoryItem extends Component {
         super(props);
         this.state = {
             anchorEl: null,
-            open: false
+            open: false,
+            categories:[],
+            show:[]
         };
     }
     flipOpen = () => this.setState({
@@ -47,10 +51,32 @@ class CategoryItem extends Component {
         }
       }
 
+    myFunction = () => {
+        var x = document.getElementById("myDIV");
+        if (x.style.display === "none") {
+          x.style.display = "block";
+        } else {
+          x.style.display = "none";
+        }
+      }
+    abc;
+    abcde = (category) => {
+        this.state.categories.push(category);
+        // this.setState({categories: this.state.categories})
+        console.log(this.abc)
+        return this.abc;
+    }
+
     render() {
         const {category} = this.props;
         const {subcategories} = this.props.category
-
+        // this.state.categories.push(category);
+        // var lenght= this.state.categories.length
+        console.log(this.props)
+        // console.log(lenght);
+        // console.log(list.length)
+        console.log(category)
+        this.abcde(category)
         const {subcategory} = this.props;
         const open = this.state.anchorEl === null
             ? false
@@ -60,12 +86,10 @@ class CategoryItem extends Component {
             : null;
 
         return (
-            <div className="container">
-                <div className="card card-body bg-light mb-3">
-                    <div className="row">
-                        <div className="col-lg-6 col-md-4 col-8">
-                            <h1>{category.name}</h1>
-                            <div>
+            <>
+                        <tr>
+                            <td class="text-left"><b>{category.name}</b></td>
+                            <td class="text-left">
                                 <Button
                                     aria-controls="simple-menu"
                                     aria-haspopup="true"
@@ -85,16 +109,15 @@ class CategoryItem extends Component {
                                     {this.renderRedirect(category.id)}        
                                     <MenuItem onClick={this.setRedirect}>Edit</MenuItem>
                                 </Menu>
-                            </div>                           
+                            </td>
+                            </tr>
                             {
                                 subcategories.map(
                                     subcategory => (<SubcategoryItem key={subcategory.id} subcategory={subcategory}/>)
                                 )
                             }
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            </>
+
         );
     }
 }

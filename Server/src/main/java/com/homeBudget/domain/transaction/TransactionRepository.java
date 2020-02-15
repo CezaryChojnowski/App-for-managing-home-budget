@@ -29,7 +29,14 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
  @Query(value = "SELECT new com.homeBudget.rest.dto.DailyExpensesDTO(t.date, sum(t.amount)) FROM User u, Category c, Subcategory s, Transaction t WHERE t.subcategory=s AND s.category=c AND c.user=u AND u.email = ?1 AND t.date between ?2 and ?3 AND t.expenditure = true group by t.date")
  List<DailyExpensesDTO> sumAndGroupDailyExpenses(String email, LocalDate firstMonthDay, LocalDate lastMonthDay);
 
+ @Query(value = "SELECT new com.homeBudget.rest.dto.DailyExpensesDTO(t.date, sum(t.amount)) FROM User u, Category c, Subcategory s, Transaction t WHERE t.subcategory=s AND s.category=c AND c.user=u AND u.email = ?1 AND t.date between ?2 and ?3 AND t.expenditure = true group by t.date")
+ List<DailyExpensesDTO> sumAndGroupDailyExpensesofTheLast7Days(String email, LocalDate firstMonthDay, LocalDate lastMonthDay);
 
+ Transaction findFirstByOrderByDateAsc();
+
+ Transaction findFirstByExpenditureOrderByDateAsc(boolean expenditure);
+
+ Transaction findFirstByExpenditureOrderByDateDesc(boolean expenditure);
 }
 
 

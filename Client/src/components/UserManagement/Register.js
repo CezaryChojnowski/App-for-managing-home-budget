@@ -3,6 +3,8 @@ import {createNewUser} from "../../actions/securityActions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import classnames from "classnames";
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
 
 class Register extends Component {
     constructor() {
@@ -13,7 +15,13 @@ class Register extends Component {
             lastName: "",
             password: "",
             email: "",
-            errors: {}
+            errors: {},
+            validationError: {
+                firstName: false,
+                lastName: false,
+                password: false,
+                email: false
+            }
         };
         this.onChange = this
             .onChange
@@ -22,6 +30,13 @@ class Register extends Component {
             .onSubmit
             .bind(this);
     }
+
+    messages = {
+        firstName_incorrect: 'First name can not be empty',
+        lastName_incorrect: 'Last name can not be empty',
+        password_incorrect: 'Password can not be empty',
+        email_incorrect: 'Email can not be empty'
+        }
 
     componentDidMount() {
         if (this.props.security.validToken) {
@@ -40,22 +55,64 @@ class Register extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        const newUser = {
-            firstName: this.state.firstName,
-            lastName: this.state.lastName,
-            password: this.state.password,
-            email: this.state.email
-        };
-
-        this
+        const validation = this.formValidation();
+        let resultValidation = false;
+        resultValidation = (Object.values(validation)).includes(true);
+        if(resultValidation===false){
+            const newUser = {
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                password: this.state.password,
+                email: this.state.email
+            }
+            this
             .props
             .createNewUser(newUser, this.props.history);
+        }
+        else{
+            this.setState({
+                validationError: {
+                    firstName: validation.firstName,
+                    lastName: validation.lastName,
+                    password: validation.password,
+                    email: validation.email
+                }
+            })
+        }
+
+
     }
 
     onChange(e) {
         this.setState({
             [e.target.name]: e.target.value
         });
+    }
+
+    formValidation = () => {
+        let firstName = false;
+        let lastName = false;
+        let password = false;
+        let email = false;
+
+        if (this.state.firstName.length < 0 || this.state.firstName == "") {
+            firstName = true;
+        }
+
+        if (this.state.lastName.length < 0 || this.state.lastName == "") {
+            lastName = true;
+        }
+
+        if (this.state.password.length < 0 || this.state.password == "") {
+            password = true;
+        }
+
+        if (this.state.email.length < 0 || this.state.email == "") {
+            email = true;
+        }
+
+        return ({firstName, lastName, password, email})
+
     }
 
     render() {
@@ -65,57 +122,86 @@ class Register extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-8 m-auto">
-                            <h1 className="display-4 text-center">Sign Up</h1>
-                            <p className="lead text-center">Create your Account</p>
+                            <p className="lead text-center">Create your account</p>
                             <form onSubmit={this.onSubmit}>
-                                <div className="form-group">
-                                    <input
+                            <div className="form-group">
+                                        <Grid container justify="space-around">
+                                        <TextField
+                                        id="outlined-multiline-flexible"
+                                        label="First name"
+                                        error={this.state.validationError.firstName}
+                                        helperText={this.state.validationError.firstName && this.messages.firstName_incorrect}
                                         type="text"
-                                        className={classnames("form-control form-control-lg", {"is-invalid": errors.firstName})}
-                                        placeholder="First name"
                                         name="firstName"
+                                        autoComplete="current-password"
+                                        autoComplete="current-password"
+                                        variant="outlined"                                        
+                                        style={{ width: 300}}
+                                        rowsMax="4"
                                         value={this.state.firstName}
-                                        autoComplete = "off"
-                                        onChange={this.onChange}/> {errors.firstName && (<div className="invalid-feedback">{errors.firstName}</div>)}
+                                        onChange={this.onChange}
+                                        />
+                                        </Grid>
                                 </div>
                                 <div className="form-group">
-                                    <input
+                                <Grid container justify="space-around">
+                                        <TextField
+                                        id="outlined-multiline-flexible"
+                                        label="Last name"
+                                        error={this.state.validationError.lastName}
+                                        helperText={this.state.validationError.lastName && this.messages.lastName_incorrect}
                                         type="text"
-                                        className={classnames("form-control form-control-lg", {"is-invalid": errors.lastName})}
-                                        placeholder="Last name"
                                         name="lastName"
+                                        autoComplete="current-password"
+                                        autoComplete="current-password"
+                                        variant="outlined"                                        
+                                        style={{ width: 300}}
+                                        rowsMax="4"
                                         value={this.state.lastName}
-                                        autoComplete = "off"                                        
-                                        onChange={this.onChange}/> {errors.lastName && (<div className="invalid-feedback">{errors.lastName}</div>)}
+                                        onChange={this.onChange}
+                                        />
+                                        </Grid>
                                 </div>
+                                {console.log(errors.details)}
                                 <div className="form-group">
-                                    <input
+                                <Grid container justify="space-around">
+                                        <TextField
+                                        id="standard-password-input"
+                                        label="Password"
+                                        error={this.state.validationError.password}
+                                        helperText={(this.state.validationError.password && this.messages.password_incorrect)}
                                         type="password"
-                                        className={classnames("form-control form-control-lg", {"is-invalid": errors.password})}
-                                        placeholder="Password"
                                         name="password"
+                                        autoComplete="current-password"
+                                        autoComplete="current-password"
+                                        variant="outlined"                                        
+                                        style={{ width: 300}}
+                                        rowsMax="4"
                                         value={this.state.password}
-                                        autoComplete = "off"
-                                        onChange={this.onChange}/> {
-                                        errors.password && (
-                                            <div className="invalid-feedback">
-                                                {errors.password}
-                                            </div>
-                                        )
-                                    }
-                                    <div className="form-group">
-                                        <input
-                                            type="text"
-                                            className={classnames("form-control form-control-lg", {"is-invalid": errors.status === 409})}
-                                            placeholder="Email"
-                                            name="email"
-                                            value={this.state.email}
-                                            autoComplete = "off"                                           
-                                            onChange={this.onChange}/> {errors.status === 409 && (<div className="invalid-feedback">{errors.details}</div>)}
+                                        onChange={this.onChange}
+                                        />
+                                        </Grid>
                                     </div>
-                                </div>
-                                <input type="submit" className="btn btn-info btn-block mt-4"/>
-                            </form>
+                                    <div className="form-group">
+                                    <Grid container justify="space-around">
+                                        <TextField
+                                        id="outlined-multiline-flexible"
+                                        label="E-mail"
+                                        error={this.state.validationError.email || errors.status===400 ||errors.status===4009}
+                                        helperText={(this.state.validationError.email && this.messages.email_incorrect) || (errors.status===400 && errors.details) || (errors.status===409 && errors.details)}
+                                        type="text"
+                                        name="email"
+                                        autoComplete="current-password"
+                                        autoComplete="current-password"
+                                        variant="outlined"                                        
+                                        style={{ width: 300}}
+                                        rowsMax="4"
+                                        value={this.state.email}
+                                        onChange={this.onChange}
+                                        />
+                                        </Grid>
+                                    </div>
+                                    <input type="submit" className="btn btn-secondary" value="Sign up"/>                            </form>
                         </div>
                     </div>
                 </div>

@@ -42,14 +42,13 @@ class TransactionItem extends Component {
             : null;
         return (
             <>
-                <tr>
-                <th scope="row" className="text-left">{transaction.wallet.name}</th>
-                    <th className="text-left">{transaction.subcategory.name}</th>
-                                                  
-                            {transaction.expenditure && <th className="text-right"><p className="text-danger">{-transaction.amount}</p></th>}
-                            {!transaction.expenditure && <th className="text-right">{transaction.amount}</th>}
-
-                                <th><Button
+            <tr>
+                <td class="text-left">{transaction.wallet.name}</td>
+                <td class="text-left">{transaction.subcategory.name}</td>
+                {transaction.expenditure && <td class="text-left"> <p className="text-danger">{-transaction.amount}</p></td>}
+                {!transaction.expenditure && <td class="text-left">{transaction.amount}</td>}
+                <td class="text-center">
+                <Button
                                     aria-controls="simple-menu"
                                     aria-haspopup="true"
                                     onClick={this.handleClick}>
@@ -65,10 +64,23 @@ class TransactionItem extends Component {
                                         onClick={this
                                             .onDeleteClick
                                             .bind(this, transaction.id)}>Delete</MenuItem>
+                                    <MenuItem
+                                        onClick={this
+                                            .onDeleteClick
+                                            .bind(this, transaction.id)}>Edit</MenuItem>
                                     {/* <MenuItem onClick={this.handlClose}>Edit</MenuItem> */}
                                 </Menu>
+                </td>
+                </tr>
+                {/* <tr>
+                <th scope="row" className="text-left"></th>
+                    <th className="text-left"></th>
+                                                  
+                           
+
+                                <th>
                                 </th>
-                                </tr>
+                                </tr> */}
 
             </>
         );

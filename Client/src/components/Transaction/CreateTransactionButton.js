@@ -18,15 +18,12 @@ const useStyles = makeStyles(theme => ({
 const CreateTransactionButton = () => {
     const classes = useStyles();
     return (
-        <> < div className = {
-            classes.root
-        } > <Link to="/addTransaction">
+        <> <Link to="/addTransaction">
             <Fab color="primary" aria-label="add">
                 <AddIcon/>
             </Fab>
         </Link>
-    </div>
-</>
+        </>
     );
 };
 

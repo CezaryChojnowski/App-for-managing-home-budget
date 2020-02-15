@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import classnames from "classnames";
 import {login} from "../../actions/securityActions";
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
 
 class Login extends Component {
     constructor() {
@@ -10,7 +12,11 @@ class Login extends Component {
         this.state = {
             email: "",
             password: "",
-            errors: {}
+            errors: {},
+            validationError: {
+                password: false,
+                email: false
+            }
         };
         this.onChange = this
             .onChange
@@ -19,6 +25,25 @@ class Login extends Component {
             .onSubmit
             .bind(this);
     }
+
+    messages = {
+        email_incorrect: 'Invalid Email',
+        password_incorrect: 'Invalid Password'
+    }
+
+        formValidation = () => {
+            let email = false;
+            let password = false;
+    
+            if (this.state.email.length < 0 || this.state.email == "") {
+                email = true;
+            }
+    
+            if (this.state.password.length < 0 || this.state.password == "") {
+                password = true;
+            }
+            return ({email, password})
+        }
 
     componentDidMount() {
         if (this.props.security.validToken) {
@@ -44,14 +69,25 @@ class Login extends Component {
 
     onSubmit(e) {
         e.preventDefault();
+        const validation = this.formValidation();
+        let resultValidation = false;
+        resultValidation = (Object.values(validation)).includes(true);
+        if(resultValidation===false){
         const LoginRequest = {
             email: this.state.email,
             password: this.state.password
         };
-
         this
             .props
             .login(LoginRequest);
+    }else{
+        this.setState({
+            validationError: {
+                password: validation.password,
+                email: validation.email
+            }
+        })
+    }
     }
 
     onChange(e) {
@@ -66,28 +102,50 @@ class Login extends Component {
             <div className="login">
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-8 m-auto">
-                            <h1 className="display-4 text-center">Log In</h1>
+                        <div className="col-sm-8 m-auto">
+                        <Grid container justify="space-around" style={{textAlign:"left"}}>
+                        <p className="lead text-center">Sign in</p>
+                            </Grid>
                             <form onSubmit={this.onSubmit}>
                                 <div className="form-group">
-                                    <input
-                                        type="text"
-                                        className={classnames("form-control form-control-lg", {"is-invalid": errors.email})}
-                                        placeholder="Email Address"
+                                        <Grid container justify="space-around">
+                                        <TextField
+                                        id="standard-error-helper-text"
+                                        label="E-mail"
                                         name="email"
+                                        error={errors.email || this.state.validationError.email}
+                                        helperText={(errors.email && errors.email) || (this.state.validationError.email && this.messages.email_incorrect)}
+                                        style={{ width: 300}}
+                                        rowsMax="4"
                                         value={this.state.email}
-                                        onChange={this.onChange}/> {errors.email && (<div className="invalid-feedback">{errors.email}</div>)}
+                                        onChange={this.onChange}
+                                        variant="outlined"
+                                        className={classnames("", {"is-invalid": errors.email})}
+                                        />
+                                        {errors.email && (<div className="invalid-feedback">{errors.email}</div>)}
+                                        </Grid>
                                 </div>
                                 <div className="form-group">
-                                    <input
+                                <Grid container justify="space-around">
+                                        <TextField
+                                        id="standard-password-input"
+                                        label="Password"
                                         type="password"
-                                        className={classnames("form-control form-control-lg", {"is-invalid": errors.password})}
-                                        placeholder="Password"
                                         name="password"
+                                        error={errors.password || this.state.validationError.password}
+                                        helperText={(errors.password && errors.password) || this.state.validationError.password && this.messages.password_incorrect}
+                                        autoComplete="current-password"
+                                        autoComplete="current-password"
+                                        variant="outlined"                                        
+                                        style={{ width: 300}}
+                                        rowsMax="4"
                                         value={this.state.password}
-                                        onChange={this.onChange}/> {errors.password && (<div className="invalid-feedback">{errors.password}</div>)}
+                                        onChange={this.onChange}
+                                        />
+                                        {errors.password && (<div className="invalid-feedback">{errors.password}</div>)}
+                                        </Grid>
                                 </div>
-                                <input type="submit" className="btn btn-info btn-block mt-4"/>
+                                <input type="submit" className="btn btn-secondary" value="Sign in"/>
                             </form>
                         </div>
                     </div>

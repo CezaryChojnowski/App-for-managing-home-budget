@@ -14,26 +14,48 @@ import EventItemToForm from "./EventItemToForm";
 import SubcategoryItemToForm from "./SubcategoryItemToForm";
 import PersonItemToForm from "./PersonItemToForm";
 import Radio from '@material-ui/core/Radio';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import "../../../src/table.css";
+import axios from 'axios';
+
+
+
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
 
 class AddTransaction extends Component {
 
     constructor(props) {
         super(props);
-
+        const d = new Date()
         this.state = {
             comment: "",
             amount: "",
-            date: "",
+            date: d,
             subcategory: "",
             category: "",
             wallet: "",
             event: "",
             person: "",
+            travelMode:"",
             expenditure: true,
             moreOptions: false,
+            blocks:false,
+            SelectEvent:"Select event",
             errors: {},
             validationError: {
-                name: false
+                amountValidation: false,
+                walletValidation: false,
+                categoryValidation: false,
+                subcategoryValidation: false,
+                eventValidation: false,
+                dateValidation: false
             }
         }
 
@@ -64,11 +86,18 @@ class AddTransaction extends Component {
         this.handleChangeExpenditure = this
             .handleChangeExpenditure
             .bind(this);
+        this.handleChangeDate = this
+            .handleChangeDate
+            .bind(this);
     }
 
     messages = {
-        amount_incorrect: 'Amount can not be empty',
-        date_incorrect: 'Date can no be empty'
+        amountValidation: 'Amount can not be empty',
+        walletValidation: 'Select wallet',
+        categoryValidation: 'Select category',
+        subcategoryValidation: 'Select subcategory',
+        eventValidation: 'Select event ',
+        dateValidation: 'Date can not be empty'
     }
 
     componentDidMount() {
@@ -87,6 +116,32 @@ class AddTransaction extends Component {
         this
             .props
             .getCategories();
+        
+            axios
+            .get(`http://localhost:8080/users/travelMode`)
+            .then(res => {
+                const response = res
+                    .data
+                    this
+                    .setState({travelMode: response})
+                    if(response!=0){
+                        this.setState({moreOptions: true})
+                        this.setState({blocks:true})
+                    }
+                    
+                    
+            })
+
+
+            var validationError =  {
+                amountValidation:  false,
+                walletValidation: false,
+                categoryValidation:   false,
+                subcategoryValidation: false,
+                eventValidation:  false,
+                dateValidation:  false
+            }
+            this.setState({validationError: validationError})
     }
 
     componentWillReceiveProps(nextProps) {
@@ -101,24 +156,34 @@ class AddTransaction extends Component {
         })
     }
 
-    handleChangeWallet(event) {
-        this.setState({wallet: event.target.value});
+    handleChangeWallet(event, values) {
+        if(values==null){
+            this.setState({wallet: ""})
+        }
+        else{
+        this.setState({wallet: values.id});
+        }
     }
 
-    handleChangeCategory(event) {
-        this.setState({category: event.target.value});
+    handleChangeCategory(event, values) {
+        this.setState({category: values});
+        console.log(this.state.category)
     }
 
-    handleChangeEvent(event) {
-        this.setState({event: event.target.value});
+    handleChangeEvent(event, values) {
+        this.setState({event: values});
     }
 
-    handleChangeSubcategory(event) {
-        this.setState({subcategory: event.target.value});
+    handleChangeSubcategory(event, values) {
+        this.setState({subcategory: values.id});
     }
 
     handleChangePerson(event) {
         this.setState({person: event.target.value});
+    }
+
+    handleChangeDate = date => {
+        this.setState({date: date});
     }
 
     handleChangeExpenditure() {
@@ -127,42 +192,67 @@ class AddTransaction extends Component {
         });
     }
 
+    runValidationAndSetStateValidationError(){
+        const validation = this.formValidation();
+        this.setState({
+            validationError: {
+                amountValidation: validation.amountValidation,
+                walletValidation: validation.walletValidation,
+                categoryValidation: validation.categoryValidation,
+                subcategoryValidation: validation.subcategoryValidation,
+                dateValidation: validation.dateValidation
+            }
+        })
+    }
+
     onChange(e) {
         this.setState({
             [e.target.name]: e.target.value
         });
-        const validation = this.formValidation();
-        this.setState({
-            validationError: {
-                amount: validation.amount,
-                date: validation.date
-            }
-        })
     }
 
     formValidation = () => {
-        let amount = false;
-        let date = false;
+        let amountValidation = false
+        let walletValidation = false
+        let categoryValidation = false
+        let subcategoryValidation = false
+        let eventValidation = false
+        let dateValidation = false
 
         if (this.state.amount.length < 0 || this.state.amount == "") {
-            amount = true;
+            amountValidation = true;
         }
-        if (this.date == "") {
-            date = true;
+        if (this.state.wallet == "" || this.state.wallet == null) {
+            walletValidation = true;
         }
-        return ({amount, date})
-
+        if (this.state.category == "" || this.state.category == null) {
+            categoryValidation = true;
+        }
+        if (this.state.subcategory == "" || this.state.subcategory == null) {
+            subcategoryValidation = true;
+        }
+        if (this.state.moreOptions==true && (this.state.subcategory == "" || this.state.subcategory == null)) {
+            eventValidation = true;
+        }
+        if(this.state.date==null){
+            dateValidation = true;
+        }
+        return ({amountValidation, walletValidation, categoryValidation, subcategoryValidation, eventValidation, dateValidation})
     }
 
     onSubmit(e) {
-        e.preventDefault();
         const validation = this.formValidation();
         this.setState({
             validationError: {
-                amount: validation.amount,
-                date: validation.date
+                amountValidation: validation.amountValidation,
+                walletValidation: validation.walletValidation,
+                categoryValidation: validation.categoryValidation,
+                subcategoryValidation: validation.subcategoryValidation,
+                eventValidation: validation.eventValidation,
+                dateValidation: validation.dateValidation
             }
         })
+        e.preventDefault();
         let resultValidation = false;
         resultValidation = (Object.values(this.state.validationError)).includes(true);
         if (resultValidation === false) {
@@ -172,11 +262,10 @@ class AddTransaction extends Component {
                 date: this.state.date,
                 expenditure: this.state.expenditure
             };
-            console.log(newTransaction);
             this
                 .props
                 .createTransaction(
-                    this.state.event,
+                    this.state.event.id,
                     this.state.person,
                     this.state.wallet,
                     this.state.subcategory,
@@ -187,8 +276,12 @@ class AddTransaction extends Component {
         } else {
             this.setState({
                 validationError: {
-                    amount: validation.amount,
-                    date: validation.date
+                    amountValidation: validation.amountValidation,
+                    walletValidation: validation.walletValidation,
+                    categoryValidation: validation.categoryValidation,
+                    subcategoryValidation: validation.subcategoryValidation,
+                    eventValidation: validation.eventValidation,
+                    dateValidation: validation.dateValidation
                 }
             })
         }
@@ -199,44 +292,35 @@ class AddTransaction extends Component {
         const {wallets} = this.props.wallet;
         const {events} = this.props.event;
         const {subcategories} = this.props.subcategory;
-        const {people} = this.props.person;
+        const {categories} = this.props.category;
         const {errors} = this.state;
+        var subcategoriesTemp;        
 
-        if (wallets[0] != undefined && subcategories[0] != undefined) {
-            this.state.wallet = wallets[0].id
-            this.state.subcategory = subcategories[0].id
+        var disableSubcategory=false;
+        if(this.state.category!="" && this.state.category!=null){
+            subcategoriesTemp = this.state.category.subcategories;
         }
+
+        if(this.state.category=="" || this.state.category==null){
+            disableSubcategory=true;
+        }
+
 
         const content = this.state.moreOptions
-            ? <> < div className = "form-group" > Select event < select
-        className = "custom-select"
-        value = {
-            this.state.event
-        }
-        onChange = {
-            this.handleChangeEvent
-        }
-        name = "id" > <option value={""}>
-                -
-            </option>
-            {
-            events.map(event => (<EventItemToForm key={event.id} event={event}/>))
-        } < /select>
-            </div > <div className="form-group">
-            Select person
-            <select
-                className="custom-select"
-                value={this.state.person}
-                onChange={this.handleChangePerson}
-                name="id">
-                <option value={""}>
-                    -
-                </option>
-                {people.map(person => (<PersonItemToForm key={person.id} person={person}/>))}
-            </select>
-        </div>
+            ? <>   <Grid container justify="space-around">
+            <Autocomplete
+                id="combo-box-demo"
+                options={events}
+                getOptionLabel={option => option.name}
+                onChange={this.handleChangeEvent}
+                style={{ width: 300}}
+                disabled={this.state.blocks}
+                renderInput={params => (
+                    <TextField {...params} error={this.state.validationError.eventValidation} helperText={this.state.validationError.eventValidation && this.messages.eventValidation} label={"Select event"} variant="outlined" fullWidth />
+                )}
+                />
+        </Grid>
     </>: null;
-
         return (
 
             <div>
@@ -244,89 +328,123 @@ class AddTransaction extends Component {
                     <div className="container">
                         <div className="row">
                             <div className="col-md-8 m-auto">
-                                <h5 className="display-4 text-center">Add transaction</h5>
+                            <h3>Add transacion</h3>
                                 <hr/>
                                 <form onSubmit={this.onSubmit}>
+                                <Grid container justify="space-around">
                                     <div>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            value={false}
-                                            checked={this.state.expenditure === true}
-                                            onChange={this.handleChangeExpenditure}/>
-                                        Expenses
-                                    </label>
-                                    </div>
-                                    <div>
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            value={true}
-                                            checked={this.state.expenditure === false}
-                                            onChange={this.handleChangeExpenditure}/>
-                                        InCome
-                                    </label>
-                                    </div>
-                                    <div className="form-group">
-                                        Select wallet
-                                        <select
-                                            className="custom-select"
-                                            value={this.state.wallet}
+                                        Expences
+                                <Radio
+                                    checked={this.state.expenditure === true}
+                                    onChange={this.handleChangeExpenditure}
+                                    value={true}
+                                    name="radio-button-demo"
+                                    inputProps={{ 'aria-label': 'A' }}
+                                    label="Expenses"
+                                />
+                                InCome
+                                <Radio
+                                    checked={this.state.expenditure === false}
+                                    onChange={this.handleChangeExpenditure}
+                                    value={false}
+                                    name="radio-button-demo"
+                                    inputProps={{ 'aria-label': 'C' }}
+                                    label="InCome"
+                                />
+                                </div>
+                                </Grid>
+                                    <Grid container justify="space-around">
+                                    <Autocomplete
+                                            id="combo-box-demo"
+                                            options={wallets}
+                                            getOptionLabel={option => option.name}                                       
                                             onChange={this.handleChangeWallet}
-                                            name="id">
-                                            {wallets.map(wallet => (<WalletItemToForm key={wallet.id} wallet={wallet}/>))}
-                                        </select>
-                                    </div>
-                                    <div className="form-group">
-                                        Select subcategory
-                                        <select
-                                            className="custom-select"
-                                            value={this.state.subcategory}
+                                            style={{ width: 300 }}                                         
+                                             renderInput={params => (
+                                                <TextField {...params} error={this.state.validationError.walletValidation} helperText={this.state.validationError.walletValidation && this.messages.walletValidation} label="Select wallet" variant="outlined" fullWidth />
+                                            )}
+                                            />
+                                    </Grid>
+                                    <br/>
+                                    <Grid container justify="space-around">
+                                        <Autocomplete
+                                            id="combo-box-demo"
+                                            options={categories}
+                                            name="category"
+                                            getOptionLabel={option => option.name}
+                                            onChange={this.handleChangeCategory}
+                                            style={{ width: 300}}
+                                            renderInput={params => (
+                                                <TextField {...params} error={this.state.validationError.categoryValidation} helperText={this.state.validationError.categoryValidation && this.messages.categoryValidation} label="Select category" variant="outlined" fullWidth />
+                                            )}
+                                            />
+                                    </Grid>
+                                    <br/>
+                                    <Grid container justify="space-around">
+                                        <Autocomplete
+                                            id="combo-box-demo"
+                                            options={subcategoriesTemp}
+                                            name="subcategory"
+                                            disabled={disableSubcategory}
                                             onChange={this.handleChangeSubcategory}
-                                            name="id">
-                                            {
-                                                subcategories.map(
-                                                    subcategory => (<SubcategoryItemToForm key={subcategory.id} subcategory={subcategory}/>)
-                                                )
-                                            }
-                                        </select>
-                                    </div>
+                                            getOptionLabel={option => option.name}
+                                            style={{ width: 300}}
+                                            renderInput={params => (
+                                                <TextField {...params} error={this.state.validationError.subcategoryValidation} helperText={this.state.validationError.subcategoryValidation && this.messages.subcategoryValidation} label="Select subcategory" variant="outlined" fullWidth />
+                                            )}
+                                            />
+                                    </Grid>
+                                    <br/>
+                                    {/* <Grid container justify="space-around">
+
+                                    <TextField
+          id="outlined-multiline-flexible"
+          label="Comment"
+          name="comment"
+          multiline
+          style={{ width: 300}}
+          rowsMax="4"
+          value={this.state.comment}
+          onChange={this.onChange}
+          variant="outlined"
+        />
+        </Grid> */}
+        <br/>
+                            <Grid container justify="space-around">                     
+                                <TextField
+                                error={this.state.validationError.amountValidation} 
+                                helperText={this.state.validationError.amountValidation && this.messages.amountValidation}
+                                
+                                        label="Amount"
+                                        type="number"
+                                        name="amount"
+                                        style={{ width: 300}}
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        value={this.state.amount}
+                                        onChange={this.onChange}/>
+                            </Grid>
                                     <div className="form-group">
-                                        <input
-                                            type="text"
-                                            className={classnames("form-control form-control-lg", {
-                                                "is-invalid": errors.status === 409
-                                            })}
-                                            placeholder="Transaction comment"
-                                            name="comment"
-                                            value={this.state.comment}
-                                            onChange={this.onChange}
-                                            autoComplete="off"/> {this.state.validationError.name && <span>{this.messages.name_incorrect}</span>}
-                                        {
-                                            errors.status === 409 && (
-                                                <div className="invalid-feedback">{errors.details}</div>
-                                            )
-                                        }
-                                    </div>
-                                    <div className="form-group">
-                                        <input
-                                            type="number"
-                                            className="form-control form-control-lg"
-                                            placeholder="amount"
-                                            name="amount"
-                                            value={this.state.amount}
-                                            onChange={this.onChange}/>
-                                    </div>
-                                    <div className="form-group">
-                                        {
-                                            <input
-                                                    type="date"
-                                                    className="form-control form-control-lg"
-                                                    placeholder="Date"
-                                                    name="date"
-                                                    value={this.state.date}
-                                                    onChange={this.onChange}/>
-                                        }
+
+                                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <Grid container justify="space-around">
+      <KeyboardDatePicker
+          margin="normal"
+          id="date-picker-dialog"
+          label="Date"
+          format="MM/dd/yyyy"
+          value={this.state.date}
+          onChange={this.handleChangeDate}
+          error={this.state.validationError.dateValidation} helperText={this.state.validationError.dateValidation && this.messages.dateValidation}
+          style={{ width: 300}}
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+        />
+        </Grid>
+        </MuiPickersUtilsProvider>
+
                                     </div>
 
                                     {content}
@@ -337,11 +455,12 @@ class AddTransaction extends Component {
                                             className="custom-control-input"
                                             id="customCheck1"
                                             value={this.state.moreOptions}
+                                            disabled={this.state.blocks}
                                             onChange={this.handleChange}/>
-                                        <label className="custom-control-label" htmlFor="customCheck1">More option</label>
+                                        <label className="custom-control-label" htmlFor="customCheck1">More options</label>
                                     </div>
-
-                                    <input type="submit" className="btn btn-primary btn-block mt-4"/>
+                                    <br/>
+                                    <input type="submit" className="btn btn-primary" value="Create"/>
                                 </form>
                             </div>
                         </div>

@@ -24,7 +24,8 @@
 .Temporary {
   /* background-color: black; */
   height: 100%;
-  background-image: url("https://image.winudf.com/v2/image/Y29tLkRyZWFtV2FsbHBhcGVycy5EYXJrQ2l0eTAxX3NjcmVlbnNob3RzXzJfY2JmYjM3MGI/screen-2.jpg?fakeurl=1&type=.jpg");
+  /* background-image: url("https://image.winudf.com/v2/image/Y29tLkRyZWFtV2FsbHBhcGVycy5EYXJrQ2l0eTAxX3NjcmVlbnNob3RzXzJfY2JmYjM3MGI/screen-2.jpg?fakeurl=1&type=.jpg"); */
+  background-color: #f8f9fa;
 }
 
 #node3

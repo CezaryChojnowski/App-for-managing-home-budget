@@ -4,6 +4,9 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {logout} from "../../actions/securityActions";
 import TemporaryDrawer from "../TemporaryDrawer"
+import TravelMode from "../Event/TravelMode";
+import "../../../src/table.css";
+
 
 class Header extends Component {
     logout() {
@@ -16,12 +19,10 @@ class Header extends Component {
         const {validToken, user} = this.props.security;
 
         const userIsAuthenticated = (
-            <div className="collapse navbar-collapse" id="mobile-nav">
+            <div className="collapse navbar-collapse">
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard">
-                            Dashboard
-                        </Link>
+                        <TravelMode/>
                     </li>
                 </ul>
 
@@ -55,7 +56,7 @@ class Header extends Component {
                     </li>
                     <li className="nav-item">
                         <Link className="nav-link" to="/login">
-                            Login
+                            Sign in
                         </Link>
                     </li>
                 </ul>
@@ -71,7 +72,7 @@ class Header extends Component {
         }
 
         return (
-            <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
                 <div className="container">
                         <TemporaryDrawer></TemporaryDrawer>
                         <button

@@ -23,6 +23,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
+import java.security.Principal;
+
 import static com.homeBudget.configuration.security.SecurityConstants.TOKEN_PREFIX;
 
 
@@ -85,4 +87,27 @@ public class UserRestController {
     public ResponseEntity changingEmail(@Email(message = "{email.message.incorrect}") @RequestParam String newEmail){
         return ResponseEntity.ok(userService.changingEmail(newEmail, userService.getEmailByAuthentication()));
     }
+
+    @PatchMapping(value = "/{idEvent}")
+    public ResponseEntity enableTravelMode(@PathVariable("idEvent") int idEvent,
+                                           Principal principal){
+        return ResponseEntity.ok(userService.enableTravelMode(idEvent, principal));
+    }
+
+    @GetMapping("/travelMode")
+    public Long checkEvent(Principal principal){
+        return userService.eventMode(principal);
+    }
+
+    @PatchMapping("/turnOffTravelMode")
+    public void turnOffTravelMode(Principal principal){
+        userService.turnOffTravelMode(principal);
+    }
+
+    @PatchMapping("/turnOnTravelMode")
+    public void turnOnTravelMode(@RequestParam(value = "event", required = false) Long eventID ,
+                                         Principal principal){
+        userService.turnOnTravelMode(principal, eventID);
+    }
+
 }

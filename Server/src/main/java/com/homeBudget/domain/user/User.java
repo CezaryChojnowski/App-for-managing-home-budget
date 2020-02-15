@@ -2,6 +2,8 @@ package com.homeBudget.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.homeBudget.configuration.validator.ValidEmail;
+import com.homeBudget.configuration.validator.ValidPassword;
 import com.homeBudget.domain.category.Category;
 import com.homeBudget.domain.event.Event;
 import com.homeBudget.domain.wallet.Wallet;
@@ -12,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -45,8 +48,11 @@ public class User implements UserDetails {
 
     @Setter
     @NotEmpty(message = "{user.email.notEmpty}")
-//    @ValidEmail
+    @ValidEmail
     private String email;
+
+    @Setter
+    private Long idTravel;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     @JsonIgnore
