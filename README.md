@@ -1,0 +1,2 @@
+# Appilcation-to-monitoring-and-analize-home-cash-flow
+The main of the work was to create an application for monitoring and analysis of household finances. Thanks to it, the user will be aware of exactly how much he or she spent in a given period of time. The application facilitates making decisions aimed at budgeting a specific amount for a given purpose or getting out of debt. In addition to the observation of account balance, the application allows you to categorize expenses, divide them into portfolios and define financial objectives.
